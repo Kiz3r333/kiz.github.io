@@ -1,0 +1,487 @@
+body {
+  overflow: hidden; /* Hide scrollbars */
+  color: white;
+  -webkit-touch-callout: none; /* iOS Safari */
+    -webkit-user-select: none; /* Safari */
+     -khtml-user-select: none; /* Konqueror HTML */
+       -moz-user-select: none; /* Old versions of Firefox */
+        -ms-user-select: none; /* Internet Explorer/Edge */
+            user-select: none; /* Non-prefixed version, currently
+                                  supported by Chrome, Edge, Opera and Firefox */
+}
+#officemovetrigger1,#officemovetrigger2{
+    position: absolute;
+    background-color: transparent;
+    width: 30%;
+    height: 100%;
+    top: 0;
+    z-index: 1;
+}
+
+#officemovetrigger1{
+    left: 0;
+}
+
+#officemovetrigger2{
+    left: default;
+    right: 0;
+}
+
+#office{
+    position: absolute;
+    width: 150%;
+    height: 100%;
+    left: -25%;
+    top: 0;
+}
+
+#officebg,#officelights1,#officelights2{
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    z-index: -2;
+}
+
+#officelights1,#officelights2{
+    z-index: -3;
+    display: none;
+}
+
+#leftbutton,#leftlight{
+    position: absolute;
+    width: 4%;
+    left: -0.5%;
+    top: 37%;
+    z-index: -1;
+}
+
+#rightbutton,#rightlight{
+    position: absolute;
+    width: 4%;
+    left: 95%;
+    top: 37%;
+    z-index: -1;
+}
+
+#leftdoor{
+    position: absolute;
+    width: 12%;
+    left: 5%;
+    top: 0%;
+    z-index: -2;
+}
+
+#rightdoor{
+    position: absolute;
+    width: 13%;
+    left: 81%;
+    top: 0%;
+    z-index: -2;
+}
+
+#buttontrigger1,#buttontrigger2{
+    position: absolute;
+    left: 0.5%;
+    top: 43%;
+    width: 2%;
+    height: 7%;
+    z-index: 2;
+}
+
+#buttontrigger2{
+    left: 96%;
+    top: 43%;
+}
+
+#lighttrigger1,#lighttrigger2{
+    position: absolute;
+    left: 0.5%;
+    top: 52%;
+    width: 2%;
+    height: 7%;
+    z-index: 2;
+}
+
+#lighttrigger2{
+    left: 96%;
+    top: 52%;
+}
+
+#cameratrigger{
+    position: absolute;
+    width: 50%;
+    height: 15%;
+    bottom: 0;
+    left: 25%;
+    z-index: 2;
+}
+
+#camerabg{
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    pointer-events: none;
+    display: none;
+    z-index: 2;
+}
+
+#UI,#camtxt,#amtime,#nighttime,#title,#newgame,#continue,#version,#select,#credits,#continuenight,#warning{
+    position: absolute;
+    width: 30%;
+    bottom: 7%;
+    left: 5%;
+    font-size: 2vh;
+    z-index: 9;
+    font-family: consolas;
+    filter: drop-shadow(0 0 1rem black);
+}
+
+#debug{
+    position: absolute;
+    top: 1%;
+    left: 1%;
+    z-index: 100;
+}
+
+#cam,#static{
+    position: absolute;
+    width: 107%;
+    top: 7%;
+    left: 4%;
+    z-index: 1;
+    pointer-events: none;
+}
+
+#cam{
+    visibility: hidden;
+    transition: left 10s;
+}
+
+#static{
+    z-index: 4;
+    opacity: 70%;
+    width: 91.5%;
+    height: 86%;
+}
+
+#map{
+    position: absolute;
+    z-index: 2;
+    width: 30%;
+    top: 44%;
+    left: 64%;
+    pointer-events: none;
+}
+
+#cam1a,#cam1b,#cam1c,#cam2a,#cam2b,#cam3,#cam4a,#cam4b,#cam5,#cam6,#cam7{
+    position: absolute;
+    width: 3%;
+    z-index: 3;
+    filter: grayscale(1);
+}
+
+#cam1a{
+    left: 72%;
+    top: 42%;
+    filter: grayscale(0);
+}
+
+#cam1b{
+    left: 70%;
+    top: 50%;
+}
+
+#cam1c{
+    left: 68%;
+    top: 62%;
+}
+
+#cam2a{
+    left: 72%;
+    top: 78%;
+}
+
+#cam2b{
+    left: 72%;
+    top: 84%;
+}
+
+#cam3{
+    left: 67%;
+    top: 74%;
+}
+
+#cam4a{
+    left: 80%;
+    top: 78%;
+}
+
+#cam4b{
+    left: 80%;
+    top: 84%;
+}
+
+#cam5{
+    left: 63%;
+    top: 54%;
+}
+
+#cam6{
+    left: 89%;
+    top: 73%;
+}
+
+#cam7{
+    left: 89%;
+    top: 54%;
+}
+
+#camtxt{
+    bottom: 58%;
+    left: 63%;
+    font-size: 5vh;
+    z-index: 2;
+}
+
+#amtime{
+    bottom: 81%;
+    left: 64.5%;
+    font-size: 6vh;
+    text-align: right;
+}
+
+#nighttime{
+    bottom: 81%;
+    left: 64.5%;
+    text-align: right;
+}
+
+#game{
+    display: none;
+}
+
+#title{
+    width: 10%;
+    bottom: 54%;
+    left: 13%;
+    font-size: 7vh;
+    z-index: 0;
+}
+
+#newgame,#continue,#select{
+    width: 15%;
+    bottom: 40%;
+    left: 13%;
+    font-size: 6vh;
+    z-index: 0;
+}
+
+#continue{
+    bottom: 30%;
+}
+
+#select{
+    left: 8%;
+    pointer-events: none;
+}
+
+#version,#credits,#continuenight{
+    bottom: -2%;
+    left: 1%;
+    font-size: 3.5vh;
+    z-index: 0;
+}
+
+#continuenight{
+    left: 13%;
+    bottom: 27%;
+    display: none;
+}
+
+#credits{
+    width: 50%;
+    left: 48%;
+    text-align: right;
+}
+
+#menustatic{
+    position: absolute;
+    width: 100%;
+    top: 0;
+    left: 0;
+    z-index: 1;
+    pointer-events: none;
+    opacity: 50%;
+}
+
+#menucharacter{
+    position: absolute;
+    width: 100%;
+    top: 0;
+    left: 0;
+    z-index: -2;
+    pointer-events: none;
+}
+
+#menu{
+    display: none;
+}
+
+#warning{
+    text-align: center;
+    width: 25%;
+    left: 38%;
+    bottom: 50%;
+    transition: opacity 3s;
+}
+
+#line{
+    position: absolute;
+    width: 100%;
+    height: 5%;
+    left: 0;
+    background-color: gray;
+    z-index: -1;
+    opacity: 90%;
+    animation: MoveUpDown 30s linear infinite;
+}
+
+@keyframes MoveUpDown {
+  0% {
+    top: -5%;
+  }
+  100%{
+    top: 105%;
+  }
+}
+
+.lines{
+    display: none;
+    position: absolute;
+    width: 100%;
+    height: 2%;
+    left: 0;
+    top: 3%;
+    background-color: gray;
+    z-index: -1;
+    opacity: 100%;
+    animation: lineanim1 10s infinite;
+}
+
+@keyframes lineanim1{
+    0%,5.9%{
+        width: 100%;
+    }
+    6%,100%{
+        width: 0%;
+    }
+}
+
+#line2{
+    top: 25%;
+}
+
+#line3{
+    top: 80%;
+}
+
+#line4{
+    top: 60%;
+    animation: lineanim2 10s infinite;
+}
+
+@keyframes lineanim2{
+    0%,5.9%{
+        width: 0%;
+    }
+    6%,12%{
+        width: 100%;
+    }
+    12.1%,60%{
+        width: 0%;
+    }
+    60.1%,63%{
+        width: 100%;
+    }
+    63.1%,100%{
+        width: 0%;
+    }
+}
+
+#line5{
+    top: 20%;
+    height: 5%;
+    animation: lineanim3 10s infinite;
+}
+
+#line6{
+    top: 30%;
+    animation: lineanim3 10s infinite;
+}
+
+@keyframes lineanim3{
+    0%,12%{
+        width: 0%;
+    }
+    12.1%,20%{
+        width: 100%;
+    }
+    20.1%,32%{
+        width: 0%;
+    }
+    32.1%,36%{
+        width: 100%;
+    }
+    36.1%,100%{
+        width: 0%;
+    }
+}
+
+#line7{
+    top: 70%;
+    height: 6%;
+    animation: lineanim4 10s infinite;
+}
+
+@keyframes lineanim4{
+    0%,20%{
+        width: 0%;
+    }
+    20.1%,32%{
+        width: 100%;
+    }
+    32.1%,63%{
+        width: 0%;
+    }
+    63.1%,68%{
+        width: 100%;
+    }
+    68.1%,100%{
+        width: 0%;
+    }
+}
+
+#line8{
+    top: 3%;
+    height: 5%;
+    animation: lineanim5 10s infinite;
+}
+
+#line9{
+    top: 9%;
+    animation: lineanim5 10s infinite;
+}
+
+@keyframes lineanim5{
+    0%,63%{
+        width: 0%;
+    }
+    63.1%,68%{
+        width: 100%;
+    }
+    68.1%,100%{
+        width: 0%;
+    }
+}

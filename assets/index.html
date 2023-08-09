@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link href="css.css" rel="stylesheet">
+	<title>Ryan's Apparition Wandering Restaurant</title>
+</head>
+<body>
+	<h1 id="warning" onclick="fadewarning();">WARNING!<br><br>The game contains flashing lights, loud noises, and lots of jumpscares!</h1>
+	<div id="tvstatic">
+		<div id="line" class="lines"></div>
+		<div id="line1" class="lines"></div>
+		<div id="line2" class="lines"></div>
+		<div id="line3" class="lines"></div>
+		<div id="line4" class="lines"></div>
+		<div id="line5" class="lines"></div>
+		<div id="line6" class="lines"></div>
+		<div id="line7" class="lines"></div>
+		<div id="line8" class="lines"></div>
+		<div id="line9" class="lines"></div>
+	</div>
+	<div id="menu">
+		<h1 id="title">Ryan's
+		Apparition
+		Wandering
+		Restaurant
+		</h1>
+		<h1 id="newgame" onmouseover="selectmenu(0);" onclick="startnight(1);">New Game</h1>
+		<h1 id="continue" onmouseover="selectmenu(1);" onclick="startnight(1);">Continue</h1>
+		<h1 id="select">>></h1>
+		<h3 id="continuenight">Night 1</h3>
+		<h3 id="version">Indev v0.2</h3>
+		<h3 id="credits">A game by Kiz, LivingComputer & LPT4<br>for CrumbledHam</h3>
+		<img src="img/menu/FNaFFreddy_Menu.gif" id="menucharacter" draggable="false">
+		<img src="img/camera/static.gif" id="menustatic" draggable="false">
+	</div>
+	<div id="game">
+		<div>
+			<div onmouseover="movebg(0)" onmouseout="movebg(3)" id="UI">
+				<h3 style="display:inline;">M.I.L.K. LEFT: </h3><h1 id="power" style="display:inline;"></h1><h3 style="	display:inline;">L</h3>
+			</div>
+			<div>
+				<h1 id="amtime">12 AM</h1>
+				<h3 id="nighttime">Night 1</h3>
+			</div>
+		</div>
+	
+		<div id="debug">
+			<h1>DEBUG</h1>
+			<div >
+				<input type="checkbox"id="door1">Door1
+				<input type="checkbox"id="door2">Door2
+				<input type="checkbox"id="light1">Light1
+				<input type="checkbox"id="light2">Light2
+				<input type="checkbox"id="camera">Camera
+			</div>
+		</div>
+		
+		<div id="officemovetrigger1" onmouseover="movebg(0)" onmouseout="movebg(3)"></div>
+		<div id="officemovetrigger2" onmouseover="movebg(1)" onmouseout="movebg(3)"></div>
+		<div id="cameratrigger" onmouseover="cameraopenw()"></div>
+		<img id="camerabg" draggable="false">
+		<img src="img/camera/CAM1A.png" id="cam" draggable="false">
+		<div id="camerassets" style="display:none">
+			<img src="img/camera/static.gif" id="static" draggable="false">
+			<img src="img/camera/map.png" id="map" draggable="false">
+			<h1 id="camtxt">Show Stage</h1>
+			<div id="cameras">
+				<img src="img/camera/Cam_01_text.png" id="cam1a" draggable="false" onclick="changecam('1a')">
+				<img src="img/camera/Cam_01b_text.png" id="cam1b" draggable="false" onclick="changecam('1b')">
+				<img src="img/camera/Cam_01c_text.png" id="cam1c" draggable="false" onclick="changecam('1c')">
+				<img src="img/camera/Cam_02_text.png" id="cam2a" draggable="false" onclick="changecam('2a')">
+				<img src="img/camera/Cam_02b_text.png" id="cam2b" draggable="false" onclick="changecam('2b')">
+				<img src="img/camera/Cam_03_text.png" id="cam3" draggable="false" onclick="changecam('3')">
+				<img src="img/camera/Cam_04_text.png" id="cam4a" draggable="false" onclick="changecam('4a')">
+				<img src="img/camera/Cam_04b_text.png" id="cam4b" draggable="false" onclick="changecam('4b')">
+				<img src="img/camera/Cam_05_text.png" id="cam5" draggable="false" onclick="changecam('5')">
+				<img src="img/camera/Cam_06_text.png" id="cam6" draggable="false" onclick="changecam('6')">
+				<img src="img/camera/Cam_07_text.png" id="cam7" draggable="false" onclick="changecam('7')">
+			</div>
+		</div>
+		<div id="office">
+			<img src="img/buttons/leftbutton.png" id="leftbutton" draggable="false">
+			<img src="img/buttons/Leftlight.png" id="leftlight" draggable="false">
+			<img src="img/buttons/rightbutton.png" id="rightbutton" draggable="false">
+			<img src="img/buttons/rightlight.png" id="rightlight" draggable="false">
+			<div id="buttontrigger1" onclick="doorbtn(0)" onmouseover="movebg(0)" onmouseout="movebg(3)"></div>
+			<div id="lighttrigger1" onclick="lightbtn(0)" onmouseover="movebg(0)" onmouseout="movebg(3)"></div>
+			<div id="buttontrigger2" onclick="doorbtn(1)" onmouseover="movebg(1)" onmouseout="movebg(3)"></div>
+			<div id="lighttrigger2" onclick="lightbtn(1)" onmouseover="movebg(1)" onmouseout="movebg(3)"></div>
+			<img src="img/buttons/Door_Lopen.gif" id="leftdoor" draggable="false">
+			<img src="img/buttons/Door_Ropen.gif" id="rightdoor" draggable="false">
+			<img src="img/background/office.png" id="officebg" draggable="false">
+			<img src="img/background/officelightsleft.png" id="officelights1" draggable="false">
+			<img src="img/background/officelightsright.png" id="officelights2" draggable="false">
+		</div>
+	</div>
+</body>
+<script src="js.js"></script>
+</html>
