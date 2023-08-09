@@ -35,6 +35,10 @@ var menu = document.getElementById("menu");
 var game = document.getElementById("game");
 var warning = document.getElementById("warning");
 var lines = document.getElementsByClassName("lines");
+var tvstatic = document.getElementById("tvstatic");
+var newgame = document.getElementById("newgame");
+var continuemenu = document.getElementById("continue");
+var loadscreen = document.getElementById("loadscreen");
 var officedistance = -25;
 var cameradistance = -25;
 var intervalId = null;
@@ -50,11 +54,13 @@ var blink=false;
 document.addEventListener('contextmenu', event => event.preventDefault());
 
 var images = [];
+var loadcounter;
+var loadlength;
 function preload() {
-    for (var i = 0; i < arguments.length; i++) {
-        images[i] = new Image();
-        images[i].src = preload.arguments[i];
-        console.log("loaded "+ preload.arguments[i])
+	loadlength= preload.arguments.length;
+    for (loadcounter = 0; loadcounter < arguments.length; loadcounter++) {
+        images[loadcounter] = new Image();
+        images[loadcounter].src = preload.arguments[loadcounter];
     }
 }
 
@@ -108,13 +114,13 @@ preload(
 function cameraopenw(){
 	if (cameradelay==10) {
 		cameradelay=0;
-		camerabg.style.display="block";
 		light1.checked = false;
 		light2.checked = false;
 		leftlight.src="img/buttons/Leftlight.png";
 		rightlight.src="img/buttons/rightlight.png";
 		officelights1.style.display="none";
 		officelights2.style.display="none";
+		camerabg.style.visibility="visible";
 		if (camera.checked==false) {
 			camerabg.src="img/monitoropen.gif";
 			officemovetrigger1.style.display="none";
@@ -137,7 +143,7 @@ function cameraopenw(){
 				static.style.transition="opacity 0.7s";
 			}, "310");
 			setTimeout(() => {
-				static.style.opacity="10%";
+				static.style.opacity="40%";
 			}, "320");
 		}else{
 			camerabg.src="img/monitorclose.gif";
@@ -153,7 +159,7 @@ function cameraopenw(){
   			  lines[i].style.visibility="hidden";
   			}
 			setTimeout(() => {
-			  camerabg.style.display="none";
+			  camerabg.style.visibility="hidden";
 			  camera.checked = false;
 			}, "220");
 		}
@@ -330,7 +336,7 @@ function outofpower(){
 	if (camera.checked) {
 		camerabg.src="img/monitorclose.gif";
 		setTimeout(() => {
-		  camerabg.style.display="none";
+		  camerabg.style.visibility="hidden";
 		  camera.checked = false;
 		}, "220");
 	}
@@ -382,7 +388,7 @@ function changecam(camnmb){
 		static.style.transition="opacity 0.7s";
 	}, "310");
 	setTimeout(() => {
-		static.style.opacity="10%";
+		static.style.opacity="40%";
 	}, "320");
 }
 
@@ -432,18 +438,23 @@ function selectmenu(menutype){
 }
 
 function startnight(night) {
-	menu.style.display="none";
-	game.style.display="block";
-	for(i = 0; i < lines.length; i++) {
-  	  lines[i].style.visibility="hidden";
-  	  lines[i].style.zIndex="2";
-  	  lines[i].style.opacity="10%";
-  	}
-	setInterval(tick, 100);
-	setInterval(camblink, 700);
+	menu.style.opacity="0%";
+	tvstatic.style.opacity="0%";
+	newgame.removeAttribute("onclick");
+	newgame.removeAttribute("onmouseover");
+	continuemenu.removeAttribute("onclick");
+	continuemenu.removeAttribute("onmouseover");
+	setTimeout(() => {
+		loadscreen.style.display="block";
+		menu.style.display="none";
+		console.log(loadlength);
+		console.log(loadcounter);
+		checkloading();
+	}, "3100");
 }
 
 function fadewarning(){
+	warning.removeAttribute("onclick");
 	warning.style.opacity="0%";
 	setTimeout(() => {
 		menu.style.display="block";
@@ -452,4 +463,21 @@ function fadewarning(){
   		  lines[i].style.display="block";
   		}
 	}, "3100");
+}
+
+function checkloading(){
+	if (loadlength==loadcounter) {
+		loadscreen.style.display="none";
+		tvstatic.style.opacity="100%";
+		game.style.display="block";
+		for(i = 0; i < lines.length; i++) {
+  		  lines[i].style.visibility="hidden";
+  		  lines[i].style.zIndex="2";
+  		  lines[i].style.opacity="30%";
+  		}
+		setInterval(tick, 100);
+		setInterval(camblink, 700);
+	}else{
+		checkloading();
+	}
 }
