@@ -51,20 +51,37 @@ var currenttime = 0;
 var ticknumb=0;
 var blink=false;
 
+var loadma = false;
+
 document.addEventListener('contextmenu', event => event.preventDefault());
 
 var images = [];
-var loadcounter;
-var loadlength;
+function preloadImage(url, callback) {
+    var img = new Image();
+    img.src = url;
+    img.onload = callback;
+    return img;
+}
+
 function preload() {
-	loadlength= preload.arguments.length;
-    for (loadcounter = 0; loadcounter < arguments.length; loadcounter++) {
-        images[loadcounter] = new Image();
-        images[loadcounter].src = preload.arguments[loadcounter];
+    var loadlength = preload.arguments.length;
+    var loadedImages = 0;
+
+    function imageLoaded() {
+        loadedImages++;
+        if (loadedImages === loadlength) {
+            // All images have been loaded
+            loadma=true;
+            console.log("All images have been loaded.");
+            // You can perform additional actions here once all images are loaded.
+        }
+    }
+
+    for (var loadcounter = 0; loadcounter < arguments.length; loadcounter++) {
+        preloadImage(preload.arguments[loadcounter], imageLoaded);
     }
 }
 
-//-- usage --//
 preload(
 	"img/camera/static.gif",
 	"img/menu/FNaFFreddy_Menu.gif",
@@ -447,8 +464,6 @@ function startnight(night) {
 	setTimeout(() => {
 		loadscreen.style.display="block";
 		menu.style.display="none";
-		console.log(loadlength);
-		console.log(loadcounter);
 		checkloading();
 	}, "3100");
 }
@@ -466,7 +481,7 @@ function fadewarning(){
 }
 
 function checkloading(){
-	if (loadlength==loadcounter) {
+	if (loadma == true) {
 		loadscreen.style.display="none";
 		tvstatic.style.opacity="100%";
 		game.style.display="block";
@@ -478,6 +493,8 @@ function checkloading(){
 		setInterval(tick, 100);
 		setInterval(camblink, 700);
 	}else{
-		checkloading();
+		setTimeout(() => {
+			checkloading();
+		}, "1000");
 	}
 }
