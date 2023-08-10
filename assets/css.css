@@ -127,7 +127,8 @@ body {
     z-index: 2;
 }
 
-#UI,#camtxt,#amtime,#nighttime,#title,#newgame,#continue,#version,#select,#credits,#continuenight,#warning{
+#UI,#camtxt,#amtime,#nighttime,#title,#newgame,#continue,#version,#select,#credits,#continuenight,
+#warning,#menutime,#menunight,#survived,#survived5,#survived6{
     position: absolute;
     width: 30%;
     bottom: 7%;
@@ -260,6 +261,7 @@ body {
 
 #game{
     display: none;
+    transition: opacity 3s;
 }
 
 #title{
@@ -497,4 +499,47 @@ body {
     top: 92%;
     width: 3%;
     left: 94%;
+}
+
+#menutime,#menunight,#survived,#survived5,#survived6{
+    display: none;
+    transition: opacity 3s;
+    bottom: 60%;
+    left: 35%;
+    font-size: 6vh;
+    text-align: center;
+}
+
+#menunight{
+    bottom: 50%;
+}
+
+#survived,#survived5,#survived6{
+    display: block;
+    font-size: 23vh;
+    bottom: -91%;
+    left: 45%;
+}
+
+#survived5,#survived6{
+    bottom: -91%;
+    left: 30%;
+    transition: bottom 8s;
+}
+
+#survived6{
+    bottom: -185%;
+    left: 30%;
+}
+
+#survived6div{
+    display: none;
+    position: absolute;
+    height: 20%;
+    width: 100%;
+    top: 28%;
+    left: 0%;
+    transition: opacity 3s;
+    opacity: 0%;
+    overflow: hidden;
 }

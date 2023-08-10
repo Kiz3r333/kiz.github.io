@@ -39,6 +39,11 @@ var tvstatic = document.getElementById("tvstatic");
 var newgame = document.getElementById("newgame");
 var continuemenu = document.getElementById("continue");
 var loadscreen = document.getElementById("loadscreen");
+var menutime = document.getElementById("menutime");
+var menunight = document.getElementById("menunight");
+var survived6div = document.getElementById("survived6div");
+var survived5 = document.getElementById("survived5");
+var survived6 = document.getElementById("survived6");
 var officedistance = -25;
 var cameradistance = -25;
 var intervalId = null;
@@ -48,8 +53,10 @@ var doordelay = 10;
 var cameramovedelay = 100;
 var currentcam = "1a";
 var currenttime = 0;
-var ticknumb=0;
 var blink=false;
+var currentnight=1;
+var tickinterval = null;
+var blinkinterval = null;
 
 var loadma = false;
 
@@ -85,6 +92,7 @@ function preload() {
 preload(
 	"img/camera/static.gif",
 	"img/menu/FNaFFreddy_Menu.gif",
+	"img/menu/Loading_Clock_1.png",
     "img/background/office.png",
     "img/background/office2.png",
     "img/background/officelightsleft.png",
@@ -200,12 +208,18 @@ function tick(){
 			cameramovedelay--;
 		}
 	}
-	timecount();
+	if (currenttime<4800) {
+		timecount();
+	}else{
+		clearInterval(tickinterval);
+		clearInterval(blinkinterval);
+		dayend();
+	}
 	movecameras();	
 }
 
 function loadme(){
-	power -= 0.015;
+	power -= 0.01;
 	const doorConsumption = 0.02;
 	const cameraConsumption = 0.02;
 	const lightConsumption = 0.01;
@@ -339,6 +353,9 @@ function outofpower(){
 	cam.style.visibility="hidden";
 	officemovetrigger1.style.display="block";
 	officemovetrigger2.style.display="block";
+	for(i = 0; i < lines.length; i++) {
+  	  lines[i].style.visibility="hidden";
+  	}
 	if (door1.checked) {
 		door1.checked = false;
 		leftbutton.src="img/buttons/Leftbutton.png";
@@ -421,15 +438,14 @@ function camblink(){
 
 function timecount() {
 	var x;
-	if (currenttime<4800) {
-		currenttime++;
-		x= Math.trunc(currenttime/800);
-		if (x==0) {
-			x=12;
-		}
-		amtime.innerHTML= x + " AM";
+	//currenttime++;
+	//DEBUG REMOVE THIS PLEASE vvv;
+	currenttime=currenttime+10;
+	x= Math.trunc(currenttime/800);
+	if (x==0) {
+		x=12;
 	}
-	
+	amtime.innerHTML= x + " AM";
 }
 
 function movecameras(){
@@ -482,19 +498,125 @@ function fadewarning(){
 
 function checkloading(){
 	if (loadma == true) {
-		loadscreen.style.display="none";
-		tvstatic.style.opacity="100%";
+		daystart(currentnight);
+	}else{
+		setTimeout(() => {
+			checkloading();
+		}, "1000");
+	}
+}
+
+function daystart(night){
+	loadscreen.style.display="none";
+	menutime.style.display="block";
+	switch (night){
+		case 1:
+			menunight.innerHTML= night + "st Night";
+			break;
+		case 2:
+			menunight.innerHTML= night + "nd Night";
+			break;
+		case 3:
+			menunight.innerHTML= night + "rd Night";
+			break;
+		default:
+			menunight.innerHTML= night + "th Night";
+			break;
+	}
+	nighttime.innerHTML="Night " + night;
+	menunight.style.display="block";
+	tvstatic.style.transition="opacity 0s";
+	tvstatic.style.opacity="100%";
+	for(i = 0; i < lines.length; i++) {
+		lines[i].style.opacity="90%";
+  	 	lines[i].style.visibility="visible";
+  	}
+  	setTimeout(() => {
+		for(i = 0; i < lines.length; i++) {
+  			lines[i].style.visibility="hidden";
+  		}
+	}, "200");
+	setTimeout(() => {
+		menutime.style.opacity="0%";
+		menunight.style.opacity="0%";
+	}, "4000");
+	setTimeout(() => {
+		power = 99;
+		cameradelay = 10;
+		doordelay = 10;
+		cameramovedelay = 100;
+		document.getElementById("cam"+currentcam).style.filter ="grayscale(1)";
+		blink=false;
+		currentcam = "1a";
+		currenttime = 0;
+		camera.checked=false;
+		light1.checked = false;
+		light2.checked = false;
+		door1.checked = false;
+		door2.checked = false;
+		camerabg.src="img/monitorclose.gif";
+		rightbutton.src="img/buttons/rightbutton.png";
+		rightdoor.src="img/buttons/Door_Ropen.gif";
+		leftbutton.src="img/buttons/Leftbutton.png";
+		leftdoor.src="img/buttons/Door_Lopen.gif";
+		cam.src="img/camera/CAM1A.png";
+		leftlight.src="img/buttons/Leftlight.png";
+		rightlight.src="img/buttons/rightlight.png";
+		officemovetrigger1.style.display="block";
+		officemovetrigger2.style.display="block";
+		buttontrigger1.style.display="block";
+		lighttrigger1.style.display="block";
+		buttontrigger2.style.display="block";
+		lighttrigger2.style.display="block";
+		cameratrigger.style.display="block";
+		camerassets.style.display="none";
+		cam.style.visibility="hidden";
+		camerabg.style.visibility="hidden";
+		menutime.style.display="none";
+		menunight.style.display="none";
+		menutime.style.opacity="100%";
+		menunight.style.opacity="100%";
 		game.style.display="block";
 		for(i = 0; i < lines.length; i++) {
   		  lines[i].style.visibility="hidden";
   		  lines[i].style.zIndex="2";
   		  lines[i].style.opacity="30%";
   		}
-		setInterval(tick, 100);
-		setInterval(camblink, 700);
-	}else{
-		setTimeout(() => {
-			checkloading();
-		}, "1000");
-	}
+		tickinterval = setInterval(tick, 100);
+		blinkinterval = setInterval(camblink, 700);
+	}, "7000");
+}
+
+function dayend(){
+	officemovetrigger1.style.display="none";
+	officemovetrigger2.style.display="none";
+	buttontrigger1.style.display="none";
+	lighttrigger1.style.display="none";
+	buttontrigger2.style.display="none";
+	lighttrigger2.style.display="none";
+	cameratrigger.style.display="none";
+	for(i = 0; i < lines.length; i++) {
+  	  lines[i].style.visibility="hidden";
+  	}
+	survived6div.style.display="block";
+	game.style.opacity="0%";
+	setTimeout(() => {
+		survived6div.style.opacity="100%";
+	}, "10");
+	setTimeout(() => {
+		game.style.display="none";
+		game.style.opacity="100%";
+		survived5.style.bottom="10%";
+		survived6.style.bottom="-91%";
+	}, "2500");
+	setTimeout(() => {
+		survived6div.style.opacity="0%";
+	}, "12000");
+	setTimeout(() => {
+		survived6div.style.display="none";
+		survived5.style.bottom="-91%";
+		survived6.style.bottom="-185%";
+		currentnight++;
+		daystart(currentnight);
+	}, "16000");
 }
