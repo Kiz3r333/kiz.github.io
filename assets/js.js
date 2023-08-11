@@ -58,83 +58,109 @@ var currentnight=1;
 var tickinterval = null;
 var blinkinterval = null;
 
-var loadma = false;
-
 document.addEventListener('contextmenu', event => event.preventDefault());
 
-var images = [];
-function preloadImage(url, callback) {
-    var img = new Image();
-    img.src = url;
-    img.onload = callback;
-    return img;
+var mediaFiles = [];
+var loadma = false;
+
+function preloadMedia(url, type, callback) {
+    var media;
+
+    if (type === 'image') {
+        media = new Image();
+    } else if (type === 'audio') {
+        media = new Audio();
+        media.addEventListener('loadedmetadata', callback);
+    }
+
+    media.src = url;
+    media.onload = callback;
+    return media;
 }
 
-function preload() {
-    var loadlength = preload.arguments.length;
-    var loadedImages = 0;
+function preloadMediaList(mediaList, onComplete) {
+    var loadedMedia = 0;
+    var totalMedia = mediaList.length;
 
-    function imageLoaded() {
-        loadedImages++;
-        if (loadedImages === loadlength) {
-            // All images have been loaded
-            loadma=true;
-            console.log("All images have been loaded.");
-            // You can perform additional actions here once all images are loaded.
+    function mediaLoaded() {
+        loadedMedia++;
+        if (loadedMedia === totalMedia) {
+            onComplete();
         }
     }
 
-    for (var loadcounter = 0; loadcounter < arguments.length; loadcounter++) {
-        preloadImage(preload.arguments[loadcounter], imageLoaded);
+    for (var i = 0; i < totalMedia; i++) {
+        var url = mediaList[i][0];
+        var type = mediaList[i][1];
+        preloadMedia(url, type, mediaLoaded);
     }
 }
 
-preload(
-	"img/camera/static.gif",
-	"img/menu/FNaFFreddy_Menu.gif",
-	"img/menu/Loading_Clock_1.png",
-    "img/background/office.png",
-    "img/background/office2.png",
-    "img/background/officelightsleft.png",
-    "img/background/officelightsright.png",
-    "img/buttons/Door_Lclose.gif",
-    "img/buttons/Door_Lopen.gif",
-    "img/buttons/Door_Rclose.gif",
-    "img/buttons/Door_Ropen.gif",
-    "img/buttons/Leftbutton.png",
-    "img/buttons/Leftbuttonon.png",
-    "img/buttons/Leftlight.png",
-    "img/buttons/Leftlighton.png",
-    "img/buttons/rightbutton.png",
-    "img/buttons/rightbuttonon.png",
-    "img/buttons/rightlight.png",
-    "img/buttons/rightlighton.png",
-    "img/camera/Cam_01_text.png",
-	"img/camera/Cam_01b_text.png",
-	"img/camera/Cam_01c_text.png",
-	"img/camera/Cam_02_text.png",
-	"img/camera/Cam_02b_text.png",
-	"img/camera/Cam_03_text.png",
-	"img/camera/Cam_04_text.png",
-	"img/camera/Cam_04b_text.png",
-	"img/camera/Cam_05_text.png",
-	"img/camera/Cam_06_text.png",
-	"img/camera/Cam_07_text.png",
-	"img/camera/CAM1A.png",
-	"img/camera/CAM1B.png",
-	"img/camera/CAM1C.png",
-	"img/camera/CAM2A.png",
-	"img/camera/CAM2B.png",
-	"img/camera/CAM3.png",
-	"img/camera/CAM4A.png",
-	"img/camera/CAM4B.png",
-	"img/camera/CAM5.png",
-	"img/camera/CAM6.png",
-	"img/camera/CAM7.png",
-	"img/camera/map.png",
-	"img/monitorclose.gif",
-	"img/monitoropen.gif"
-);
+function preload() {
+    var mediaList = [
+        ["img/camera/static.gif", "image"],
+		["img/menu/FNaFFreddy_Menu.gif", "image"],
+		["sfx/darkness music.wav", "audio"],
+		["sfx/static.wav", "audio"],
+		["img/menu/Loading_Clock_1.png", "image"],
+    	["img/background/office.png", "image"],
+    	["img/background/office2.png", "image"],
+    	["img/background/officelightsleft.png", "image"],
+    	["img/background/officelightsright.png", "image"],
+    	["img/buttons/Door_Lclose.gif", "image"],
+    	["img/buttons/Door_Lopen.gif", "image"],
+    	["img/buttons/Door_Rclose.gif", "image"],
+    	["img/buttons/Door_Ropen.gif", "image"],
+    	["img/buttons/Leftbutton.png", "image"],
+    	["img/buttons/Leftbuttonon.png", "image"],
+    	["img/buttons/Leftlight.png", "image"],
+    	["img/buttons/Leftlighton.png", "image"],
+    	["img/buttons/rightbutton.png", "image"],
+    	["img/buttons/rightbuttonon.png", "image"],
+    	["img/buttons/rightlight.png", "image"],
+    	["img/buttons/rightlighton.png", "image"],
+    	["img/camera/Cam_01_text.png", "image"],
+		["img/camera/Cam_01b_text.png", "image"],
+		["img/camera/Cam_01c_text.png", "image"],
+		["img/camera/Cam_02_text.png", "image"],
+		["img/camera/Cam_02b_text.png", "image"],
+		["img/camera/Cam_03_text.png", "image"],
+		["img/camera/Cam_04_text.png", "image"],
+		["img/camera/Cam_04b_text.png", "image"],
+		["img/camera/Cam_05_text.png", "image"],
+		["img/camera/Cam_06_text.png", "image"],
+		["img/camera/Cam_07_text.png", "image"],
+		["img/camera/CAM1A.png", "image"],
+		["img/camera/CAM1B.png", "image"],
+		["img/camera/CAM1C.png", "image"],
+		["img/camera/CAM2A.png", "image"],
+		["img/camera/CAM2B.png", "image"],
+		["img/camera/CAM3.png", "image"],
+		["img/camera/CAM4A.png", "image"],
+		["img/camera/CAM4B.png", "image"],
+		["img/camera/CAM5.png", "image"],
+		["img/camera/CAM6.png", "image"],
+		["img/camera/CAM7.png", "image"],
+		["img/camera/map.png", "image"],
+		["img/monitorclose.gif", "image"],
+		["img/monitoropen.gif", "image"],
+		["sfx/BallastHumMedium2.wav", "audio"],
+		["sfx/MiniDV_Tape_Eject_1.wav", "audio"],
+		["sfx/CAMERA_VIDEO_LOA_60105303.wav", "audio"],
+		["sfx/Buzz_Fan_Florescent2.wav", "audio"],
+		["sfx/put down.wav", "audio"],
+		["sfx/blip3.wav", "audio"],
+		["sfx/SFXBible_12478.wav", "audio"],
+		["sfx/ambience2.wav", "audio"],
+		["sfx/CROWD_SMALL_CHIL_EC049202.wav", "audio"]
+    ];
+
+    preloadMediaList(mediaList, function () {
+        loadma = true;
+    });
+}
+
+preload();
 
 function cameraopenw(){
 	if (cameradelay==10) {
@@ -147,6 +173,10 @@ function cameraopenw(){
 		officelights2.style.display="none";
 		camerabg.style.visibility="visible";
 		if (camera.checked==false) {
+			changeVolume("BallastHumMedium2",0);
+			playSound("MiniDV_Tape_Eject_1",true);
+			playSound("CAMERA_VIDEO_LOA_60105303",false);
+			changeVolume("Buzz_Fan_Florescent2",0.1);
 			camerabg.src="img/monitoropen.gif";
 			officemovetrigger1.style.display="none";
 			officemovetrigger2.style.display="none";
@@ -171,6 +201,10 @@ function cameraopenw(){
 				static.style.opacity="40%";
 			}, "320");
 		}else{
+			changeVolume("Buzz_Fan_Florescent2",0.4);
+			changeVolume("MiniDV_Tape_Eject_1",0);
+			changeVolume("CAMERA_VIDEO_LOA_60105303",0);
+			playSound("put down",false);
 			camerabg.src="img/monitorclose.gif";
 			officemovetrigger1.style.display="block";
 			officemovetrigger2.style.display="block";
@@ -276,6 +310,7 @@ function movebgright() {
 function doorbtn(direction) {
 	if (doordelay==10) {
 		doordelay=0;
+		playSound("SFXBible_12478",false);
 		if (direction==0) {
 			if (door1.checked==false) {
 				door1.checked=true;
@@ -305,6 +340,8 @@ function lightbtn(direction) {
 		if (light1.checked==false) {
 			light1.checked=true;
 			light2.checked=false;
+			changeVolume("BallastHumMedium2",0);
+			playSound("BallastHumMedium2",true);
 			leftlight.src="img/buttons/Leftlighton.png";
 			rightlight.src="img/buttons/rightlight.png";
 			officelights1.style.display="block";
@@ -313,6 +350,7 @@ function lightbtn(direction) {
 		}else{
 			light1.checked=false;
 			light2.checked=false;
+			changeVolume("BallastHumMedium2",0);
 			leftlight.src="img/buttons/Leftlight.png";
 			rightlight.src="img/buttons/rightlight.png";
 			officelights1.style.display="none";
@@ -322,6 +360,8 @@ function lightbtn(direction) {
 		if (light2.checked==false) {
 			light2.checked=true;
 			light1.checked=false;
+			changeVolume("BallastHumMedium2",0);
+			playSound("BallastHumMedium2",true);
 			rightlight.src="img/buttons/rightlighton.png";
 			leftlight.src="img/buttons/Leftlight.png";
 			officelights2.style.display="block";
@@ -329,6 +369,7 @@ function lightbtn(direction) {
 		}else{
 			light2.checked=false;
 			light1.checked=false;
+			changeVolume("BallastHumMedium2",0);
 			rightlight.src="img/buttons/rightlight.png";
 			leftlight.src="img/buttons/Leftlight.png";
 			officelights1.style.display="none";
@@ -377,6 +418,7 @@ function outofpower(){
 }
 
 function changecam(camnmb){
+	playSound("blip3",false);
 	document.getElementById("cam"+currentcam).style.filter ="grayscale(1)";
 	currentcam=camnmb;
 	document.getElementById("cam"+currentcam).style.filter ="grayscale(0)";
@@ -438,9 +480,7 @@ function camblink(){
 
 function timecount() {
 	var x;
-	//currenttime++;
-	//DEBUG REMOVE THIS PLEASE vvv;
-	currenttime=currenttime+10;
+	currenttime++;
 	x= Math.trunc(currenttime/800);
 	if (x==0) {
 		x=12;
@@ -461,6 +501,7 @@ function movecameras(){
 }
 
 function selectmenu(menutype){
+	playSound("blip3",false);
 	if (menutype==0) {
 		select.style.bottom="40%";
 		continuenight.style.display="none";
@@ -478,6 +519,7 @@ function startnight(night) {
 	continuemenu.removeAttribute("onclick");
 	continuemenu.removeAttribute("onmouseover");
 	setTimeout(() => {
+		stopSound();
 		loadscreen.style.display="block";
 		menu.style.display="none";
 		checkloading();
@@ -493,6 +535,8 @@ function fadewarning(){
 		for(i = 0; i < lines.length; i++) {
   		  lines[i].style.display="block";
   		}
+  		playSound("darkness music",true);
+  		playSound("static",false);
 	}, "3100");
 }
 
@@ -507,6 +551,7 @@ function checkloading(){
 }
 
 function daystart(night){
+	playSound("blip3",false);
 	loadscreen.style.display="none";
 	menutime.style.display="block";
 	switch (night){
@@ -524,6 +569,7 @@ function daystart(night){
 			break;
 	}
 	nighttime.innerHTML="Night " + night;
+	continuenight.innerHTML="Night " + night;
 	menunight.style.display="block";
 	tvstatic.style.transition="opacity 0s";
 	tvstatic.style.opacity="100%";
@@ -562,13 +608,7 @@ function daystart(night){
 		cam.src="img/camera/CAM1A.png";
 		leftlight.src="img/buttons/Leftlight.png";
 		rightlight.src="img/buttons/rightlight.png";
-		officemovetrigger1.style.display="block";
-		officemovetrigger2.style.display="block";
-		buttontrigger1.style.display="block";
-		lighttrigger1.style.display="block";
-		buttontrigger2.style.display="block";
-		lighttrigger2.style.display="block";
-		cameratrigger.style.display="block";
+		game.style.pointerEvents= "auto";
 		camerassets.style.display="none";
 		cam.style.visibility="hidden";
 		camerabg.style.visibility="hidden";
@@ -584,17 +624,16 @@ function daystart(night){
   		}
 		tickinterval = setInterval(tick, 100);
 		blinkinterval = setInterval(camblink, 700);
+		playSound("ambience2",true);
+		playSound("Buzz_Fan_Florescent2",true);
+		changeVolume("Buzz_Fan_Florescent2",0.4);
 	}, "7000");
 }
 
 function dayend(){
-	officemovetrigger1.style.display="none";
-	officemovetrigger2.style.display="none";
-	buttontrigger1.style.display="none";
-	lighttrigger1.style.display="none";
-	buttontrigger2.style.display="none";
-	lighttrigger2.style.display="none";
-	cameratrigger.style.display="none";
+	stopSound();
+	playSound("chimes 2",false);
+	game.style.pointerEvents= "none";
 	for(i = 0; i < lines.length; i++) {
   	  lines[i].style.visibility="hidden";
   	}
@@ -608,6 +647,7 @@ function dayend(){
 		game.style.opacity="100%";
 		survived5.style.bottom="10%";
 		survived6.style.bottom="-91%";
+		playSound("CROWD_SMALL_CHIL_EC049202",false);
 	}, "2500");
 	setTimeout(() => {
 		survived6div.style.opacity="0%";
@@ -619,4 +659,66 @@ function dayend(){
 		currentnight++;
 		daystart(currentnight);
 	}, "16000");
+}
+
+let audioContext;
+let playingSources = [];
+
+function playSound(soundUrl, loop) {
+  if (!audioContext) {
+    audioContext = new (window.AudioContext || window.webkitAudioContext)();
+  }
+
+  const audioElement = new Audio();
+  audioElement.src = "sfx/" + soundUrl + ".wav";
+  audioElement.loop = loop;
+
+  const source = audioContext.createMediaElementSource(audioElement);
+  source.connect(audioContext.destination);
+  
+  if (loop) {
+    const gainNode = audioContext.createGain();
+    source.connect(gainNode);
+    gainNode.connect(audioContext.destination);
+    gainNode.gain.value = 1;
+    
+    source.onended = function () {
+      playSound(soundUrl, loop);
+    };
+  }
+
+  audioElement.play();
+
+  playingSources.push({ source, audioElement });
+}
+
+
+function stopSound() {
+  for (const { source, audioElement } of playingSources) {
+    source.disconnect();
+    audioElement.pause();
+  }
+  playingSources = [];
+
+  if (audioContext) {
+    audioContext.close();
+    audioContext = null;
+  }
+}
+
+function changeVolume(soundUrl, volume) {
+  for (const { audioElement } of playingSources) {
+    if (audioElement.src.endsWith(soundUrl + ".wav")) {
+      audioElement.volume = volume;
+
+      if (volume === 0) {
+        const index = playingSources.findIndex(item => item.audioElement === audioElement);
+        if (index !== -1) {
+          playingSources[index].source.disconnect();
+          audioElement.pause();
+          playingSources.splice(index, 1);
+        }
+      }
+    }
+  }
 }
