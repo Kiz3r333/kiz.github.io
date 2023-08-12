@@ -9,13 +9,25 @@ body {
             user-select: none; /* Non-prefixed version, currently
                                   supported by Chrome, Edge, Opera and Firefox */
 }
-#officemovetrigger1,#officemovetrigger2{
+#officemovetrigger1,#officemovetrigger2,#officemovetrigger11,#officemovetrigger111,#officemovetrigger22,#officemovetrigger222{
     position: absolute;
     background-color: transparent;
-    width: 30%;
+    width: 40%;
     height: 100%;
     top: 0;
     z-index: 1;
+}
+
+#officemovetrigger11{
+    width: 27%;
+    z-index: 2;
+    left: 0;
+}
+
+#officemovetrigger111{
+    width: 15%;
+    z-index: 3;
+    left: 0;
 }
 
 #officemovetrigger1{
@@ -24,6 +36,18 @@ body {
 
 #officemovetrigger2{
     left: default;
+    right: 0;
+}
+
+#officemovetrigger22{
+    width: 27%;
+    z-index: 2;
+    right: 0;
+}
+
+#officemovetrigger222{
+    width: 15%;
+    z-index: 3;
     right: 0;
 }
 
@@ -85,7 +109,7 @@ body {
     top: 43%;
     width: 2%;
     height: 7%;
-    z-index: 2;
+    z-index: 4;
 }
 
 #buttontrigger2{
@@ -99,7 +123,7 @@ body {
     top: 52%;
     width: 2%;
     height: 7%;
-    z-index: 2;
+    z-index: 4;
 }
 
 #lighttrigger2{
@@ -542,4 +566,48 @@ body {
     transition: opacity 3s;
     opacity: 0%;
     overflow: hidden;
+}
+
+#usage1,#usage2,#usage3,#usage4{
+    position: absolute;
+    background: linear-gradient(
+        to right,
+        #23eb1f 0%,
+        #23eb1f 70%,
+        #27b723 70%,
+        #27b723 100%
+    );
+    width: 6%;
+    height: 35%;
+    top: 49%;
+    left: 17%;
+}
+
+#usage2{
+    left: 24%;
+    display: none;
+}
+
+#usage3{
+    display: none;
+    background: linear-gradient(
+        to right,
+        #fff300 0%,
+        #fff300 70%,
+        #f3870b 70%,
+        #f3870b 100%
+    );
+    left: 31%;
+}
+
+#usage4{
+    display: none;
+    background: linear-gradient(
+        to right,
+        #ff2323 0%,
+        #ff2323 70%,
+        #cb0000 70%,
+        #cb0000 100%
+    );
+    left: 38%;
 }

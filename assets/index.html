@@ -30,7 +30,7 @@
 		<h1 id="continue" onmouseover="selectmenu(1);" onclick="startnight(1);">Continue</h1>
 		<h1 id="select">>></h1>
 		<h3 id="continuenight">Night 1</h3>
-		<h3 id="version">Indev v0.4</h3>
+		<h3 id="version">Indev v0.5</h3>
 		<h3 id="credits">A game by Kiz, LivingComputer & LPT4<br>for CrumbledHam</h3>
 		<img src="img/menu/FNaFFreddy_Menu.gif" id="menucharacter" draggable="false">
 		<img src="img/camera/static.gif" id="menustatic" draggable="false">
@@ -49,7 +49,12 @@
 	<div id="game">
 		<div>
 			<div onmouseover="movebg(0)" onmouseout="movebg(3)" id="UI">
-				<h3 style="display:inline;">M.I.L.K. LEFT: </h3><h1 id="power" style="display:inline;"></h1><h3 style="	display:inline;">L</h3>
+				<h3 style="display:inline;" id="milktext1">M.I.L.K. LEFT: </h3><h1 id="power" style="display:inline;"></h1><h3 style="	display:inline;" id="milktext2">L</h3>
+				<h3 id="usagetxt">Usage:</h3>
+				<div id="usage1"></div>
+				<div id="usage2"></div>
+				<div id="usage3"></div>
+				<div id="usage4"></div>
 			</div>
 			<div>
 				<h1 id="amtime">12 AM</h1>
@@ -68,8 +73,12 @@
 			</div>
 		</div>
 		
-		<div id="officemovetrigger1" onmouseover="movebg(0)" onmouseout="movebg(3)"></div>
-		<div id="officemovetrigger2" onmouseover="movebg(1)" onmouseout="movebg(3)"></div>
+		<div id="officemovetrigger1" onmouseover="movebg(0)" onmouseout="movebg(10)"></div>
+		<div id="officemovetrigger11" onmouseover="movebg(1)" onmouseout="movebg(10)"></div>
+		<div id="officemovetrigger111" onmouseover="movebg(2)" onmouseout="movebg(10)"></div>
+		<div id="officemovetrigger2" onmouseover="movebg(3)" onmouseout="movebg(10)"></div>
+		<div id="officemovetrigger22" onmouseover="movebg(4)" onmouseout="movebg(10)"></div>
+		<div id="officemovetrigger222" onmouseover="movebg(5)" onmouseout="movebg(10)"></div>
 		<div id="cameratrigger" onmouseover="cameraopenw()"></div>
 		<img id="camerabg" draggable="false">
 		<img src="img/camera/CAM1A.png" id="cam" draggable="false">
@@ -96,10 +105,10 @@
 			<img src="img/buttons/Leftlight.png" id="leftlight" draggable="false">
 			<img src="img/buttons/rightbutton.png" id="rightbutton" draggable="false">
 			<img src="img/buttons/rightlight.png" id="rightlight" draggable="false">
-			<div id="buttontrigger1" onclick="doorbtn(0)" onmouseover="movebg(0)" onmouseout="movebg(3)"></div>
-			<div id="lighttrigger1" onclick="lightbtn(0)" onmouseover="movebg(0)" onmouseout="movebg(3)"></div>
-			<div id="buttontrigger2" onclick="doorbtn(1)" onmouseover="movebg(1)" onmouseout="movebg(3)"></div>
-			<div id="lighttrigger2" onclick="lightbtn(1)" onmouseover="movebg(1)" onmouseout="movebg(3)"></div>
+			<div id="buttontrigger1" onclick="doorbtn(0)" onmouseover="movebg(2)" onmouseout="movebg(10)"></div>
+			<div id="lighttrigger1" onclick="lightbtn(0)" onmouseover="movebg(2)" onmouseout="movebg(10)"></div>
+			<div id="buttontrigger2" onclick="doorbtn(1)" onmouseover="movebg(5)" onmouseout="movebg(10)"></div>
+			<div id="lighttrigger2" onclick="lightbtn(1)" onmouseover="movebg(5)" onmouseout="movebg(10)"></div>
 			<img src="img/buttons/Door_Lopen.gif" id="leftdoor" draggable="false">
 			<img src="img/buttons/Door_Ropen.gif" id="rightdoor" draggable="false">
 			<img src="img/background/office.png" id="officebg" draggable="false">

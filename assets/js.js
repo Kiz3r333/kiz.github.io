@@ -5,7 +5,11 @@ var door2 = document.getElementById("door2");
 var camera = document.getElementById("camera");
 var office = document.getElementById("office");
 var officemovetrigger1 = document.getElementById("officemovetrigger1");
+var officemovetrigger11 = document.getElementById("officemovetrigger11");
+var officemovetrigger111 = document.getElementById("officemovetrigger111");
 var officemovetrigger2 = document.getElementById("officemovetrigger2");
+var officemovetrigger22 = document.getElementById("officemovetrigger22");
+var officemovetrigger222 = document.getElementById("officemovetrigger222");
 var camerabg = document.getElementById("camerabg");
 var leftbutton = document.getElementById("leftbutton");
 var leftlight = document.getElementById("leftlight");
@@ -44,6 +48,12 @@ var menunight = document.getElementById("menunight");
 var survived6div = document.getElementById("survived6div");
 var survived5 = document.getElementById("survived5");
 var survived6 = document.getElementById("survived6");
+var milktext1 = document.getElementById("milktext1");
+var milktext2 = document.getElementById("milktext2");
+var usage2 = document.getElementById("usage2");
+var usage3 = document.getElementById("usage3");
+var usage4 = document.getElementById("usage4");
+var txtUI = document.getElementById("UI");
 var officedistance = -25;
 var cameradistance = -25;
 var intervalId = null;
@@ -57,6 +67,19 @@ var blink=false;
 var currentnight=1;
 var tickinterval = null;
 var blinkinterval = null;
+var usagenum=1;
+
+function getCookie(name) {
+  const value = `; ${document.cookie}`;
+  const parts = value.split(`; ${name}=`);
+  if (parts.length === 2) return parts.pop().split(";").shift();
+}
+
+currentnight = getCookie("currentnight");
+
+if (currentnight === undefined){
+	currentnight = 1;
+}
 
 document.addEventListener('contextmenu', event => event.preventDefault());
 
@@ -165,6 +188,9 @@ preload();
 function cameraopenw(){
 	if (cameradelay==10) {
 		cameradelay=0;
+		if (light1.checked || light2.checked) {
+			usagenum--;
+		}
 		light1.checked = false;
 		light2.checked = false;
 		leftlight.src="img/buttons/Leftlight.png";
@@ -173,13 +199,18 @@ function cameraopenw(){
 		officelights2.style.display="none";
 		camerabg.style.visibility="visible";
 		if (camera.checked==false) {
+			usagenum++;
 			changeVolume("BallastHumMedium2",0);
 			playSound("MiniDV_Tape_Eject_1",true);
 			playSound("CAMERA_VIDEO_LOA_60105303",false);
 			changeVolume("Buzz_Fan_Florescent2",0.1);
 			camerabg.src="img/monitoropen.gif";
-			officemovetrigger1.style.display="none";
-			officemovetrigger2.style.display="none";
+			officemovetrigger1.style.display="block";
+			officemovetrigger11.style.display="block";
+			officemovetrigger111.style.display="block";
+			officemovetrigger2.style.display="block";
+			officemovetrigger22.style.display="block";
+			officemovetrigger222.style.display="block";
 			buttontrigger1.style.display="none";
 			lighttrigger1.style.display="none";
 			buttontrigger2.style.display="none";
@@ -201,13 +232,18 @@ function cameraopenw(){
 				static.style.opacity="40%";
 			}, "320");
 		}else{
+			usagenum--;
 			changeVolume("Buzz_Fan_Florescent2",0.4);
 			changeVolume("MiniDV_Tape_Eject_1",0);
 			changeVolume("CAMERA_VIDEO_LOA_60105303",0);
 			playSound("put down",false);
 			camerabg.src="img/monitorclose.gif";
 			officemovetrigger1.style.display="block";
+			officemovetrigger11.style.display="block";
+			officemovetrigger111.style.display="block";
 			officemovetrigger2.style.display="block";
+			officemovetrigger22.style.display="block";
+			officemovetrigger222.style.display="block";
 			buttontrigger1.style.display="block";
 			lighttrigger1.style.display="block";
 			buttontrigger2.style.display="block";
@@ -249,7 +285,8 @@ function tick(){
 		clearInterval(blinkinterval);
 		dayend();
 	}
-	movecameras();	
+	movecameras();
+	updateUsage();
 }
 
 function loadme(){
@@ -271,7 +308,9 @@ function loadme(){
 	}
 	if (power <= 0) {
 	    power = -1;
-	    visualPower.innerHTML = "YELL AT KIZ TO IMPLEMENT THIS BETTER";
+	    milktext1.style.display="none";
+	    milktext2.style.display="none";
+	    visualPower.innerHTML = "OUT OF MILK!";
 	    outofpower();
 	    return;
 	}else{
@@ -282,27 +321,47 @@ function loadme(){
 
 function movebg(side) {
 	clearInterval(intervalId);
-	if (side==0 && officedistance<=0 && camera.checked==false) {
-		intervalId = setInterval(movebgleft, 1);
+	if (side<=2 && officedistance<=0 && camera.checked==false) {
+		switch (side){
+			case 0:
+				intervalId = setInterval(movebgleft, 1, 0.08);
+				break;
+			case 1:
+				intervalId = setInterval(movebgleft, 1, 0.15);
+				break;
+			case 2:
+				intervalId = setInterval(movebgleft, 1, 0.25);
+				break;
+		}
 	}else{
-		if (side==1 && officedistance>=-50 && camera.checked==false) {
-			intervalId = setInterval(movebgright, 1);
+		if (side>=3 && side!=10 && officedistance>=-50 && camera.checked==false) {
+			switch (side){
+				case 3:
+					intervalId = setInterval(movebgright, 1, 0.08);
+					break;
+				case 4:
+					intervalId = setInterval(movebgright, 1, 0.15);
+					break;
+				case 5:
+					intervalId = setInterval(movebgright, 1, 0.25);
+					break;
+			}
 		}
 	}
 	
 }
 
-function movebgleft() {
+function movebgleft(distance) {
 	if (officedistance<=0) {
-		officedistance=officedistance+0.13;
+		officedistance=officedistance+distance;
 
 		office.style.left= officedistance+"%";
 	}	
 }
 
-function movebgright() {
+function movebgright(distance) {
 	if (officedistance>=-50) {
-		officedistance=officedistance-0.13;
+		officedistance=officedistance-distance;
 		office.style.left= officedistance+"%";
 	}	
 }
@@ -314,20 +373,24 @@ function doorbtn(direction) {
 		if (direction==0) {
 			if (door1.checked==false) {
 				door1.checked=true;
+				usagenum++;
 				leftbutton.src="img/buttons/Leftbuttonon.png";
 				leftdoor.src="img/buttons/Door_Lclose.gif";
 			}else{
 				door1.checked = false;
+				usagenum--;
 				leftbutton.src="img/buttons/Leftbutton.png";
 				leftdoor.src="img/buttons/Door_Lopen.gif";
 			}
 		}else{
 			if (door2.checked==false) {
 				door2.checked=true;
+				usagenum++;
 				rightbutton.src="img/buttons/rightbuttonon.png";
 				rightdoor.src="img/buttons/Door_Rclose.gif";
 			}else{
 				door2.checked = false;
+				usagenum--;
 				rightbutton.src="img/buttons/rightbutton.png";
 				rightdoor.src="img/buttons/Door_Ropen.gif";
 			}
@@ -338,6 +401,9 @@ function doorbtn(direction) {
 function lightbtn(direction) {
 	if (direction==0) {
 		if (light1.checked==false) {
+			if (light2.checked==false) {
+				usagenum++;
+			}
 			light1.checked=true;
 			light2.checked=false;
 			changeVolume("BallastHumMedium2",0);
@@ -350,6 +416,7 @@ function lightbtn(direction) {
 		}else{
 			light1.checked=false;
 			light2.checked=false;
+			usagenum--;
 			changeVolume("BallastHumMedium2",0);
 			leftlight.src="img/buttons/Leftlight.png";
 			rightlight.src="img/buttons/rightlight.png";
@@ -358,6 +425,9 @@ function lightbtn(direction) {
 		}
 	}else{
 		if (light2.checked==false) {
+			if (light1.checked==false) {
+				usagenum++;
+			}
 			light2.checked=true;
 			light1.checked=false;
 			changeVolume("BallastHumMedium2",0);
@@ -369,6 +439,7 @@ function lightbtn(direction) {
 		}else{
 			light2.checked=false;
 			light1.checked=false;
+			usagenum--;
 			changeVolume("BallastHumMedium2",0);
 			rightlight.src="img/buttons/rightlight.png";
 			leftlight.src="img/buttons/Leftlight.png";
@@ -379,6 +450,7 @@ function lightbtn(direction) {
 }
 
 function outofpower(){
+	txtUI.style.display="none";
 	officebg.src="img/background/office2.png"
 	light2.checked=false;
 	light1.checked=false;
@@ -393,7 +465,11 @@ function outofpower(){
 	camerassets.style.display="none";
 	cam.style.visibility="hidden";
 	officemovetrigger1.style.display="block";
+	officemovetrigger11.style.display="block";
+	officemovetrigger111.style.display="block";
 	officemovetrigger2.style.display="block";
+	officemovetrigger22.style.display="block";
+	officemovetrigger222.style.display="block";
 	for(i = 0; i < lines.length; i++) {
   	  lines[i].style.visibility="hidden";
   	}
@@ -530,6 +606,7 @@ function fadewarning(){
 	warning.removeAttribute("onclick");
 	warning.style.opacity="0%";
 	setTimeout(() => {
+		continuenight.innerHTML="Night " + currentnight;
 		menu.style.display="block";
 		warning.style.display="none";
 		for(i = 0; i < lines.length; i++) {
@@ -617,6 +694,10 @@ function daystart(night){
 		menutime.style.opacity="100%";
 		menunight.style.opacity="100%";
 		game.style.display="block";
+		milktext1.style.display="inline";
+	    milktext2.style.display="inline";
+	    txtUI.style.display="block";
+	    visualPower.innerHTML = "";
 		for(i = 0; i < lines.length; i++) {
   		  lines[i].style.visibility="hidden";
   		  lines[i].style.zIndex="2";
@@ -657,6 +738,11 @@ function dayend(){
 		survived5.style.bottom="-91%";
 		survived6.style.bottom="-185%";
 		currentnight++;
+		var expirationDate = new Date();
+		expirationDate.setFullYear(expirationDate.getFullYear() + 1);
+		
+		document.cookie = `currentnight=${currentnight}; expires=${expirationDate.toUTCString()}; path=/`;
+
 		daystart(currentnight);
 	}, "16000");
 }
@@ -721,4 +807,29 @@ function changeVolume(soundUrl, volume) {
       }
     }
   }
+}
+
+function updateUsage(){
+	switch (usagenum){
+		case 1:
+			usage2.style.display="none";
+			usage3.style.display="none";
+			usage4.style.display="none";
+			break;
+		case 2:
+			usage2.style.display="block";
+			usage3.style.display="none";
+			usage4.style.display="none";
+			break;
+		case 3:
+			usage2.style.display="block";
+			usage3.style.display="block";
+			usage4.style.display="none";
+			break;
+		case 4:
+			usage2.style.display="block";
+			usage3.style.display="block";
+			usage4.style.display="block";
+			break;
+	}
 }
