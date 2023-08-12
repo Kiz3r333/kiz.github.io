@@ -180,15 +180,25 @@ body {
 }
 
 #cam{
+    position: static;
     visibility: hidden;
+    width: 114%;
+}
+
+#camchar{
     transition: left 10s;
+    position: absolute;
+    width: 101%;
+    left: 10%;
+    top: 6%;
 }
 
 #static{
     z-index: 4;
     opacity: 70%;
     width: 91.5%;
-    height: 86%;
+    height: 84.5%;
+    top: 8%;
 }
 
 #map{
@@ -610,4 +620,13 @@ body {
         #cb0000 100%
     );
     left: 38%;
+}
+
+#character1{
+    position: absolute;
+    left: 34%;
+    top: 13%;
+    width: 33%;
+    z-index: 0;
+    visibility: hidden;
 }

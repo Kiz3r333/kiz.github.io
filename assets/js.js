@@ -54,6 +54,9 @@ var usage2 = document.getElementById("usage2");
 var usage3 = document.getElementById("usage3");
 var usage4 = document.getElementById("usage4");
 var txtUI = document.getElementById("UI");
+var camchar = document.getElementById("camchar");
+var character1 = document.getElementById("character1");
+var character2 = document.getElementById("character2");
 var officedistance = -25;
 var cameradistance = -25;
 var intervalId = null;
@@ -68,6 +71,8 @@ var currentnight=1;
 var tickinterval = null;
 var blinkinterval = null;
 var usagenum=1;
+var character1cam="1a";
+var character2cam="";
 
 function getCookie(name) {
   const value = `; ${document.cookie}`;
@@ -224,6 +229,16 @@ function cameraopenw(){
 				for(i = 0; i < lines.length; i++) {
   				  lines[i].style.visibility="visible";
   				}
+  				if (currentcam==character1cam) {
+					character1.style.visibility="visible";
+				}else{
+					character1.style.visibility="hidden";
+				}
+				if (currentcam==character2cam) {
+					character2.style.visibility="visible";
+				}else{
+					character2.style.visibility="hidden";
+				}
 			}, "220");
 			setTimeout(() => {
 				static.style.transition="opacity 0.7s";
@@ -250,6 +265,8 @@ function cameraopenw(){
 			lighttrigger2.style.display="block";
 			camerassets.style.display="none";
 			cam.style.visibility="hidden";
+			character1.style.visibility="hidden";
+			character2.style.visibility="hidden";
 			for(i = 0; i < lines.length; i++) {
   			  lines[i].style.visibility="hidden";
   			}
@@ -464,6 +481,8 @@ function outofpower(){
 	lighttrigger2.style.display="none";
 	camerassets.style.display="none";
 	cam.style.visibility="hidden";
+	character1.style.visibility="hidden";
+	character2.style.visibility="hidden";
 	officemovetrigger1.style.display="block";
 	officemovetrigger11.style.display="block";
 	officemovetrigger111.style.display="block";
@@ -499,6 +518,16 @@ function changecam(camnmb){
 	currentcam=camnmb;
 	document.getElementById("cam"+currentcam).style.filter ="grayscale(0)";
 	cam.src="img/camera/CAM"+camnmb.toUpperCase()+".png";
+	if (camnmb==character1cam) {
+		character1.style.visibility="visible";
+	}else{
+		character1.style.visibility="hidden";
+	}
+	if (camnmb==character2cam) {
+		character2.style.visibility="visible";
+	}else{
+		character2.style.visibility="hidden";
+	}
 	switch (camnmb){
 		case "1a":
 			camtxt.innerHTML="Show Stage";
@@ -567,11 +596,11 @@ function timecount() {
 function movecameras(){
 	if (cameramovedelay==100) {
 		cameramovedelay=-1;
-		cam.style.left= "-10%";
+		camchar.style.left= "-10%";
 	}else{
 		if (cameramovedelay==-100) {
 			cameramovedelay=1;
-			cam.style.left= "4%";
+			camchar.style.left= "4%";
 		}
 	}
 }
@@ -632,6 +661,7 @@ function daystart(night){
 	playSound("blip3",false);
 	loadscreen.style.display="none";
 	menutime.style.display="block";
+	night=parseInt(night);
 	switch (night){
 		case 1:
 			menunight.innerHTML= night + "st Night";
@@ -699,6 +729,8 @@ function daystart(night){
 	    milktext2.style.display="inline";
 	    txtUI.style.display="block";
 	    visualPower.innerHTML = "";
+	    character1.style.visibility="hidden";
+		character2.style.visibility="hidden";
 		for(i = 0; i < lines.length; i++) {
   		  lines[i].style.visibility="hidden";
   		  lines[i].style.zIndex="2";

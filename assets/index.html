@@ -30,7 +30,7 @@
 		<h1 id="continue" onmouseover="selectmenu(1);" onclick="startnight(currentnight);">Continue</h1>
 		<h1 id="select">>></h1>
 		<h3 id="continuenight">Night 1</h3>
-		<h3 id="version">Indev v0.5.1</h3>
+		<h3 id="version">Indev v0.6</h3>
 		<h3 id="credits">A game by Kiz, LivingComputer & LPT4<br>for CrumbledHam</h3>
 		<img src="img/menu/FNaFFreddy_Menu.gif" id="menucharacter" draggable="false">
 		<img src="img/camera/static.gif" id="menustatic" draggable="false">
@@ -81,11 +81,15 @@
 		<div id="officemovetrigger222" onmouseover="movebg(5)" onmouseout="movebg(10)"></div>
 		<div id="cameratrigger" onmouseover="cameraopenw()"></div>
 		<img id="camerabg" draggable="false">
-		<img src="img/camera/CAM1A.png" id="cam" draggable="false">
+		<div id="camchar">
+			<img src="img/camera/CAM1A.png" id="cam" draggable="false">
+			<img id="character1" src="img/camera/ryan_camPose.png" draggable="false">
+		</div>
 		<div id="camerassets" style="display:none">
 			<img src="img/camera/static.gif" id="static" draggable="false">
 			<img src="img/camera/map.png" id="map" draggable="false">
 			<h1 id="camtxt">Show Stage</h1>
+			<img id="character2">
 			<div id="cameras">
 				<img src="img/camera/Cam_01_text.png" id="cam1a" draggable="false" onclick="changecam('1a')">
 				<img src="img/camera/Cam_01b_text.png" id="cam1b" draggable="false" onclick="changecam('1b')">
