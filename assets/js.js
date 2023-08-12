@@ -588,6 +588,7 @@ function selectmenu(menutype){
 }
 
 function startnight(night) {
+	currentnight=night;
 	menu.style.opacity="0%";
 	tvstatic.style.opacity="0%";
 	newgame.removeAttribute("onclick");
