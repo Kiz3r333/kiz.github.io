@@ -57,6 +57,10 @@ var txtUI = document.getElementById("UI");
 var camchar = document.getElementById("camchar");
 var character1 = document.getElementById("character1");
 var character2 = document.getElementById("character2");
+var character3 = document.getElementById("character3");
+var pizzabtn = document.getElementById("pizzabtn");
+var brokenoverlay = document.getElementById("brokenoverlay");
+var owo = document.getElementById("owo");
 var officedistance = -25;
 var cameradistance = -25;
 var intervalId = null;
@@ -64,15 +68,21 @@ var intervalcam = null;
 var cameradelay = 10;
 var doordelay = 10;
 var cameramovedelay = 100;
-var currentcam = "1a";
+var currentcam = "1b";
 var currenttime = 0;
 var blink=false;
 var currentnight=1;
 var tickinterval = null;
 var blinkinterval = null;
+var pizzainterval = null;
+var glowinterval = null;
 var usagenum=1;
-var character1cam="1a";
+var character1cam="1b";
 var character2cam="";
+var character3cam="5";
+var windnumb=100;
+var owotoggle=false;
+var pizzadelay = 10;
 
 function getCookie(name) {
   const value = `; ${document.cookie}`;
@@ -172,6 +182,16 @@ function preload() {
 		["img/camera/map.png", "image"],
 		["img/monitorclose.gif", "image"],
 		["img/monitoropen.gif", "image"],
+		["img/camera/box_frame_1.png", "image"],
+		["img/camera/box_frame_2.png", "image"],
+		["img/camera/box_frame_3.png", "image"],
+		["img/camera/box_frame_4.png", "image"],
+		["img/camera/box_frame_5.png", "image"],
+		["img/camera/graphicscrate-broken-glass-13_prev_lg.png", "image"],
+		["img/camera/pizzabtn.png", "image"],
+		["img/camera/pizzabtnon.png", "image"],
+		["img/camera/ryan_camPose.gif", "image"],
+		["img/background/OwO.png", "image"],
 		["sfx/BallastHumMedium2.wav", "audio"],
 		["sfx/MiniDV_Tape_Eject_1.wav", "audio"],
 		["sfx/CAMERA_VIDEO_LOA_60105303.wav", "audio"],
@@ -180,7 +200,15 @@ function preload() {
 		["sfx/blip3.wav", "audio"],
 		["sfx/SFXBible_12478.wav", "audio"],
 		["sfx/ambience2.wav", "audio"],
-		["sfx/CROWD_SMALL_CHIL_EC049202.wav", "audio"]
+		["sfx/CROWD_SMALL_CHIL_EC049202.wav", "audio"],
+		["sfx/powerdown.wav", "audio"],
+		["sfx/CrumblingDreams.wav", "audio"],
+		["sfx/EerieAmbienceLargeSca_MV005.wav", "audio"],
+		["sfx/chimes 2.wav", "audio"],
+		["sfx/jackinthebox.wav", "audio"],
+		["sfx/windup2.wav", "audio"],
+		["sfx/error.wav", "audio"],
+		["sfx/ariamath.wav", "audio"]
     ];
 
     preloadMediaList(mediaList, function () {
@@ -209,6 +237,7 @@ function cameraopenw(){
 			playSound("MiniDV_Tape_Eject_1",true);
 			playSound("CAMERA_VIDEO_LOA_60105303",false);
 			changeVolume("Buzz_Fan_Florescent2",0.1);
+			changeVolume("EerieAmbienceLargeSca_MV005",0.5);
 			camerabg.src="img/monitoropen.gif";
 			officemovetrigger1.style.display="block";
 			officemovetrigger11.style.display="block";
@@ -239,6 +268,22 @@ function cameraopenw(){
 				}else{
 					character2.style.visibility="hidden";
 				}
+				if (currentcam==character3cam && camera.checked==true) {
+					character3.style.visibility="visible";
+					pizzabtn.style.display="block";
+					changeVolume("CrumblingDreams",0.8);
+					changeVolume("EerieAmbienceLargeSca_MV005",0.01);
+				}else{
+					character3.style.visibility="hidden";
+					pizzabtn.style.display="hidden";
+					changeVolume("CrumblingDreams",0.01);
+					changeVolume("EerieAmbienceLargeSca_MV005",0.5);
+				}
+				if (currentcam=="1c") {
+					brokenoverlay.style.display="block";
+				}else{
+					brokenoverlay.style.display="none";
+				}
 			}, "220");
 			setTimeout(() => {
 				static.style.transition="opacity 0.7s";
@@ -248,9 +293,11 @@ function cameraopenw(){
 			}, "320");
 		}else{
 			usagenum--;
+			pizzaPress(false);
 			changeVolume("Buzz_Fan_Florescent2",0.4);
 			changeVolume("MiniDV_Tape_Eject_1",0);
 			changeVolume("CAMERA_VIDEO_LOA_60105303",0);
+			changeVolume("EerieAmbienceLargeSca_MV005",0.01);
 			playSound("put down",false);
 			camerabg.src="img/monitorclose.gif";
 			officemovetrigger1.style.display="block";
@@ -264,9 +311,13 @@ function cameraopenw(){
 			buttontrigger2.style.display="block";
 			lighttrigger2.style.display="block";
 			camerassets.style.display="none";
+			brokenoverlay.style.display="none";
 			cam.style.visibility="hidden";
 			character1.style.visibility="hidden";
 			character2.style.visibility="hidden";
+			character3.style.visibility="hidden";
+			pizzabtn.style.display="none";
+			changeVolume("CrumblingDreams",0.01);
 			for(i = 0; i < lines.length; i++) {
   			  lines[i].style.visibility="hidden";
   			}
@@ -281,12 +332,20 @@ function cameraopenw(){
 function tick(){
 	if (power!=-1) {
 		loadme();
+		if (currentnight>=2) {
+			windKiz();
+		}
+	}else{
+		spawnowo();
 	}
 	if (cameradelay!=10) {
 		cameradelay++;
 	}
 	if (doordelay!=10) {
 		doordelay++;
+	}
+	if (pizzadelay!=10) {
+		pizzadelay++;
 	}
 	if (cameramovedelay>0 && cameramovedelay<100) {
 		cameramovedelay++;
@@ -467,6 +526,8 @@ function lightbtn(direction) {
 }
 
 function outofpower(){
+	stopSound();
+	playSound("powerdown",false);
 	txtUI.style.display="none";
 	officebg.src="img/background/office2.png"
 	light2.checked=false;
@@ -480,9 +541,12 @@ function outofpower(){
 	buttontrigger2.style.display="none";
 	lighttrigger2.style.display="none";
 	camerassets.style.display="none";
+	amtime.style.display="none";
+	nighttime.style.display="none";
 	cam.style.visibility="hidden";
 	character1.style.visibility="hidden";
 	character2.style.visibility="hidden";
+	character3.style.visibility="hidden";
 	officemovetrigger1.style.display="block";
 	officemovetrigger11.style.display="block";
 	officemovetrigger111.style.display="block";
@@ -496,11 +560,13 @@ function outofpower(){
 		door1.checked = false;
 		leftbutton.src="img/buttons/Leftbutton.png";
 		leftdoor.src="img/buttons/Door_Lopen.gif";
+		playSound("SFXBible_12478",false);
 	}
 	if (door2.checked) {
 		door2.checked = false;
 		rightbutton.src="img/buttons/rightbutton.png";
 		rightdoor.src="img/buttons/Door_Ropen.gif";
+		playSound("SFXBible_12478",false);
 	}
 	cameratrigger.style.display="none";
 	if (camera.checked) {
@@ -528,6 +594,22 @@ function changecam(camnmb){
 	}else{
 		character2.style.visibility="hidden";
 	}
+	if (camnmb==character3cam && camera.checked==true) {
+		character3.style.visibility="visible";
+		pizzabtn.style.display="block";
+		changeVolume("CrumblingDreams",0.8);
+		changeVolume("EerieAmbienceLargeSca_MV005",0.01);
+	}else{
+		character3.style.visibility="hidden";
+		pizzabtn.style.display="none";
+		changeVolume("CrumblingDreams",0.01);
+		changeVolume("EerieAmbienceLargeSca_MV005",0.5);
+	}
+	if (camnmb=="1c") {
+		brokenoverlay.style.display="block";
+	}else{
+		brokenoverlay.style.display="none";
+	}
 	switch (camnmb){
 		case "1a":
 			camtxt.innerHTML="Show Stage";
@@ -536,7 +618,7 @@ function changecam(camnmb){
 			camtxt.innerHTML="Dining Area";
 			break;
 		case "1c":
-			camtxt.innerHTML="Pirate Cove";
+			camtxt.innerHTML="Hallway -BROKEN-";
 			break;
 		case "2a":
 			camtxt.innerHTML="West Hall";
@@ -554,7 +636,7 @@ function changecam(camnmb){
 			camtxt.innerHTML="East Hall Corner";
 			break;
 		case "5":
-			camtxt.innerHTML="Backstage";
+			camtxt.innerHTML="Pizza Cove";
 			break;
 		case "6":
 			camtxt.innerHTML="Kitchen";
@@ -594,11 +676,11 @@ function timecount() {
 }
 
 function movecameras(){
-	if (cameramovedelay==100) {
+	if (cameramovedelay==100 && currentcam!="1c") {
 		cameramovedelay=-1;
 		camchar.style.left= "-10%";
 	}else{
-		if (cameramovedelay==-100) {
+		if (cameramovedelay==-100 && currentcam!="1c") {
 			cameramovedelay=1;
 			camchar.style.left= "4%";
 		}
@@ -699,21 +781,24 @@ function daystart(night){
 		cameradelay = 10;
 		doordelay = 10;
 		cameramovedelay = 100;
+		windnumb=100
+		character1cam="1b";
 		document.getElementById("cam"+currentcam).style.filter ="grayscale(1)";
 		blink=false;
-		currentcam = "1a";
+		currentcam = "1b";
 		currenttime = 0;
 		camera.checked=false;
 		light1.checked = false;
 		light2.checked = false;
 		door1.checked = false;
 		door2.checked = false;
+		owotoggle=false;
 		camerabg.src="img/monitorclose.gif";
 		rightbutton.src="img/buttons/rightbutton.png";
 		rightdoor.src="img/buttons/Door_Ropen.gif";
 		leftbutton.src="img/buttons/Leftbutton.png";
 		leftdoor.src="img/buttons/Door_Lopen.gif";
-		cam.src="img/camera/CAM1A.png";
+		cam.src="img/camera/CAM"+currentcam.toUpperCase()+".png";
 		leftlight.src="img/buttons/Leftlight.png";
 		rightlight.src="img/buttons/rightlight.png";
 		game.style.pointerEvents= "auto";
@@ -731,6 +816,12 @@ function daystart(night){
 	    visualPower.innerHTML = "";
 	    character1.style.visibility="hidden";
 		character2.style.visibility="hidden";
+		character3.style.visibility="hidden";
+		pizzabtn.style.display="none";
+		owo.style.display="none";
+		changeVolume("CrumblingDreams",0.01);
+		amtime.style.display="block";
+		nighttime.style.display="block";
 		for(i = 0; i < lines.length; i++) {
   		  lines[i].style.visibility="hidden";
   		  lines[i].style.zIndex="2";
@@ -740,7 +831,11 @@ function daystart(night){
 		blinkinterval = setInterval(camblink, 700);
 		playSound("ambience2",true);
 		playSound("Buzz_Fan_Florescent2",true);
+		playSound("CrumblingDreams",true);
+		playSound("EerieAmbienceLargeSca_MV005",true);
 		changeVolume("Buzz_Fan_Florescent2",0.4);
+		changeVolume("CrumblingDreams",0.01);
+		changeVolume("EerieAmbienceLargeSca_MV005",0.01);
 	}, "7000");
 }
 
@@ -781,11 +876,20 @@ function dayend(){
 }
 
 let audioContext;
+let analyserNode;
 let playingSources = [];
 
-function playSound(soundUrl, loop) {
+function initializeVisuals() {
   if (!audioContext) {
     audioContext = new (window.AudioContext || window.webkitAudioContext)();
+    analyserNode = audioContext.createAnalyser();
+    analyserNode.fftSize = 256; // You can adjust this for frequency resolution
+  }
+}
+
+function playSound(soundUrl, loop) {
+  if (!audioContext || !analyserNode) {
+    initializeVisuals();
   }
 
   const audioElement = new Audio();
@@ -793,14 +897,15 @@ function playSound(soundUrl, loop) {
   audioElement.loop = loop;
 
   const source = audioContext.createMediaElementSource(audioElement);
-  source.connect(audioContext.destination);
-  
+  source.connect(analyserNode);
+  analyserNode.connect(audioContext.destination);
+
   if (loop) {
     const gainNode = audioContext.createGain();
     source.connect(gainNode);
-    gainNode.connect(audioContext.destination);
+    gainNode.connect(analyserNode);
     gainNode.gain.value = 1;
-    
+
     source.onended = function () {
       playSound(soundUrl, loop);
     };
@@ -810,7 +915,6 @@ function playSound(soundUrl, loop) {
 
   playingSources.push({ source, audioElement });
 }
-
 
 function stopSound() {
   for (const { source, audioElement } of playingSources) {
@@ -822,6 +926,7 @@ function stopSound() {
   if (audioContext) {
     audioContext.close();
     audioContext = null;
+    analyserNode = null;
   }
 }
 
@@ -841,6 +946,15 @@ function changeVolume(soundUrl, volume) {
     }
   }
 }
+
+// Function to get audio data for visualization
+function getAudioData() {
+  const bufferLength = analyserNode.frequencyBinCount;
+  const dataArray = new Uint8Array(bufferLength);
+  analyserNode.getByteFrequencyData(dataArray);
+  return dataArray;
+}
+
 
 function updateUsage(){
 	switch (usagenum){
@@ -866,3 +980,111 @@ function updateUsage(){
 			break;
 	}
 }
+
+function windKiz(){
+	windnumb=windnumb-0.1-((currentnight-2)*0.05);
+	switch (true){
+		case (76==Math.ceil(windnumb)):
+			if (currentcam=="5" && camera.checked==true && pizzadelay==10) {
+				changecam("5");
+				pizzadelay=0;
+			}
+			character3.src="img/camera/box_frame_1.png";
+			break;
+		case (75==Math.ceil(windnumb)):
+		case (51==Math.ceil(windnumb)):
+			if (currentcam=="5" && camera.checked==true && pizzadelay==10) {
+				changecam("5");
+				pizzadelay=0;
+			}
+			character3.src="img/camera/box_frame_2.png";
+			break;
+		case (50==Math.ceil(windnumb)):
+		case (26==Math.ceil(windnumb)):
+			if (currentcam=="5" && camera.checked==true && pizzadelay==10) {
+				changecam("5");
+				pizzadelay=0;
+			}
+			character3.src="img/camera/box_frame_3.png";
+			break;
+		case (25==Math.ceil(windnumb)):
+			if (currentcam=="5" && camera.checked==true && pizzadelay==10) {
+				changecam("5");
+				pizzadelay=0;
+			}
+			character3.src="img/camera/box_frame_4.png";
+			break;
+		case (0==Math.ceil(windnumb)):
+			if (currentcam=="5" && camera.checked==true && pizzadelay==10) {
+				changecam("5");
+				pizzadelay=0;
+			}
+			windnumb=-1000;
+			character3.src="img/camera/box_frame_5.png";
+			changeVolume("CrumblingDreams",0);
+			playSound("jackinthebox",false);
+			break;
+	}
+}
+
+function pizzaPress(press){
+	if (press==true && windnumb>0) {
+		pizzainterval = setInterval(windButton, 1);
+		playSound("windup2",true);
+	}else{
+		clearInterval(pizzainterval);
+		pizzabtn.src="img/camera/pizzabtn.png";
+		changeVolume("windup2",0);
+		if (press==true && windnumb<=0) {
+			playSound("error",false);
+		}
+	}
+}
+
+function windButton(){
+	if (windnumb<99) {
+		windnumb=windnumb+0.02;
+	}
+	pizzabtn.src="img/camera/pizzabtnon.png";
+}
+
+function spawnowo(){
+	var x=1;
+	var y;
+	if (owotoggle==false) {
+		x=Math.floor(Math.random() * 200);
+		if (x==0) {
+			owotoggle=true;
+			y=Math.floor(Math.random()*45000)+10000;
+			owo.style.display="block";
+			playSound("ariamath",false);
+			glowinterval = setInterval(() => {
+				const dataArray = getAudioData();
+  				const average = dataArray.reduce((acc, value) => acc + value, 0) / dataArray.length;
+  				const shadowStrength = (average / 255) * 15; // Adjust this multiplier as needed
+				
+  				owo.style.filter = `drop-shadow(0 0 ${shadowStrength}vh cyan)`;
+			}, 10);
+			setTimeout(() => {
+				owo.style.display="none";
+				clearInterval(glowinterval);
+				stopSound();
+			}, y);
+			setTimeout(() => {
+				owo.style.display="block";
+			}, y+100);
+			setTimeout(() => {
+				office.style.display="none";
+				owo.style.display="none";
+			}, y+200);
+			setTimeout(() => {
+				owo.style.display="block";
+			}, y+250);
+			setTimeout(() => {
+				owo.style.display="none";
+			}, y+320);
+		}
+	}
+}
+
+console.log("ඞ");

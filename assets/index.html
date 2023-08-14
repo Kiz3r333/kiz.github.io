@@ -30,7 +30,7 @@
 		<h1 id="continue" onmouseover="selectmenu(1);" onclick="startnight(currentnight);">Continue</h1>
 		<h1 id="select">>></h1>
 		<h3 id="continuenight">Night 1</h3>
-		<h3 id="version">Indev v0.6</h3>
+		<h3 id="version">Indev v0.7</h3>
 		<h3 id="credits">A game by Kiz, LivingComputer & LPT4<br>for CrumbledHam</h3>
 		<img src="img/menu/FNaFFreddy_Menu.gif" id="menucharacter" draggable="false">
 		<img src="img/camera/static.gif" id="menustatic" draggable="false">
@@ -82,14 +82,17 @@
 		<div id="cameratrigger" onmouseover="cameraopenw()"></div>
 		<img id="camerabg" draggable="false">
 		<div id="camchar">
-			<img src="img/camera/CAM1A.png" id="cam" draggable="false">
-			<img id="character1" src="img/camera/ryan_camPose.png" draggable="false">
+			<img src="img/camera/CAM1B.png" id="cam" draggable="false">
+			<img id="character1" src="img/camera/ryan_camPose.gif" draggable="false">
+			<img id="character2" src="" draggable="false">
+			<img id="character3" src="img/camera/box_frame_1.png" draggable="false">
 		</div>
 		<div id="camerassets" style="display:none">
 			<img src="img/camera/static.gif" id="static" draggable="false">
 			<img src="img/camera/map.png" id="map" draggable="false">
 			<h1 id="camtxt">Show Stage</h1>
-			<img id="character2">
+			<img src="img/camera/pizzabtn.png" id="pizzabtn" onmousedown="pizzaPress(true)" onmouseup="pizzaPress(false)" onmouseout="pizzaPress(false)" draggable="false">
+			<img src="img/camera/graphicscrate-broken-glass-13_prev_lg.png" id="brokenoverlay">
 			<div id="cameras">
 				<img src="img/camera/Cam_01_text.png" id="cam1a" draggable="false" onclick="changecam('1a')">
 				<img src="img/camera/Cam_01b_text.png" id="cam1b" draggable="false" onclick="changecam('1b')">
@@ -109,12 +112,13 @@
 			<img src="img/buttons/Leftlight.png" id="leftlight" draggable="false">
 			<img src="img/buttons/rightbutton.png" id="rightbutton" draggable="false">
 			<img src="img/buttons/rightlight.png" id="rightlight" draggable="false">
+			<img src="img/background/OwO.png" id="owo" draggable="false">
 			<div id="buttontrigger1" onclick="doorbtn(0)" onmouseover="movebg(2)" onmouseout="movebg(10)"></div>
 			<div id="lighttrigger1" onclick="lightbtn(0)" onmouseover="movebg(2)" onmouseout="movebg(10)"></div>
 			<div id="buttontrigger2" onclick="doorbtn(1)" onmouseover="movebg(5)" onmouseout="movebg(10)"></div>
 			<div id="lighttrigger2" onclick="lightbtn(1)" onmouseover="movebg(5)" onmouseout="movebg(10)"></div>
-			<img src="img/buttons/Door_Lopen.gif" id="leftdoor" draggable="false">
-			<img src="img/buttons/Door_Ropen.gif" id="rightdoor" draggable="false">
+			<img src="img/buttons/Door_Lclose.gif" id="leftdoor" draggable="false">
+			<img src="img/buttons/Door_Rclose.gif" id="rightdoor" draggable="false">
 			<img src="img/background/office.png" id="officebg" draggable="false">
 			<img src="img/background/officelightsleft.png" id="officelights1" draggable="false">
 			<img src="img/background/officelightsright.png" id="officelights2" draggable="false">

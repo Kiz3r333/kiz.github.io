@@ -170,7 +170,7 @@ body {
     z-index: 100;
 }
 
-#cam,#static{
+#cam,#static,#brokenoverlay{
     position: absolute;
     width: 107%;
     top: 7%;
@@ -183,6 +183,7 @@ body {
     position: static;
     visibility: hidden;
     width: 114%;
+    filter: grayscale(84%) brightness(263%) contrast(229%);
 }
 
 #camchar{
@@ -193,12 +194,18 @@ body {
     top: 6%;
 }
 
-#static{
+#static,#brokenoverlay{
     z-index: 4;
     opacity: 70%;
     width: 91.5%;
     height: 84.5%;
     top: 8%;
+}
+
+#brokenoverlay{
+    z-index: 1;
+    display: none;
+    opacity: 70%;
 }
 
 #map{
@@ -221,56 +228,64 @@ body {
     left: 72%;
     top: 42%;
     filter: grayscale(0);
+    display: none;
 }
 
 #cam1b{
-    left: 70%;
-    top: 50%;
+    left: 77.5%;
+    top: 60%;
 }
 
 #cam1c{
-    left: 68%;
-    top: 62%;
+    left: 69.7%;
+    top: 69%;
 }
 
 #cam2a{
     left: 72%;
     top: 78%;
+    display: none;
 }
 
 #cam2b{
     left: 72%;
     top: 84%;
+    display: none;
 }
 
 #cam3{
     left: 67%;
     top: 74%;
+    display: none;
 }
 
 #cam4a{
     left: 80%;
     top: 78%;
+    display: none;
 }
 
 #cam4b{
     left: 80%;
     top: 84%;
+    display: none;
 }
 
 #cam5{
-    left: 63%;
-    top: 54%;
+    left: 75%;
+    top: 47%;
 }
 
 #cam6{
     left: 89%;
     top: 73%;
+    display: none;
 }
 
 #cam7{
     left: 89%;
     top: 54%;
+    display: none;
 }
 
 #camtxt{
@@ -622,11 +637,38 @@ body {
     left: 38%;
 }
 
-#character1{
+#character1,#character3{
     position: absolute;
     left: 34%;
     top: 13%;
     width: 33%;
     z-index: 0;
     visibility: hidden;
+    filter: grayscale(80%) brightness(0.4);
+    pointer-events: none;
+}
+
+#character3{
+    left: 44%;
+    top: 18%;
+    width: 33%;
+}
+
+#pizzabtn{
+    position: absolute;
+    width: 13%;
+    z-index: 3;
+    left: 5%;
+    top: 70%;
+    display: none;
+}
+
+#owo{
+    position: absolute;
+    width: 10%;
+    z-index: -3;
+    left: 6%;
+    top: 35%;
+    display: none;
+    filter: drop-shadow(0 0 0 cyan);
 }
