@@ -1041,11 +1041,6 @@ function daystart(night){
 		currenttime = 0;
 		lightbreakleft=11-currentnight;
 		lightbreakright=11-currentnight;
-		setTimeout(() => {
-		    for (var i = 0; i < timeouts.length; i++) {
-		        clearTimeout(timeouts[i]);
-		    }
-		}, 100)
 		camera.checked=false;
 		light1.checked = false;
 		light2.checked = false;
