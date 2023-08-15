@@ -272,6 +272,7 @@ function cameraopenw(){
 		officelights2.style.display="none";
 		camerabg.style.visibility="visible";
 		ryanoffice.style.visibility="hidden";
+		joeyoffice.style.visibility="hidden";
 		if (camera.checked==false) {
 			usagenum++;
 			changeVolume("BallastHumMedium2",0);
@@ -456,6 +457,12 @@ function tick(){
 		kitchendelay=true;
 		kitchenSound();
 	}
+	if (character1cam!="6" && character2cam!="6") {
+		changeVolume("OVEN-DRA_1_GEN-HDF18119",0);
+		changeVolume("OVEN-DRA_2_GEN-HDF18120",0);
+		changeVolume("OVEN-DRA_7_GEN-HDF18121",0);
+		changeVolume("OVEN-DRAWE_GEN-HDF18122",0);
+	}
 }
 
 function loadme(){
@@ -609,6 +616,7 @@ function lightbtn(direction) {
 				officelights1.style.display="none";
 				officelights2.style.display="none";
 				ryanoffice.style.visibility="hidden";
+				joeyoffice.style.visibility="hidden";
 			}
 		}else{
 			if (deathdelay==false) {
@@ -623,6 +631,7 @@ function lightbtn(direction) {
 						playSound("BallastHumMedium2",true);
 						rightlight.src="img/buttons/rightlighton.png";
 						officelights2.style.display="block";
+						joeyoffice.style.visibility="visible";
 					}else{
 						playSound("error",false);
 					}
@@ -639,6 +648,7 @@ function lightbtn(direction) {
 					officelights1.style.display="none";
 					officelights2.style.display="none";
 					ryanoffice.style.visibility="hidden";
+					joeyoffice.style.visibility="hidden";
 				}
 			}else{
 				playSound("error",false);
@@ -1068,6 +1078,7 @@ function daystart(night){
 		owo.style.display="none";
 		ryanoffice.style.display="none";
 		ryanoffice.style.visibility="hidden";
+		joeyoffice.style.visibility="hidden";
 		fire.style.display="none";
 		fire.style.opacity="0%";
 		changeVolume("CrumblingDreams",0.01);
@@ -1089,21 +1100,17 @@ function daystart(night){
 		changeVolume("EerieAmbienceLargeSca_MV005",0.01);
 		ryanMove();
 		joeyMove();
-		console.log(currentnight);
 		switch (currentnight){
 			case 1:
 			case "1":
-				console.log("1");
 				playSound("1VO",false);
 				break;
 			case 2:
 			case "2":
-				console.log("2");
 				playSound("2VO",false);
 				break;
 			case 3:
 			case "3":
-				console.log("3");
 				playSound("3VO",false);
 				break;
 		}
@@ -1717,6 +1724,7 @@ function joeyMove(){
 	var y2=10000-currentnight*2000;
 	var y = Math.floor(Math.random() * y1)+y2;
 	var z = Math.floor(Math.random() * 10000-currentnight*1000)+40000-currentnight*2000;
+	console.log(y);
 	switch(character2cam){
 		case "1b":
 			if (x<2) {
@@ -1761,6 +1769,7 @@ function joeyMove(){
 						changecam(currentcam);
 					}
 					joeyoffice.style.display="block";
+					console.log(z);
 				}, y);
 				timeoutID = setTimeout(() => {
 					joeyoffice.style.display="none";
