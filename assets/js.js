@@ -678,7 +678,9 @@ function outofpower(){
 	playSound("powerdown",false);
 	windnumb=1000000;
 	txtUI.style.display="none";
-	fire.style.display="none";
+	if (Math.trunc(currenttime/800)>3 && currentnight==3) {
+		playSound("fire",true);
+	}
 	officerepeatsrc="beans";
 	officebg.src="img/background/office2.png";
 	lightbreakright=-1;
@@ -870,7 +872,6 @@ function timecount() {
 		setTimeout(() => {
 			fire.style.display="block";
 			playSound("fire",true);
-			fire.style.opacity="70%";
 			if (lightbreakleft>1) {
 				lightbreakleft=1;
 			}
@@ -878,6 +879,9 @@ function timecount() {
 				lightbreakright=1;
 			}
 		}, "97000");
+		setTimeout(() => {
+			fire.style.opacity="70%";
+		}, "97100");
 	}
 	amtime.innerHTML= x + " AM";
 }
@@ -1373,6 +1377,9 @@ function spawnowo(){
 					clearInterval(glowinterval);
 					stopSound();
 					playSound("Buzz_Fan_Florescent2",false);
+					if (Math.trunc(currenttime/800)>3 && currentnight==3) {
+						playSound("fire",true);
+					}
 				}
 			}, y);
 			setTimeout(() => {
@@ -1402,6 +1409,8 @@ function spawnowo(){
 			setTimeout(() => {
 				if (currenttime<4800) {
 					office.style.display="none";
+					fire.style.display="none";
+					changeVolume("fire",0);
 					changeVolume("Buzz_Fan_Florescent2",0);
 					officemovetrigger1.style.display="none";
 					officemovetrigger11.style.display="none";
