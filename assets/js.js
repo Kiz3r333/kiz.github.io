@@ -102,6 +102,8 @@ var kizdeathtoggle=false;
 var deathdelay=false;
 var votest=false;
 var star=false;
+var windowleft=false;
+var windowright=false;
 
 function getCookie(name) {
   const value = `; ${document.cookie}`;
@@ -248,6 +250,7 @@ function preload() {
 		["sfx/goop2.wav", "audio"],
 		["sfx/squeak.wav", "audio"],
 		["sfx/fire.wav", "audio"],
+		["sfx/windowscare.wav", "audio"],
 		["sfx/ariamath.wav", "audio"]
     ];
 
@@ -600,6 +603,10 @@ function lightbtn(direction) {
 					leftlight.src="img/buttons/Leftlighton.png";
 					officelights1.style.display="block";
 					ryanoffice.style.visibility="visible";
+					if (character1cam=="office" && windowleft==false) {
+						playSound("windowscare",false);
+						windowleft=true;
+					}
 				}else{
 					playSound("error",false);
 				}
@@ -632,6 +639,10 @@ function lightbtn(direction) {
 						rightlight.src="img/buttons/rightlighton.png";
 						officelights2.style.display="block";
 						joeyoffice.style.visibility="visible";
+						if (character2cam=="office" && windowright==false) {
+							playSound("windowscare",false);
+							windowright=true;
+						}
 					}else{
 						playSound("error",false);
 					}
@@ -1028,6 +1039,8 @@ function daystart(night){
 		kizdeathtoggle=false;
 		deathdelay=false;
 		votest=false;
+		windowleft=false;
+		windowright=false;
 		slug.style.display="none";
 		slug.style.left="-25%";
 		slug.style.top="-64%";
@@ -1703,6 +1716,7 @@ function ryanMove(){
 					character1.style.top="13%";
 					character1.style.width="33%";
 					character1.style.transform = "rotate(0deg)";
+					windowleft=false;
 					ryanMove();
 				}else{
 					deathdelay=true;
@@ -1775,7 +1789,12 @@ function joeyMove(){
 					joeyoffice.style.display="none";
 					if (door2.checked==true) {
 						character2cam="1b";
+						character2.style.left="68%";
+						character2.style.top="33%";
+						character2.style.width="31%";
+						character2.style.transform = "rotate(0deg)";
 						joeyMove();
+						windowright=false;
 					}else{
 						deathdelay=true;
 						changeVolume("BallastHumMedium2",0);
