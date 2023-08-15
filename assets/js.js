@@ -247,6 +247,7 @@ function preload() {
 		["sfx/2VO.wav", "audio"],
 		["sfx/3VO.wav", "audio"],
 		["sfx/4VO.wav", "audio"],
+		["sfx/5VO.wav", "audio"],
 		["sfx/goop.wav", "audio"],
 		["sfx/goop2.wav", "audio"],
 		["sfx/squeak.wav", "audio"],
@@ -870,7 +871,7 @@ function timecount() {
 	if (x==3 && currentnight==3 && votest==false) {
 		playSound("4VO",false);
 		votest=true;
-		setTimeout(() => {
+		const timeout13 = setTimeout(() => {
 			fire.style.display="block";
 			playSound("fire",true);
 			if (lightbreakleft>1) {
@@ -881,6 +882,7 @@ function timecount() {
 			}
 		}, "97000");
 		setTimeout(() => {
+		timeouts.push(timeout13);
 			fire.style.opacity="70%";
 		}, "97100");
 	}
@@ -936,6 +938,9 @@ function startnight(night) {
 function fadewarning(timerout){
 	warning.removeAttribute("onclick");
 	warning.style.opacity="0%";
+	for (var i = 0; i < timeouts.length; i++) {
+        clearTimeout(timeouts[i]);
+    }
 	setTimeout(() => {
 		continuenight.innerHTML="Night " + currentnight;
 		menu.style.display="block";
@@ -945,7 +950,7 @@ function fadewarning(timerout){
   		}
   		playSound("darkness music",true);
   		playSound("static",false);
-  		if (star==true) {
+  		if (star) {
   			starpng.style.display="block";
   		}
 	}, timerout);
@@ -1137,6 +1142,10 @@ function daystart(night){
 			case 3:
 			case "3":
 				playSound("3VO",false);
+				break;
+			case 4:
+			case "4":
+				playSound("5VO",false);
 				break;
 		}
 	}, "7000");
