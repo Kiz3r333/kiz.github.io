@@ -104,6 +104,7 @@ var votest=false;
 var star=false;
 var windowleft=false;
 var windowright=false;
+const timeouts = [];
 
 function getCookie(name) {
   const value = `; ${document.cookie}`;
@@ -933,6 +934,11 @@ function startnight(night) {
 }
 
 function fadewarning(timerout){
+	setTimeout(() => {
+    for (var i = 0; i < timeouts.length; i++) {
+        clearTimeout(timeouts[i]);
+    }
+	}, 100)
 	warning.removeAttribute("onclick");
 	warning.style.opacity="0%";
 	setTimeout(() => {
@@ -1035,6 +1041,11 @@ function daystart(night){
 		currenttime = 0;
 		lightbreakleft=11-currentnight;
 		lightbreakright=11-currentnight;
+		setTimeout(() => {
+		    for (var i = 0; i < timeouts.length; i++) {
+		        clearTimeout(timeouts[i]);
+		    }
+		}, 100)
 		camera.checked=false;
 		light1.checked = false;
 		light2.checked = false;
@@ -1666,15 +1677,16 @@ function ryanMove(){
 	switch(character1cam){
 		case "1b":
 			if (x==2) {
-				setTimeout(() => {
+				const timeout0 = setTimeout(() => {
 					character1cam="6";
 					if (currentcam==character1cam && camera.checked==true || currentcam=="1b" && camera.checked==true) {
 						changecam(currentcam);
 					}
 					ryanMove();
 				}, y);
+				timeouts.push(timeout0);
 			}else{
-				setTimeout(() => {
+				const timeout1 = setTimeout(() => {
 					character1cam="5";
 					if (currentcam==character1cam && camera.checked==true || currentcam=="1b" && camera.checked==true) {
 						changecam(currentcam);
@@ -1685,10 +1697,11 @@ function ryanMove(){
 					character1.style.transform = "rotate(0deg)";
 					ryanMove();
 				}, y);
+				timeouts.push(timeout1);
 			}
 			break;
 		case "6":
-			setTimeout(() => {
+			const timeout2 = setTimeout(() => {
 				character1cam="1b";
 				if (currentcam==character1cam && camera.checked==true || currentcam=="6" && camera.checked==true) {
 					changecam(currentcam);
@@ -1699,10 +1712,11 @@ function ryanMove(){
 				character1.style.transform = "rotate(0deg)";
 				ryanMove();
 			}, y);
+			timeouts.push(timeout2);
 			break;
 		case "5":
 			if (x==2) {
-				setTimeout(() => {
+				const timeout3 = setTimeout(() => {
 					character1cam="1b";
 					if (currentcam==character1cam && camera.checked==true || currentcam=="5" && camera.checked==true) {
 						changecam(currentcam);
@@ -1713,8 +1727,9 @@ function ryanMove(){
 					character1.style.transform = "rotate(0deg)";
 					ryanMove();
 				}, y);
+				timeouts.push(timeout3);
 			}else{
-				setTimeout(() => {
+				const timeout4 = setTimeout(() => {
 					character1cam="1c";
 					if (currentcam==character1cam && camera.checked==true || currentcam=="5" && camera.checked==true) {
 						changecam(currentcam);
@@ -1725,17 +1740,19 @@ function ryanMove(){
 					character1.style.transform = "rotate(21deg)";
 					ryanMove();
 				}, y);
+				timeouts.push(timeout4);
 			}
 			break;
 		case "1c":
-			timeoutID = setTimeout(() => {
+			const timeout5 = setTimeout(() => {
 				character1cam="office";
 				if (currentcam=="1c" && camera.checked==true) {
 					changecam(currentcam);
 				}
 				ryanoffice.style.display="block";
 			}, y);
-			timeoutID = setTimeout(() => {
+			timeouts.push(timeout5);
+			const timeout6 = setTimeout(() => {
 				ryanoffice.style.display="none";
 				if (door1.checked==true) {
 					character1cam="1b";
@@ -1755,6 +1772,7 @@ function ryanMove(){
 					}
 				}
 			}, y+z);
+			timeouts.push(timeout6);
 			break;
 	}
 }
@@ -1765,19 +1783,19 @@ function joeyMove(){
 	var y2=10000-currentnight*2000;
 	var y = Math.floor(Math.random() * y1)+y2;
 	var z = Math.floor(Math.random() * 10000-currentnight*1000)+40000-currentnight*2000;
-	console.log(y);
 	switch(character2cam){
 		case "1b":
 			if (x<2) {
-				setTimeout(() => {
+				const timeout7 = setTimeout(() => {
 					character2cam="6";
 					if (currentcam==character2cam && camera.checked==true || currentcam=="1b" && camera.checked==true) {
 						changecam(currentcam);
 					}
 					joeyMove();
 				}, y);
+				timeouts.push(timeout7);
 			}else{
-				setTimeout(() => {
+				const timeout8 = setTimeout(() => {
 					character2cam="5";
 					if (currentcam==character2cam && camera.checked==true || currentcam=="1b" && camera.checked==true) {
 						changecam(currentcam);
@@ -1788,11 +1806,12 @@ function joeyMove(){
 					character2.style.transform = "rotate(0deg)";
 					joeyMove();
 				}, y);
+				timeouts.push(timeout8);
 			}
 			break;
 		case "6":
 			if (x<2) {
-				timeoutID = setTimeout(() => {
+				const timeout9 = setTimeout(() => {
 					character2cam="1b";
 					if (currentcam==character2cam && camera.checked==true || currentcam=="6" && camera.checked==true) {
 						changecam(currentcam);
@@ -1803,16 +1822,17 @@ function joeyMove(){
 					character2.style.transform = "rotate(0deg)";
 					joeyMove();
 				}, y);
+				timeouts.push(timeout9);
 			}else{
-				timeoutID = setTimeout(() => {
+				const timeout10 = setTimeout(() => {
 					character2cam="office";
 					if (currentcam=="6" && camera.checked==true) {
 						changecam(currentcam);
 					}
 					joeyoffice.style.display="block";
-					console.log(z);
 				}, y);
-				timeoutID = setTimeout(() => {
+				timeouts.push(timeout10);
+				const timeout11 = setTimeout(() => {
 					joeyoffice.style.display="none";
 					if (door2.checked==true) {
 						character2cam="1b";
@@ -1832,10 +1852,11 @@ function joeyMove(){
 						}
 					}
 				}, y+z);
+				timeouts.push(timeout11);
 				}
 			break;
 		case "5":
-			setTimeout(() => {
+			const timeout12 = setTimeout(() => {
 				character2cam="1b";
 				if (currentcam==character2cam && camera.checked==true || currentcam=="5" && camera.checked==true) {
 					changecam(currentcam);
@@ -1846,6 +1867,7 @@ function joeyMove(){
 				character2.style.transform = "rotate(0deg)";
 				joeyMove();
 			}, y);
+			timeouts.push(timeout12);
 			break;
 	}
 }
