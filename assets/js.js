@@ -409,9 +409,9 @@ function cameraopenw(){
 			for(i = 0; i < lines.length; i++) {
   			  lines[i].style.visibility="hidden";
   			}
+  			camera.checked = false;
 			timeoutID = setTimeout(() => {
 			  	camerabg.style.visibility="hidden";
-			  	camera.checked = false;
 			  	if(deathdelay==true){
 					furrydeath();
 				}
@@ -731,9 +731,9 @@ function outofpower(){
 	camerabutton.style.display="none";
 	if (camera.checked) {
 		camerabg.src="img/monitorclose.gif";
+		camera.checked = false;
 		setTimeout(() => {
 		  camerabg.style.visibility="hidden";
-		  camera.checked = false;
 		}, "220");
 	}
 }
@@ -934,11 +934,6 @@ function startnight(night) {
 }
 
 function fadewarning(timerout){
-	setTimeout(() => {
-    for (var i = 0; i < timeouts.length; i++) {
-        clearTimeout(timeouts[i]);
-    }
-	}, 100)
 	warning.removeAttribute("onclick");
 	warning.style.opacity="0%";
 	setTimeout(() => {
@@ -1053,6 +1048,9 @@ function daystart(night){
 		votest=false;
 		windowleft=false;
 		windowright=false;
+		for (var i = 0; i < timeouts.length; i++) {
+    	    clearTimeout(timeouts[i]);
+    	}
 		slug.style.display="none";
 		slug.style.left="-25%";
 		slug.style.top="-64%";
@@ -1123,8 +1121,10 @@ function daystart(night){
 		changeVolume("Buzz_Fan_Florescent2",0.4);
 		changeVolume("CrumblingDreams",0.01);
 		changeVolume("EerieAmbienceLargeSca_MV005",0.01);
-		ryanMove();
-		joeyMove();
+		setTimeout(() => {	
+			ryanMove();
+			joeyMove();
+		}, "100");
 		switch (currentnight){
 			case 1:
 			case "1":
@@ -1601,7 +1601,7 @@ function changeofficesrc(){
 }
 
 function kizzydeath(){
-	if (kizdeathtoggle==false) {
+	if (kizdeathtoggle==false && currenttime<4800) {
 		kizdeathtoggle=true;
 		slug.style.display="none";
 		lightbreakright=-1;
@@ -1639,9 +1639,9 @@ function kizzydeath(){
 		if (camera.checked) {
 			playSound("put down",false);
 			camerabg.src="img/monitorclose.gif";
+			camera.checked = false;
 			setTimeout(() => {
 			  camerabg.style.visibility="hidden";
-			  camera.checked = false;
 			}, "220");
 		}
 		setTimeout(() => {
