@@ -457,7 +457,7 @@ function tick(){
 	}
 	movecameras();
 	updateUsage();
-	if (character1cam=="6" && kitchendelay==false && currentcam=="6" || character2cam=="6" && kitchendelay==false && currentcam=="6") {
+	if (character1cam=="6" && kitchendelay==false && currentcam=="6" && camera.checked==true || character2cam=="6" && kitchendelay==false && currentcam=="6" && camera.checked==true) {
 		kitchendelay=true;
 		kitchenSound();
 	}
@@ -1352,7 +1352,7 @@ function spawnowo(){
 	var x=1;
 	var y;
 	var z;
-	if (owotoggle==false) {
+	if (owotoggle==false && currenttime<4800) {
 		x=Math.floor(Math.random() * 150);
 		if (x==0) {
 			y = Math.floor(Math.random()*40000)+10000;
@@ -1368,53 +1368,69 @@ function spawnowo(){
   				owo.style.filter = `drop-shadow(0 0 ${shadowStrength}vh cyan)`;
 			}, 10);
 			setTimeout(() => {
-				owo.style.display="none";
-				clearInterval(glowinterval);
-				stopSound();
-				playSound("Buzz_Fan_Florescent2",false);
+				if (currenttime<4800) {
+					owo.style.display="none";
+					clearInterval(glowinterval);
+					stopSound();
+					playSound("Buzz_Fan_Florescent2",false);
+				}
 			}, y);
 			setTimeout(() => {
-				owo.style.display="block";
+				if (currenttime<4800) {
+					owo.style.display="block";
+				}
 			}, y+100);
 			setTimeout(() => {
-				office.style.display="none";
-				owo.style.display="none";
-				changeVolume("Buzz_Fan_Florescent2",0.01);
+				if (currenttime<4800) {
+					office.style.display="none";
+					owo.style.display="none";
+					changeVolume("Buzz_Fan_Florescent2",0.01);
+				}
 			}, y+200);
 			setTimeout(() => {
-				owo.style.display="block";
+				if (currenttime<4800) {
+					owo.style.display="block";
+				}
 			}, y+250);
 			setTimeout(() => {
-				owo.style.display="none";
-				office.style.display="block";
-				changeVolume("Buzz_Fan_Florescent2",1);
+				if (currenttime<4800) {
+					owo.style.display="none";
+					office.style.display="block";
+					changeVolume("Buzz_Fan_Florescent2",1);
+				}
 			}, y+320);
 			setTimeout(() => {
-				office.style.display="none";
-				changeVolume("Buzz_Fan_Florescent2",0);
-				officemovetrigger1.style.display="none";
-				officemovetrigger11.style.display="none";
-				officemovetrigger111.style.display="none";
-				officemovetrigger2.style.display="none";
-				officemovetrigger22.style.display="none";
-				officemovetrigger222.style.display="none";
-				buttontrigger1.style.display="none";
-				lighttrigger1.style.display="none";
-				buttontrigger2.style.display="none";
-				lighttrigger2.style.display="none";
-				freddyboop.style.display="none";
-				camchar.style.display="none";
+				if (currenttime<4800) {
+					office.style.display="none";
+					changeVolume("Buzz_Fan_Florescent2",0);
+					officemovetrigger1.style.display="none";
+					officemovetrigger11.style.display="none";
+					officemovetrigger111.style.display="none";
+					officemovetrigger2.style.display="none";
+					officemovetrigger22.style.display="none";
+					officemovetrigger222.style.display="none";
+					buttontrigger1.style.display="none";
+					lighttrigger1.style.display="none";
+					buttontrigger2.style.display="none";
+					lighttrigger2.style.display="none";
+					freddyboop.style.display="none";
+					camchar.style.display="none";
+				}
 			}, y+400);
 			setTimeout(() => {
-				playSound("deep steps",false);
+				if (currenttime<4800) {
+					playSound("deep steps",false);
+				}
 			}, y+1400);
 			setTimeout(() => {
-				stopSound();
-				jumpscare.style.display="block";
-				jumpscare.src="img/background/ryanjump.gif";
-				playSound("squeak",false);
-				clearInterval(tickinterval);
-				fadewarning(1000);
+				if (currenttime<4800) {
+					stopSound();
+					jumpscare.style.display="block";
+					jumpscare.src="img/background/ryanjump.gif";
+					playSound("squeak",false);
+					clearInterval(tickinterval);
+					fadewarning(1000);
+				}
 			}, y+400+z);
 			setTimeout(() => {
 				jumpscare.style.display="none";
@@ -1826,7 +1842,7 @@ function joeyMove(){
 }
 
 function furrydeath(){
-	if (deathdelay==true) {
+	if (deathdelay==true && currenttime<4800) {
 		deathdelay=false;
 		stopSound();
 		jumpscare.style.display="block";
