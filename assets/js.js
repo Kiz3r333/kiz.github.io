@@ -68,6 +68,9 @@ var lampright = document.getElementById("lampright");
 var slug = document.getElementById("slug");
 var ryanoffice = document.getElementById("ryanoffice");
 var camerabutton = document.getElementById("camerabutton");
+var myVideo = document.getElementById("myVideo");
+var fire = document.getElementById("fire");
+var starpng = document.getElementById("starpng");
 var officedistance = -25;
 var cameradistance = -25;
 var intervalId = null;
@@ -97,6 +100,8 @@ var officerepeatsrc=true;
 var timeoutID;
 var kizdeathtoggle=false;
 var deathdelay=false;
+var votest=false;
+var star=false;
 
 function getCookie(name) {
   const value = `; ${document.cookie}`;
@@ -105,6 +110,7 @@ function getCookie(name) {
 }
 
 currentnight = getCookie("currentnight");
+star = getCookie("star");
 
 if (currentnight === undefined){
 	currentnight = 1;
@@ -212,6 +218,8 @@ function preload() {
 		["img/background/kizjump.gif", "image"],
 		["img/background/ryanjump.gif", "image"],
 		["img/camera/slug.gif", "image"],
+		["img/background/fire.gif", "image"],
+		["img/menu/star.png", "image"],
 		["sfx/BallastHumMedium2.wav", "audio"],
 		["sfx/MiniDV_Tape_Eject_1.wav", "audio"],
 		["sfx/CAMERA_VIDEO_LOA_60105303.wav", "audio"],
@@ -232,10 +240,14 @@ function preload() {
 		["sfx/changebulb.wav", "audio"],
 		["sfx/enter.wav", "audio"],
 		["sfx/fall.wav", "audio"],
-		["sfx/finalVO.wav", "audio"],
+		["sfx/1VO.wav", "audio"],
+		["sfx/2VO.wav", "audio"],
+		["sfx/3VO.wav", "audio"],
+		["sfx/4VO.wav", "audio"],
 		["sfx/goop.wav", "audio"],
 		["sfx/goop2.wav", "audio"],
 		["sfx/squeak.wav", "audio"],
+		["sfx/fire.wav", "audio"],
 		["sfx/ariamath.wav", "audio"]
     ];
 
@@ -644,6 +656,7 @@ function outofpower(){
 	playSound("powerdown",false);
 	windnumb=1000000;
 	txtUI.style.display="none";
+	fire.style.display="none";
 	officerepeatsrc="beans";
 	officebg.src="img/background/office2.png";
 	lightbreakright=-1;
@@ -828,6 +841,15 @@ function timecount() {
 	if (x==0) {
 		x=12;
 	}
+	if (x==3 && currentnight==3 && votest==false) {
+		playSound("4VO",false);
+		votest=true;
+		setTimeout(() => {
+			fire.style.display="block";
+			playSound("fire",true);
+			fire.style.opacity="70%";
+		}, "97000");
+	}
 	amtime.innerHTML= x + " AM";
 }
 
@@ -889,17 +911,34 @@ function fadewarning(timerout){
   		}
   		playSound("darkness music",true);
   		playSound("static",false);
+  		if (star==true) {
+  			starpng.style.display="block";
+  		}
 	}, timerout);
 }
 
 function checkloading(){
-	if (loadma == true) {
-		daystart(currentnight);
+	if (currentnight==1 && videned==false) {
+		myVideo.style.display="block";
+		myVideo.play();
 	}else{
-		setTimeout(() => {
-			checkloading();
-		}, "1000");
+		myVideo.style.display="none";
+		if (loadma == true) {
+			daystart(currentnight);
+		}else{
+			setTimeout(() => {
+				videned = false;
+				checkloading();
+			}, "1000");
+		}
 	}
+}
+
+myVideo.addEventListener('ended',myHandler,false);
+var videned = false;
+function myHandler() {
+	videned = true;
+	checkloading();
 }
 
 function daystart(night){
@@ -972,6 +1011,7 @@ function daystart(night){
 		officerepeatsrc=true;
 		kizdeathtoggle=false;
 		deathdelay=false;
+		votest=false;
 		slug.style.display="none";
 		slug.style.left="-25%";
 		slug.style.top="-64%";
@@ -1021,6 +1061,8 @@ function daystart(night){
 		owo.style.display="none";
 		ryanoffice.style.display="none";
 		ryanoffice.style.visibility="hidden";
+		fire.style.display="none";
+		fire.style.opacity="0%";
 		changeVolume("CrumblingDreams",0.01);
 		amtime.style.display="block";
 		nighttime.style.display="block";
@@ -1040,6 +1082,24 @@ function daystart(night){
 		changeVolume("EerieAmbienceLargeSca_MV005",0.01);
 		ryanMove();
 		joeyMove();
+		console.log(currentnight);
+		switch (currentnight){
+			case 1:
+			case "1":
+				console.log("1");
+				playSound("1VO",false);
+				break;
+			case 2:
+			case "2":
+				console.log("2");
+				playSound("2VO",false);
+				break;
+			case 3:
+			case "3":
+				console.log("3");
+				playSound("3VO",false);
+				break;
+		}
 	}, "7000");
 }
 
@@ -1074,8 +1134,13 @@ function dayend(){
 		expirationDate.setFullYear(expirationDate.getFullYear() + 1);
 		
 		document.cookie = `currentnight=${currentnight}; expires=${expirationDate.toUTCString()}; path=/`;
-
-		daystart(currentnight);
+		if (currentnight!=4) {
+			daystart(currentnight);
+		}else{
+			star=true;
+			document.cookie = `star=${star}; expires=${expirationDate.toUTCString()}; path=/`;
+			fadewarning(1000);
+		}
 	}, "16000");
 }
 

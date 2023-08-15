@@ -376,11 +376,12 @@ body {
 
 #menucharacter{
     position: absolute;
-    width: 100%;
-    top: 0;
-    left: 0;
+    width: 80%;
+    top: -4%;
+    left: 30%;
     z-index: -2;
     pointer-events: none;
+    filter: invert(1);
 }
 
 #menu{
@@ -746,4 +747,31 @@ body {
 #joeyoffice{
     top: 35%;
     left: 83%;
+}
+
+#myVideo{
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    display: none;
+}
+
+#fire{
+    position: absolute;
+    display: none;
+    top: 0%;
+    left: 0%;
+    width: 100%;
+    opacity: 0%;
+    pointer-events: none;
+    transition: opacity 60s;
+}
+
+#starpng{
+    position: absolute;
+    display: none;
+    top: 11%;
+    left: 36%;
+    width: 5%;
 }
