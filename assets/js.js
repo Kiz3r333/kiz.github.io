@@ -403,7 +403,7 @@ function cameraopenw(){
 			for(i = 0; i < lines.length; i++) {
   			  lines[i].style.visibility="hidden";
   			}
-			setTimeout(() => {
+			timeoutID = setTimeout(() => {
 			  	camerabg.style.visibility="hidden";
 			  	camera.checked = false;
 			  	if(deathdelay==true){
@@ -848,6 +848,12 @@ function timecount() {
 			fire.style.display="block";
 			playSound("fire",true);
 			fire.style.opacity="70%";
+			if (lightbreakleft>1) {
+				lightbreakleft=1;
+			}
+			if (lightbreakright>1) {
+				lightbreakright=1;
+			}
 		}, "97000");
 	}
 	amtime.innerHTML= x + " AM";
@@ -1025,6 +1031,7 @@ function daystart(night){
 		rightlight.src="img/buttons/rightlight.png";
 		character3.src="img/camera/box_frame_1.png";
 		game.style.pointerEvents= "auto";
+		clearTimeout(timeoutID);
 		camerassets.style.display="none";
 		cam.style.visibility="hidden";
 		camerabg.style.visibility="hidden";
@@ -1674,14 +1681,14 @@ function ryanMove(){
 			}
 			break;
 		case "1c":
-			setTimeout(() => {
+			timeoutID = setTimeout(() => {
 				character1cam="office";
 				if (currentcam=="1c" && camera.checked==true) {
 					changecam(currentcam);
 				}
 				ryanoffice.style.display="block";
 			}, y);
-			setTimeout(() => {
+			timeoutID = setTimeout(() => {
 				ryanoffice.style.display="none";
 				if (door1.checked==true) {
 					character1cam="1b";
@@ -1736,7 +1743,7 @@ function joeyMove(){
 			break;
 		case "6":
 			if (x<2) {
-				setTimeout(() => {
+				timeoutID = setTimeout(() => {
 					character2cam="1b";
 					if (currentcam==character2cam && camera.checked==true || currentcam=="6" && camera.checked==true) {
 						changecam(currentcam);
@@ -1748,14 +1755,14 @@ function joeyMove(){
 					joeyMove();
 				}, y);
 			}else{
-				setTimeout(() => {
+				timeoutID = setTimeout(() => {
 					character2cam="office";
 					if (currentcam=="6" && camera.checked==true) {
 						changecam(currentcam);
 					}
 					joeyoffice.style.display="block";
 				}, y);
-				setTimeout(() => {
+				timeoutID = setTimeout(() => {
 					joeyoffice.style.display="none";
 					if (door2.checked==true) {
 						character2cam="1b";
