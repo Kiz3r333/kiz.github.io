@@ -295,6 +295,7 @@ function cameraopenw(){
 			lighttrigger1.style.display="none";
 			buttontrigger2.style.display="none";
 			lighttrigger2.style.display="none";
+			slug.style.display="none";
 			camera.checked = true;
 			setTimeout(() => {
 				static.style.removeProperty('transition');
@@ -788,6 +789,7 @@ function changecam(camnmb){
 	}else{
 		brokenoverlay.style.display="none";
 	}
+	slug.style.display="none";
 	if (windnumb<=-1000 && camnmb=="1c") {
 		slug.style.display="block";
 		cameratrigger.style.display="none";
@@ -1824,21 +1826,24 @@ function joeyMove(){
 }
 
 function furrydeath(){
-	stopSound();
-	jumpscare.style.display="block";
-	if (character1cam=="office") {
-		jumpscare.src="img/background/ryanjump.gif";
-	}else{
-		jumpscare.src="img/background/joeyjump.gif";
+	if (deathdelay==true) {
+		deathdelay=false;
+		stopSound();
+		jumpscare.style.display="block";
+		if (character1cam=="office") {
+			jumpscare.src="img/background/ryanjump.gif";
+		}else{
+			jumpscare.src="img/background/joeyjump.gif";
+		}
+		playSound("squeak",false);
+		clearInterval(tickinterval);
+		fadewarning(1000);
+		setTimeout(() => {
+			game.style.display="none";
+			jumpscare.style.display="none";
+			jumpscare.src="";
+		}, 1000);
 	}
-	playSound("squeak",false);
-	clearInterval(tickinterval);
-	fadewarning(1000);
-	setTimeout(() => {
-		game.style.display="none";
-		jumpscare.style.display="none";
-		jumpscare.src="";
-	}, 1000);
 }
 
 console.log("ඞ");
