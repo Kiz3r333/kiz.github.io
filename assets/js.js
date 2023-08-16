@@ -455,7 +455,7 @@ function tick(){
 			cameramovedelay--;
 		}
 	}
-	if (currenttime<100) {
+	if (currenttime<4800) {
 		timecount();
 	}else{
 		clearInterval(tickinterval);
