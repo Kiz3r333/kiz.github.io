@@ -71,6 +71,7 @@ var camerabutton = document.getElementById("camerabutton");
 var myVideo = document.getElementById("myVideo");
 var fire = document.getElementById("fire");
 var starpng = document.getElementById("starpng");
+var starnumber = document.getElementById("starnumber");
 var officedistance = -25;
 var cameradistance = -25;
 var intervalId = null;
@@ -105,6 +106,7 @@ var star=false;
 var windowleft=false;
 var windowright=false;
 const timeouts = [];
+var nighthighscore=1;
 
 function getCookie(name) {
   const value = `; ${document.cookie}`;
@@ -114,11 +116,14 @@ function getCookie(name) {
 
 currentnight = getCookie("currentnight");
 star = getCookie("star");
+nighthighscore = getCookie("nighthighscore");
 
 if (currentnight === undefined){
 	currentnight = 1;
 }
-
+if (nighthighscore === undefined || nighthighscore == undefined || nighthighscore === "undefined" || nighthighscore == "undefined"){
+	nighthighscore = 1;
+}
 document.addEventListener('contextmenu', event => event.preventDefault());
 
 var mediaFiles = [];
@@ -450,7 +455,7 @@ function tick(){
 			cameramovedelay--;
 		}
 	}
-	if (currenttime<4800) {
+	if (currenttime<100) {
 		timecount();
 	}else{
 		clearInterval(tickinterval);
@@ -952,6 +957,11 @@ function fadewarning(timerout){
   		playSound("static",false);
   		if (star) {
   			starpng.style.display="block";
+  			console.log(nighthighscore);
+  			if (nighthighscore>=4) {
+  				starnumber.style.display="block";
+  				starnumber.innerHTML=nighthighscore;
+  			}
   		}
 	}, timerout);
 }
@@ -1177,12 +1187,16 @@ function dayend(){
 		survived6div.style.display="none";
 		survived5.style.bottom="-91%";
 		survived6.style.bottom="-185%";
+		if (currentnight>nighthighscore) {
+			nighthighscore=currentnight;
+		}
 		currentnight++;
 		var expirationDate = new Date();
 		expirationDate.setFullYear(expirationDate.getFullYear() + 1);
 		
 		document.cookie = `currentnight=${currentnight}; expires=${expirationDate.toUTCString()}; path=/`;
-		if (currentnight!=4) {
+		document.cookie = `nighthighscore=${nighthighscore}; expires=${expirationDate.toUTCString()}; path=/`;
+		if (currentnight<4) {
 			daystart(currentnight);
 		}else{
 			star=true;

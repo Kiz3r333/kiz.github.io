@@ -161,7 +161,7 @@ body {
 }
 
 #UI,#camtxt,#amtime,#nighttime,#title,#newgame,#continue,#version,#select,#credits,#continuenight,
-#warning,#menutime,#menunight,#survived,#survived5,#survived6{
+#warning,#menutime,#menunight,#survived,#survived5,#survived6,#starnumber{
     position: absolute;
     width: 30%;
     bottom: 7%;
@@ -775,4 +775,14 @@ body {
     top: 11%;
     left: 36%;
     width: 5%;
+}
+
+#starnumber{
+    display: none;
+    width: 4%;
+    bottom: 78%;
+    left: 36.5%;
+    font-size: 5vh;
+    z-index: 1;
+    text-align: center;
 }
