@@ -957,7 +957,6 @@ function fadewarning(timerout){
   		playSound("static",false);
   		if (star) {
   			starpng.style.display="block";
-  			console.log(nighthighscore);
   			if (nighthighscore>=4) {
   				starnumber.style.display="block";
   				starnumber.innerHTML=nighthighscore;
@@ -1049,8 +1048,13 @@ function daystart(night){
 		blink=false;
 		currentcam = "1b";
 		currenttime = 0;
-		lightbreakleft=11-currentnight;
-		lightbreakright=11-currentnight;
+		if (currentnight<11) {
+			lightbreakleft=11-currentnight;
+			lightbreakright=11-currentnight;
+		}else{
+			lightbreakleft=1;
+			lightbreakright=1;
+		}
 		camera.checked=false;
 		light1.checked = false;
 		light2.checked = false;
@@ -1312,7 +1316,11 @@ function updateUsage(){
 }
 
 function windKiz(){
-	windnumb=windnumb-0.1-((currentnight-2)*0.05);
+	if (currentnight<5) {
+		windnumb=windnumb-0.1-((currentnight-2)*0.05);
+	}else{
+		windnumb=windnumb-0.2-currentnight*0.001;
+	}
 	switch (true){
 		case (76==Math.ceil(windnumb)):
 			if (currentcam=="5" && camera.checked==true && pizzadelay==10) {
@@ -1688,8 +1696,16 @@ function kizzydeath(){
 
 function ryanMove(){
 	var x = Math.floor(Math.random() * 3);
-	var y1=60000-currentnight*4000;
-	var y2=10000-currentnight*2000;
+	if (currentnight<5) {
+		var y1=60000-currentnight*4000;
+		var y2=10000-currentnight*2000;
+	}else{
+		if (2000-currentnight*50>0) {
+			var y1=40000-currentnight*20;
+			var y2=2000-currentnight*10;
+		}
+	}
+	
 	var y = Math.floor(Math.random() * y1)+y2;
 	var z = Math.floor(Math.random() * 10000-currentnight*1000)+40000-currentnight*2000;
 	switch(character1cam){
@@ -1797,8 +1813,15 @@ function ryanMove(){
 
 function joeyMove(){
 	var x = Math.floor(Math.random() * 3);
-	var y1=60000-currentnight*4000;
-	var y2=10000-currentnight*2000;
+	if (currentnight<5) {
+		var y1=60000-currentnight*4000;
+		var y2=10000-currentnight*2000;
+	}else{
+		if (2000-currentnight*50>0) {
+			var y1=40000-currentnight*20;
+			var y2=2000-currentnight*10;
+		}
+	}
 	var y = Math.floor(Math.random() * y1)+y2;
 	var z = Math.floor(Math.random() * 10000-currentnight*1000)+40000-currentnight*2000;
 	switch(character2cam){
