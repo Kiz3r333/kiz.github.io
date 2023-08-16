@@ -1699,15 +1699,14 @@ function ryanMove(){
 	if (currentnight<5) {
 		var y1=60000-currentnight*4000;
 		var y2=10000-currentnight*2000;
+		var z = Math.floor(Math.random() * 10000-currentnight*1000)+40000-currentnight*2000;
 	}else{
-		if (2000-currentnight*50>0) {
-			var y1=40000-currentnight*20;
-			var y2=2000-currentnight*10;
-		}
+		var y1=40000-currentnight*20;
+		var y2=2000-currentnight*10;
+		var z = Math.floor(Math.random() * 5000-currentnight*10)+32000-currentnight*20;
 	}
 	
 	var y = Math.floor(Math.random() * y1)+y2;
-	var z = Math.floor(Math.random() * 10000-currentnight*1000)+40000-currentnight*2000;
 	switch(character1cam){
 		case "1b":
 			if (x==2) {
@@ -1816,14 +1815,13 @@ function joeyMove(){
 	if (currentnight<5) {
 		var y1=60000-currentnight*4000;
 		var y2=10000-currentnight*2000;
+		var z = Math.floor(Math.random() * 10000-currentnight*1000)+40000-currentnight*2000;
 	}else{
-		if (2000-currentnight*50>0) {
-			var y1=40000-currentnight*20;
-			var y2=2000-currentnight*10;
-		}
+		var y1=40000-currentnight*20;
+		var y2=2000-currentnight*10;
+		var z = Math.floor(Math.random() * 5000-currentnight*10)+32000-currentnight*20;
 	}
 	var y = Math.floor(Math.random() * y1)+y2;
-	var z = Math.floor(Math.random() * 10000-currentnight*1000)+40000-currentnight*2000;
 	switch(character2cam){
 		case "1b":
 			if (x<2) {
