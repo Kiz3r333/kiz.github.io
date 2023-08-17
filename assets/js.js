@@ -105,6 +105,7 @@ var votest=false;
 var star=false;
 var windowleft=false;
 var windowright=false;
+var pressbool=false;
 const timeouts = [];
 var nighthighscore=1;
 
@@ -562,7 +563,6 @@ function doorbtn(direction) {
 			}else{
 				playSound("error",false);
 			}
-			
 			if (direction==0 && deathdelay==false) {
 				if (door1.checked==false) {
 					door1.checked=true;
@@ -1071,6 +1071,7 @@ function daystart(night){
 		votest=false;
 		windowleft=false;
 		windowright=false;
+		pressbool=false;
 		for (var i = 0; i < timeouts.length; i++) {
     	    clearTimeout(timeouts[i]);
     	}
@@ -1320,10 +1321,12 @@ function updateUsage(){
 }
 
 function windKiz(){
-	if (currentnight<5) {
-		windnumb=windnumb-0.1-((currentnight-2)*0.05);
-	}else{
-		windnumb=windnumb-0.2-currentnight*0.001;
+	if (pressbool==false) {
+		if (currentnight<5) {
+			windnumb=windnumb-0.1-((currentnight-2)*0.05);
+		}else{
+			windnumb=windnumb-0.2-currentnight*0.001;
+		}
 	}
 	switch (true){
 		case (76==Math.ceil(windnumb)):
@@ -1374,6 +1377,7 @@ function windKiz(){
 }
 
 function pizzaPress(press){
+	pressbool = press;
 	if (press==true && windnumb>0) {
 		pizzainterval = setInterval(windButton, 1);
 		playSound("windup2",true);
@@ -1389,8 +1393,9 @@ function pizzaPress(press){
 
 function windButton(){
 	if (windnumb<99) {
-		windnumb=windnumb+0.02;
+		windnumb=windnumb+0.017;
 	}
+	console.log(windnumb);
 	pizzabtn.src="img/camera/pizzabtnon.png";
 }
 
@@ -1413,7 +1418,7 @@ function spawnowo(){
 				
   				owo.style.filter = `drop-shadow(0 0 ${shadowStrength}vh cyan)`;
 			}, 10);
-			setTimeout(() => {
+			const timeout16 = setTimeout(() => {
 				if (currenttime<4800) {
 					owo.style.display="none";
 					clearInterval(glowinterval);
@@ -1424,31 +1429,36 @@ function spawnowo(){
 					}
 				}
 			}, y);
-			setTimeout(() => {
+			timeouts.push(timeout16);
+			const timeout24 = setTimeout(() => {
 				if (currenttime<4800) {
 					owo.style.display="block";
 				}
 			}, y+100);
-			setTimeout(() => {
+			timeouts.push(timeout24);
+			const timeout23 = setTimeout(() => {
 				if (currenttime<4800) {
 					office.style.display="none";
 					owo.style.display="none";
 					changeVolume("Buzz_Fan_Florescent2",0.01);
 				}
 			}, y+200);
-			setTimeout(() => {
+			timeouts.push(timeout23);
+			const timeout17 = setTimeout(() => {
 				if (currenttime<4800) {
 					owo.style.display="block";
 				}
 			}, y+250);
-			setTimeout(() => {
+			timeouts.push(timeout17);
+			const timeout18 = setTimeout(() => {
 				if (currenttime<4800) {
 					owo.style.display="none";
 					office.style.display="block";
 					changeVolume("Buzz_Fan_Florescent2",1);
 				}
 			}, y+320);
-			setTimeout(() => {
+			timeouts.push(timeout18);
+			const timeout19 = setTimeout(() => {
 				if (currenttime<4800) {
 					office.style.display="none";
 					fire.style.display="none";
@@ -1468,12 +1478,14 @@ function spawnowo(){
 					camchar.style.display="none";
 				}
 			}, y+400);
-			setTimeout(() => {
+			timeouts.push(timeout19);
+			const timeout20 = setTimeout(() => {
 				if (currenttime<4800) {
 					playSound("deep steps",false);
 				}
 			}, y+1400);
-			setTimeout(() => {
+			timeouts.push(timeout20);
+			const timeout21 = setTimeout(() => {
 				if (currenttime<4800) {
 					stopSound();
 					jumpscare.style.display="block";
@@ -1483,10 +1495,12 @@ function spawnowo(){
 					fadewarning(1000);
 				}
 			}, y+400+z);
-			setTimeout(() => {
+			timeouts.push(timeout21);
+			const timeout22 = setTimeout(() => {
 				jumpscare.style.display="none";
 				jumpscare.src="";
 			}, y+1400+z);
+			timeouts.push(timeout22);
 		}
 	}
 }
