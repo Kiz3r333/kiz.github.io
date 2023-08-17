@@ -303,10 +303,10 @@ function cameraopenw(){
 			buttontrigger2.style.display="none";
 			lighttrigger2.style.display="none";
 			slug.style.display="none";
-			camera.checked = true;
 			setTimeout(() => {
 				static.style.removeProperty('transition');
 				static.style.opacity="70%";
+				camera.checked = true;
 				camerassets.style.display="block";
 				cam.style.visibility="visible";
 				for(i = 0; i < lines.length; i++) {
@@ -554,7 +554,7 @@ function movebgright(distance) {
 }
 
 function doorbtn(direction) {
-	if (power>=0) {
+	if (power>0) {
 		if (doordelay==10) {
 			doordelay=0;
 			if (deathdelay==false) {
@@ -597,7 +597,7 @@ function doorbtn(direction) {
 }
 
 function lightbtn(direction) {
-	if (power>=0) {
+	if (power>0) {
 		if (direction==0 && deathdelay==false) {
 			if (light1.checked==false) {
 				if (light2.checked==false) {
@@ -707,6 +707,8 @@ function outofpower(){
 	character1.style.visibility="hidden";
 	character2.style.visibility="hidden";
 	character3.style.visibility="hidden";
+	ryanoffice.style.visibility="hidden";
+	joeyoffice.style.visibility="hidden";
 	officemovetrigger1.style.display="block";
 	officemovetrigger11.style.display="block";
 	officemovetrigger111.style.display="block";
@@ -799,7 +801,7 @@ function changecam(camnmb){
 		brokenoverlay.style.display="none";
 	}
 	slug.style.display="none";
-	if (windnumb<=-1000 && camnmb=="1c") {
+	if (windnumb<=-1000 && camnmb=="1c" && currenttime<4800 && power>0) {
 		slug.style.display="block";
 		cameratrigger.style.display="none";
 		camerabutton.style.display="none";
@@ -807,9 +809,11 @@ function changecam(camnmb){
 			slug.style.left="108%";
 			slug.style.top="48%";
 		}, "500");
-		setTimeout(() => {
+		const timeout14 = setTimeout(() => {
 			kizzydeath();
 		}, "2500");
+		
+		timeouts.push(timeout14);
 	}
 	switch (camnmb){
 		case "1a":
@@ -1352,7 +1356,7 @@ function windKiz(){
 			}
 			character3.src="img/camera/box_frame_4.png";
 			break;
-		case (0==Math.ceil(windnumb) && power>0):
+		case (0==Math.ceil(windnumb) && power>0 && currenttime<4800):
 			if (currentcam=="5" && camera.checked==true && pizzadelay==10) {
 				changecam("5");
 				pizzadelay=0;
@@ -1361,9 +1365,10 @@ function windKiz(){
 			character3.src="img/camera/box_frame_5.png";
 			changeVolume("CrumblingDreams",0);
 			playSound("jackinthebox",false);
-			setTimeout(() => {
+			const timeout15 = setTimeout(() => {
 				kizzydeath();
 			}, 18000);
+			timeouts.push(timeout15);
 			break;
 	}
 }
@@ -1632,7 +1637,7 @@ function changeofficesrc(){
 }
 
 function kizzydeath(){
-	if (kizdeathtoggle==false && currenttime<4800) {
+	if (kizdeathtoggle==false && currenttime<4800 && power>0) {
 		kizdeathtoggle=true;
 		slug.style.display="none";
 		lightbreakright=-1;
@@ -1912,7 +1917,7 @@ function joeyMove(){
 }
 
 function furrydeath(){
-	if (deathdelay==true && currenttime<4800) {
+	if (deathdelay==true && currenttime<4800 && power>0) {
 		deathdelay=false;
 		stopSound();
 		jumpscare.style.display="block";
