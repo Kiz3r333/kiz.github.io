@@ -1430,12 +1430,12 @@ function spawnowo(){
 				}
 			}, y);
 			timeouts.push(timeout16);
-			const timeout24 = setTimeout(() => {
+			const timeout22 = setTimeout(() => {
 				if (currenttime<4800) {
 					owo.style.display="block";
 				}
 			}, y+100);
-			timeouts.push(timeout24);
+			timeouts.push(timeout22);
 			const timeout23 = setTimeout(() => {
 				if (currenttime<4800) {
 					office.style.display="none";
