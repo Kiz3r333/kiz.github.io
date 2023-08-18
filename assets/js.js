@@ -1496,11 +1496,10 @@ function spawnowo(){
 				}
 			}, y+400+z);
 			timeouts.push(timeout21);
-			const timeout22 = setTimeout(() => {
+			setTimeout(() => {
 				jumpscare.style.display="none";
 				jumpscare.src="";
 			}, y+1400+z);
-			timeouts.push(timeout22);
 		}
 	}
 }
