@@ -72,6 +72,7 @@ var myVideo = document.getElementById("myVideo");
 var fire = document.getElementById("fire");
 var starpng = document.getElementById("starpng");
 var starnumber = document.getElementById("starnumber");
+var exacttime = document.getElementById("exacttime");
 var officedistance = -25;
 var cameradistance = -25;
 var intervalId = null;
@@ -880,6 +881,9 @@ function timecount() {
 	var x;
 	currenttime++;
 	x= Math.trunc(currenttime/800);
+	var hour = Math.floor(currenttime / 3600);
+	var minute = Math.floor((currenttime - hour * 3600) / 60);
+	var updSecond = currenttime - (hour * 3600 + minute * 60);
 	if (x==0) {
 		x=12;
 	}
@@ -902,6 +906,7 @@ function timecount() {
 		}, "97100");
 	}
 	amtime.innerHTML= x + " AM";
+	exacttime.innerHTML=hour+":"+minute+":"+updSecond;
 }
 
 function movecameras(){
@@ -1332,7 +1337,7 @@ function windKiz(){
 		if (currentnight<5) {
 			windnumb=windnumb-0.1-((currentnight-2)*0.05);
 		}else{
-			windnumb=windnumb-0.2-currentnight*0.02;
+			windnumb=windnumb-0.2-currentnight*0.01;
 		}
 	}
 	switch (true){
