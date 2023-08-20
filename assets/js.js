@@ -108,6 +108,7 @@ var windowright=false;
 var pressbool=false;
 const timeouts = [];
 var nighthighscore=1;
+var forceowo=false;
 
 function getCookie(name) {
   const value = `; ${document.cookie}`;
@@ -681,6 +682,9 @@ function lightbtn(direction) {
 }
 
 function outofpower(){
+	setTimeout(() => {
+		forceowo=true;
+	}, "30000");
 	stopSound();
 	playSound("powerdown",false);
 	windnumb=1000000;
@@ -1072,6 +1076,7 @@ function daystart(night){
 		windowleft=false;
 		windowright=false;
 		pressbool=false;
+		forceowo=false;
 		for (var i = 0; i < timeouts.length; i++) {
     	    clearTimeout(timeouts[i]);
     	}
@@ -1395,7 +1400,6 @@ function windButton(){
 	if (windnumb<99) {
 		windnumb=windnumb+0.017;
 	}
-	console.log(windnumb);
 	pizzabtn.src="img/camera/pizzabtnon.png";
 }
 
@@ -1405,7 +1409,7 @@ function spawnowo(){
 	var z;
 	if (owotoggle==false && currenttime<4800) {
 		x=Math.floor(Math.random() * 150);
-		if (x==0) {
+		if (x==0 || forceowo==true) {
 			y = Math.floor(Math.random()*40000)+10000;
 			z = Math.floor(Math.random()*1000)+15000;
 			owotoggle=true;
