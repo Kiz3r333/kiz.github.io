@@ -600,24 +600,20 @@ function doorbtn(direction) {
 function lightbtn(direction) {
 	if (power>0) {
 		if (direction==0 && deathdelay==false) {
-			if (light1.checked==false) {
+			if (light1.checked==false && lightbreakleft>0) {
 				if (light2.checked==false) {
 					usagenum++;
 				}
 				light1.checked=true;
 				light2.checked=false;
 				changeVolume("BallastHumMedium2",0);
-				if (lightbreakleft>0) {
-					playSound("BallastHumMedium2",true);
-					leftlight.src="img/buttons/Leftlighton.png";
-					officelights1.style.display="block";
-					ryanoffice.style.visibility="visible";
-					if (character1cam=="office" && windowleft==false) {
-						playSound("windowscare",false);
-						windowleft=true;
-					}
-				}else{
-					playSound("error",false);
+				playSound("BallastHumMedium2",true);
+				leftlight.src="img/buttons/Leftlighton.png";
+				officelights1.style.display="block";
+				ryanoffice.style.visibility="visible";
+				if (character1cam=="office" && windowleft==false) {
+					playSound("windowscare",false);
+					windowleft=true;
 				}
 				rightlight.src="img/buttons/rightlight.png";
 				officelights2.style.display="none";
@@ -625,7 +621,11 @@ function lightbtn(direction) {
 			}else{
 				light1.checked=false;
 				light2.checked=false;
-				usagenum--;
+				if (lightbreakleft>0) {
+					usagenum--;
+				}else{
+					playSound("error",false);
+				}
 				changeVolume("BallastHumMedium2",0);
 				leftlight.src="img/buttons/Leftlight.png";
 				rightlight.src="img/buttons/rightlight.png";
@@ -633,27 +633,24 @@ function lightbtn(direction) {
 				officelights2.style.display="none";
 				ryanoffice.style.visibility="hidden";
 				joeyoffice.style.visibility="hidden";
+				
 			}
 		}else{
 			if (deathdelay==false) {
-				if (light2.checked==false) {
+				if (light2.checked==false && lightbreakright>0) {
 					if (light1.checked==false) {
 						usagenum++;
 					}
 					light2.checked=true;
 					light1.checked=false;
 					changeVolume("BallastHumMedium2",0);
-					if (lightbreakright>0) {
-						playSound("BallastHumMedium2",true);
-						rightlight.src="img/buttons/rightlighton.png";
-						officelights2.style.display="block";
-						joeyoffice.style.visibility="visible";
-						if (character2cam=="office" && windowright==false) {
-							playSound("windowscare",false);
-							windowright=true;
-						}
-					}else{
-						playSound("error",false);
+					playSound("BallastHumMedium2",true);
+					rightlight.src="img/buttons/rightlighton.png";
+					officelights2.style.display="block";
+					joeyoffice.style.visibility="visible";
+					if (character2cam=="office" && windowright==false) {
+						playSound("windowscare",false);
+						windowright=true;
 					}
 					leftlight.src="img/buttons/Leftlight.png";
 					officelights1.style.display="none";
@@ -661,7 +658,11 @@ function lightbtn(direction) {
 				}else{
 					light2.checked=false;
 					light1.checked=false;
-					usagenum--;
+					if (lightbreakright>0) {
+						usagenum--;
+					}else{
+						playSound("error",false);
+					}
 					changeVolume("BallastHumMedium2",0);
 					rightlight.src="img/buttons/rightlight.png";
 					leftlight.src="img/buttons/Leftlight.png";
@@ -669,6 +670,7 @@ function lightbtn(direction) {
 					officelights2.style.display="none";
 					ryanoffice.style.visibility="hidden";
 					joeyoffice.style.visibility="hidden";
+					
 				}
 			}else{
 				playSound("error",false);
@@ -1330,7 +1332,7 @@ function windKiz(){
 		if (currentnight<5) {
 			windnumb=windnumb-0.1-((currentnight-2)*0.05);
 		}else{
-			windnumb=windnumb-0.2-currentnight*0.001;
+			windnumb=windnumb-0.2-currentnight*0.02;
 		}
 	}
 	switch (true){
@@ -1545,6 +1547,8 @@ function lightBrk(side){
 		lightbreakright--;
 	}
 	if (lightbreakleft==0) {
+		light1.checked=false;
+		usagenum--;
 		lightbreakleft=-1;
 		playSound("changebulb",false);
 		setTimeout(() => {
@@ -1560,6 +1564,8 @@ function lightBrk(side){
 		}, 1300);
 	}
 	if (lightbreakright==0) {
+		light2.checked=false;
+		usagenum--;
 		lightbreakright=-1;
 		playSound("changebulb",false);
 		setTimeout(() => {
@@ -1723,9 +1729,9 @@ function ryanMove(){
 		var y2=10000-currentnight*2000;
 		var z = Math.floor(Math.random() * 10000-currentnight*1000)+40000-currentnight*2000;
 	}else{
-		var y1=40000-currentnight*20;
-		var y2=2000-currentnight*10;
-		var z = Math.floor(Math.random() * 5000-currentnight*10)+32000-currentnight*20;
+		var y1=40000-currentnight*200;
+		var y2=2000-currentnight*100;
+		var z = Math.floor(Math.random() * 5000-currentnight*100)+32000-currentnight*200;
 	}
 	
 	var y = Math.floor(Math.random() * y1)+y2;
@@ -1839,9 +1845,9 @@ function joeyMove(){
 		var y2=10000-currentnight*2000;
 		var z = Math.floor(Math.random() * 10000-currentnight*1000)+40000-currentnight*2000;
 	}else{
-		var y1=40000-currentnight*20;
-		var y2=2000-currentnight*10;
-		var z = Math.floor(Math.random() * 5000-currentnight*10)+32000-currentnight*20;
+		var y1=40000-currentnight*100;
+		var y2=2000-currentnight*50;
+		var z = Math.floor(Math.random() * 5000-currentnight*50)+32000-currentnight*100;
 	}
 	var y = Math.floor(Math.random() * y1)+y2;
 	switch(character2cam){
