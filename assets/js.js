@@ -128,6 +128,7 @@ if (nighthighscore === undefined || nighthighscore == undefined || nighthighscor
 }
 document.addEventListener('contextmenu', event => event.preventDefault());
 
+currentnight = 5;
 var mediaFiles = [];
 var loadma = false;
 
@@ -1399,8 +1400,13 @@ function pizzaPress(press){
 }
 
 function windButton(){
-	if (windnumb<99) {
+	if (windnumb<99 && currentnight<5) {
 		windnumb=windnumb+0.017;
+	}else{
+		if (windnumb<99) {
+			windnumb=windnumb+0.017+(currentnight-4)*0.005;
+			console.log(windnumb);
+		}
 	}
 	pizzabtn.src="img/camera/pizzabtnon.png";
 }
