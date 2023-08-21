@@ -110,6 +110,8 @@ var pressbool=false;
 const timeouts = [];
 var nighthighscore=1;
 var forceowo=false;
+var seconds = 0;
+var timer = setInterval(upTimer, 100);
 
 function getCookie(name) {
   const value = `; ${document.cookie}`;
@@ -709,6 +711,7 @@ function outofpower(){
 	camerassets.style.display="none";
 	amtime.style.display="none";
 	nighttime.style.display="none";
+	exacttime.style.display="none";
 	slug.style.display="none";
 	cam.style.visibility="hidden";
 	character1.style.visibility="hidden";
@@ -881,9 +884,6 @@ function timecount() {
 	var x;
 	currenttime++;
 	x= Math.trunc(currenttime/800);
-	var hour = Math.floor(currenttime / 3600);
-	var minute = Math.floor((currenttime - hour * 3600) / 60);
-	var updSecond = currenttime - (hour * 3600 + minute * 60);
 	if (x==0) {
 		x=12;
 	}
@@ -906,7 +906,6 @@ function timecount() {
 		}, "97100");
 	}
 	amtime.innerHTML= x + " AM";
-	exacttime.innerHTML=hour+":"+minute+":"+updSecond;
 }
 
 function movecameras(){
@@ -1070,6 +1069,7 @@ function daystart(night){
 			lightbreakleft=1;
 			lightbreakright=1;
 		}
+		seconds = 0;
 		camera.checked=false;
 		light1.checked = false;
 		light2.checked = false;
@@ -1143,6 +1143,11 @@ function daystart(night){
 		changeVolume("CrumblingDreams",0.01);
 		amtime.style.display="block";
 		nighttime.style.display="block";
+		if (currentnight>=4) {
+			exacttime.style.display="block";
+		}else{
+			exacttime.style.display="none";
+		}
 		for(i = 0; i < lines.length; i++) {
   		  lines[i].style.visibility="hidden";
   		  lines[i].style.zIndex="2";
@@ -1967,6 +1972,22 @@ function furrydeath(){
 			jumpscare.src="";
 		}, 1000);
 	}
+}
+
+function upTimer() {
+
+	++seconds;
+	
+	var minute = Math.floor((seconds) / 10);
+
+	var hour = Math.floor((minute) / 60);
+
+	if (hour>=1) {
+		minute = hour*10-minute;
+	}
+	
+	exacttime.innerHTML = hour + ":" + minute + ":" + (seconds%10);
+
 }
 
 console.log("ඞ");
