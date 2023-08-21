@@ -111,7 +111,7 @@ const timeouts = [];
 var nighthighscore=1;
 var forceowo=false;
 var miliseconds = 0;
-var timer = setInterval(upTimer, 10);
+var timer = setInterval(upTimer, 100);
 
 function getCookie(name) {
   const value = `; ${document.cookie}`;
@@ -1413,7 +1413,7 @@ function windButton(){
 		windnumb=windnumb+0.017;
 	}else{
 		if (windnumb<99) {
-			windnumb=windnumb+0.017+(currentnight-4)*0.005;
+			windnumb=windnumb+0.017+(currentnight-4)*0.002;
 		}
 	}
 	pizzabtn.src="img/camera/pizzabtnon.png";
