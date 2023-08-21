@@ -110,8 +110,8 @@ var pressbool=false;
 const timeouts = [];
 var nighthighscore=1;
 var forceowo=false;
-var seconds = 0;
-var timer = setInterval(upTimer, 100);
+var miliseconds = 0;
+var timer = setInterval(upTimer, 10);
 
 function getCookie(name) {
   const value = `; ${document.cookie}`;
@@ -1069,7 +1069,7 @@ function daystart(night){
 			lightbreakleft=1;
 			lightbreakright=1;
 		}
-		seconds = 0;
+		miliseconds = 0;
 		camera.checked=false;
 		light1.checked = false;
 		light2.checked = false;
@@ -1975,19 +1975,17 @@ function furrydeath(){
 }
 
 function upTimer() {
+    ++miliseconds;
 
-	++seconds;
-	
-	var minute = Math.floor((seconds) / 10);
+    var seconds = Math.floor((miliseconds / 10) % 60); // Calculate seconds
+    var minutes = Math.floor(miliseconds / 600); // Calculate minutes
 
-	var hour = Math.floor((minute) / 60);
+    if (minutes >= 1) {
+        seconds = Math.floor((miliseconds / 10) % 60);
+        minutes = Math.floor((miliseconds / 600) % 60);
+    }
 
-	if (hour>=1) {
-		minute = hour*10-minute;
-	}
-	
-	exacttime.innerHTML = hour + ":" + minute + ":" + (seconds%10);
-
+    exacttime.innerHTML = minutes + ":" + (seconds < 10 ? "0" : "") + seconds + ":" + (miliseconds % 10);
 }
 
 console.log("ඞ");
