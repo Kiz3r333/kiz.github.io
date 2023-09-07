@@ -107,7 +107,6 @@ var timeoutID;
 var kizdeathtoggle=false;
 var deathdelay=false;
 var votest=false;
-var star=false;
 var windowleft=false;
 var windowright=false;
 var pressbool=false;
@@ -116,6 +115,7 @@ var nighthighscore=1;
 var forceowo=false;
 var miliseconds = 0;
 var timer = setInterval(upTimer, 100);
+var kizstate = 0;
 
 function getCookie(name) {
   const value = `; ${document.cookie}`;
@@ -124,7 +124,6 @@ function getCookie(name) {
 }
 
 currentnight = getCookie("currentnight");
-star = getCookie("star");
 nighthighscore = getCookie("nighthighscore");
 
 if (currentnight === undefined){
@@ -441,8 +440,9 @@ function cameraopenw(){
 function tick(){
 	if (power!=-1) {
 		loadme();
-		if (currentnight>=2) {
+		if (currentnight!=1) {
 			windKiz();
+			kizvisual();
 		}
 		if (officerepeatsrc==true && officerepeatsrc!="beans") {
 			officerepeatsrc=false;
@@ -957,6 +957,8 @@ function startnight(night) {
 	tvstatic.style.opacity="0%";
 	newgame.removeAttribute("onclick");
 	newgame.removeAttribute("onmouseover");
+	leftnightbtn.removeAttribute("onclick");
+	rightnightbtn.removeAttribute("onclick");
 	continuemenu.removeAttribute("onclick");
 	continuemenu.removeAttribute("onmouseover");
 	setTimeout(() => {
@@ -966,8 +968,12 @@ function startnight(night) {
 		menu.style.opacity="100%";
 		select.style.bottom="40%";
 		continuenight.style.display="none";
+		leftnightbtn.style.display="none";
+		rightnightbtn.style.display="none";
 		newgame.setAttribute("onclick", "startnight(1);");
 		newgame.setAttribute("onmouseover", "selectmenu(0);");
+		leftnightbtn.setAttribute("onclick", "increasenight(0);");
+		rightnightbtn.setAttribute("onclick", "increasenight(1);");
 		continuemenu.setAttribute("onclick", "startnight(currentnight);");
 		continuemenu.setAttribute("onmouseover", "selectmenu(1);");
 		checkloading();
@@ -989,7 +995,7 @@ function fadewarning(timerout){
   		}
   		playSound("darkness_music",true);
   		playSound("static",false);
-  		if (star) {
+  		if (nighthighscore>=3) {
   			starpng.style.display="block";
   			if (nighthighscore>=4) {
   				starnumber.style.display="block";
@@ -1099,6 +1105,7 @@ function daystart(night){
 			lightbreakright=1;
 		}
 		miliseconds = 0;
+		kizstate = 0;
 		camera.checked=false;
 		light1.checked = false;
 		light2.checked = false;
@@ -1216,7 +1223,9 @@ function daystart(night){
 		}
 	}, "7000");
 	setTimeout(() => {
-		mutecall.style.display="block";
+		if (currentnight>=1 && currentnight<=4) {
+			mutecall.style.display="block";
+		}
 	}, "25000");
 	setTimeout(() => {
 		mutecall.style.display="none";
@@ -1261,8 +1270,6 @@ function dayend(){
 		if (currentnight<4) {
 			daystart(currentnight);
 		}else{
-			star=true;
-			document.cookie = `star=${star}; expires=${expirationDate.toUTCString()}; path=/`;
 			fadewarning(1000);
 		}
 	}, "16000");
@@ -1380,52 +1387,6 @@ function windKiz(){
 		}else{
 			windnumb=windnumb-0.2-currentnight*0.01;
 		}
-	}
-	switch (true){
-		case (76==Math.ceil(windnumb)):
-			if (currentcam=="5" && camera.checked==true && pizzadelay==10) {
-				changecam("5");
-				pizzadelay=0;
-			}
-			character3.src="img/camera/box_frame_1.png";
-			break;
-		case (75==Math.ceil(windnumb)):
-		case (51==Math.ceil(windnumb)):
-			if (currentcam=="5" && camera.checked==true && pizzadelay==10) {
-				changecam("5");
-				pizzadelay=0;
-			}
-			character3.src="img/camera/box_frame_2.png";
-			break;
-		case (50==Math.ceil(windnumb)):
-		case (26==Math.ceil(windnumb)):
-			if (currentcam=="5" && camera.checked==true && pizzadelay==10) {
-				changecam("5");
-				pizzadelay=0;
-			}
-			character3.src="img/camera/box_frame_3.png";
-			break;
-		case (25==Math.ceil(windnumb)):
-			if (currentcam=="5" && camera.checked==true && pizzadelay==10) {
-				changecam("5");
-				pizzadelay=0;
-			}
-			character3.src="img/camera/box_frame_4.png";
-			break;
-		case (0==Math.ceil(windnumb) && power>0 && currenttime<4800):
-			if (currentcam=="5" && camera.checked==true && pizzadelay==10) {
-				changecam("5");
-				pizzadelay=0;
-			}
-			windnumb=-1000;
-			character3.src="img/camera/box_frame_5.png";
-			changeVolume("CrumblingDreams",0);
-			playSound("jackinthebox",false);
-			const timeout15 = setTimeout(() => {
-				kizzydeath();
-			}, 18000);
-			timeouts.push(timeout15);
-			break;
 	}
 }
 
@@ -2040,6 +2001,58 @@ function increasenight(side){
 		currentnight--;
 	}
 	continuenight.innerHTML="Night " + currentnight;
+}
+
+function kizvisual() {
+	switch (true){
+		case (76<=Math.ceil(windnumb) && kizstate!=1):
+			kizstate=1;
+			if (currentcam=="5" && camera.checked==true && pizzadelay==10) {
+				changecam("5");
+				pizzadelay=0;
+			}
+			character3.src="img/camera/box_frame_1.png";
+			break;
+		case (51<=Math.ceil(windnumb) && 76>Math.ceil(windnumb) && kizstate!=2):
+			kizstate=2;
+			if (currentcam=="5" && camera.checked==true && pizzadelay==10) {
+				changecam("5");
+				pizzadelay=0;
+			}
+			character3.src="img/camera/box_frame_2.png";
+			break;
+		case (26<=Math.ceil(windnumb) && 51>Math.ceil(windnumb) && kizstate!=3):
+			kizstate=3;
+			if (currentcam=="5" && camera.checked==true && pizzadelay==10) {
+				changecam("5");
+				pizzadelay=0;
+			}
+			character3.src="img/camera/box_frame_3.png";
+			break;
+		case (26>Math.ceil(windnumb) && 0<Math.ceil(windnumb) && kizstate!=4):
+			kizstate=4;
+			if (currentcam=="5" && camera.checked==true && pizzadelay==10) {
+				changecam("5");
+				pizzadelay=0;
+			}
+			character3.src="img/camera/box_frame_4.png";
+			break;
+		case (0>=Math.ceil(windnumb) && power>0 && currenttime<4800 && kizstate!=5):
+			kizstate=5;
+			if (currentcam=="5" && camera.checked==true && pizzadelay==10) {
+				changecam("5");
+				pizzadelay=0;
+			}
+			windnumb=-1000;
+			character3.src="img/camera/box_frame_5.png";
+			changeVolume("CrumblingDreams",0);
+			playSound("jackinthebox",false);
+			const timeout15 = setTimeout(() => {
+				kizzydeath();
+			}, 18000);
+			timeouts.push(timeout15);
+			break;
+	}
 }
 
 console.log("ඞ");
