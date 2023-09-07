@@ -77,6 +77,7 @@ var skipintro = document.getElementById("skipintro");
 var mutecall = document.getElementById("mutecall");
 var leftnightbtn = document.getElementById("leftnightbtn");
 var rightnightbtn = document.getElementById("rightnightbtn");
+var loadprogress = document.getElementById("loadprogress");
 var officedistance = -25;
 var cameradistance = -25;
 var intervalId = null;
@@ -158,6 +159,7 @@ function preloadMediaList(mediaList, onComplete) {
 
     function mediaLoaded() {
         loadedMedia++;
+        loadprogress.innerHTML=loadedMedia + " assets loaded out of " + totalMedia;
         if (loadedMedia === totalMedia) {
             onComplete();
         }
@@ -964,6 +966,7 @@ function startnight(night) {
 	setTimeout(() => {
 		stopSound();
 		loadscreen.style.display="block";
+		loadprogress.style.display="block";
 		menu.style.display="none";
 		menu.style.opacity="100%";
 		select.style.bottom="40%";
@@ -1017,7 +1020,6 @@ function checkloading(){
 			daystart(currentnight);
 		}else{
 			setTimeout(() => {
-				videned = false;
 				checkloading();
 			}, "1000");
 		}
@@ -1041,6 +1043,7 @@ function myHandler() {
 function daystart(night){
 	playSound("blip3",false);
 	loadscreen.style.display="none";
+	loadprogress.style.display="none";
 	menutime.style.display="block";
 	night=parseInt(night);
 	switch (night){

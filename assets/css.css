@@ -161,7 +161,7 @@ body {
 }
 
 #UI,#camtxt,#amtime,#nighttime,#title,#newgame,#continue,#version,#select,#credits,#continuenight,
-#warning,#menutime,#menunight,#survived,#survived5,#survived6,#starnumber,#exacttime{
+#warning,#menutime,#menunight,#survived,#survived5,#survived6,#starnumber,#exacttime,#loadprogress{
     position: absolute;
     width: 30%;
     bottom: 7%;
@@ -170,6 +170,14 @@ body {
     z-index: 9;
     font-family: consolas;
     filter: drop-shadow(0 0 1rem black);
+}
+
+#loadprogress{
+    bottom: 2%;
+    left: 77%;
+    font-size: 2vh;
+    z-index: 0;
+    display: none;
 }
 
 #debug{
