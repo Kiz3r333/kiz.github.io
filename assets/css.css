@@ -764,6 +764,25 @@ body {
     display: none;
 }
 
+#skipintro,#mutecall{
+    position: absolute;
+    top: 92%;
+    left: 86%;
+    width: 12%;
+    z-index: 10;
+    opacity: 50%;
+    display: none;
+}
+
+#skipintro:hover,#mutecall:hover{
+    opacity: 100%;
+}
+
+#mutecall{
+    top: 9%;
+    left: 5%;
+}
+
 #fire{
     position: absolute;
     display: none;
@@ -791,4 +810,22 @@ body {
     font-size: 5vh;
     z-index: 1;
     text-align: center;
+}
+
+#leftnightbtn,#rightnightbtn{
+    position: absolute;
+    width: 4%;
+    bottom: 14%;
+    left: 13%;
+    display: none;
+    opacity: 90%;
+}
+
+#rightnightbtn{
+    left: 23.5%;
+    transform: scaleX(-1);
+}
+
+#leftnightbtn:hover, #rightnightbtn:hover{
+    filter: brightness(1.75);
 }

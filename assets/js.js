@@ -73,6 +73,10 @@ var fire = document.getElementById("fire");
 var starpng = document.getElementById("starpng");
 var starnumber = document.getElementById("starnumber");
 var exacttime = document.getElementById("exacttime");
+var skipintro = document.getElementById("skipintro");
+var mutecall = document.getElementById("mutecall");
+var leftnightbtn = document.getElementById("leftnightbtn");
+var rightnightbtn = document.getElementById("rightnightbtn");
 var officedistance = -25;
 var cameradistance = -25;
 var intervalId = null;
@@ -171,9 +175,11 @@ function preload() {
     var mediaList = [
         ["img/camera/static.gif", "image"],
 		["img/menu/FNaFFreddy_Menu.gif", "image"],
-		["sfx/darkness music.wav", "audio"],
+		["sfx/darkness_music.wav", "audio"],
 		["sfx/static.wav", "audio"],
 		["img/menu/Loading_Clock_1.png", "image"],
+		["img/menu/skipintro.png", "image"],
+		["img/menu/nightbtn.png", "image"],
     	["img/background/office.png", "image"],
     	["img/background/office2.png", "image"],
     	["img/background/officelightsleft.png", "image"],
@@ -233,6 +239,7 @@ function preload() {
 		["img/camera/slug.gif", "image"],
 		["img/background/fire.gif", "image"],
 		["img/menu/star.png", "image"],
+		["img/buttons/mutecall.png", "image"],
 		["sfx/BallastHumMedium2.wav", "audio"],
 		["sfx/MiniDV_Tape_Eject_1.wav", "audio"],
 		["sfx/CAMERA_VIDEO_LOA_60105303.wav", "audio"],
@@ -713,6 +720,7 @@ function outofpower(){
 	nighttime.style.display="none";
 	exacttime.style.display="none";
 	slug.style.display="none";
+	mutecall.style.display="none";
 	cam.style.visibility="hidden";
 	character1.style.visibility="hidden";
 	character2.style.visibility="hidden";
@@ -890,6 +898,12 @@ function timecount() {
 	if (x==3 && currentnight==3 && votest==false) {
 		playSound("4VO",false);
 		votest=true;
+		setTimeout(() => {
+			mutecall.style.display="block";
+		}, "18000");
+		setTimeout(() => {
+			mutecall.style.display="none";
+		}, "73000");
 		const timeout13 = setTimeout(() => {
 			fire.style.display="block";
 			playSound("fire",true);
@@ -925,9 +939,15 @@ function selectmenu(menutype){
 	if (menutype==0) {
 		select.style.bottom="40%";
 		continuenight.style.display="none";
+		rightnightbtn.style.display="none";
+		leftnightbtn.style.display="none";
 	}else{
 		select.style.bottom="30%";
 		continuenight.style.display="block";
+		if (nighthighscore>=4) {
+			rightnightbtn.style.display="block";
+			leftnightbtn.style.display="block";
+		}
 	}	
 }
 
@@ -967,7 +987,7 @@ function fadewarning(timerout){
 		for(i = 0; i < lines.length; i++) {
   		  lines[i].style.display="block";
   		}
-  		playSound("darkness music",true);
+  		playSound("darkness_music",true);
   		playSound("static",false);
   		if (star) {
   			starpng.style.display="block";
@@ -983,8 +1003,10 @@ function checkloading(){
 	if (currentnight==1 && videned==false) {
 		myVideo.style.display="block";
 		myVideo.play();
+		skipintro.style.display="block";
 	}else{
 		myVideo.style.display="none";
+		skipintro.style.display="none";
 		if (loadma == true) {
 			daystart(currentnight);
 		}else{
@@ -994,6 +1016,13 @@ function checkloading(){
 			}, "1000");
 		}
 	}
+}
+
+function skipvideo(){
+	myVideo.pause();
+    myVideo.currentTime = 0;
+	videned = true;
+	checkloading();
 }
 
 myVideo.addEventListener('ended',myHandler,false);
@@ -1140,6 +1169,7 @@ function daystart(night){
 		joeyoffice.style.visibility="hidden";
 		fire.style.display="none";
 		fire.style.opacity="0%";
+		mutecall.style.display="none";
 		changeVolume("CrumblingDreams",0.01);
 		amtime.style.display="block";
 		nighttime.style.display="block";
@@ -1185,6 +1215,12 @@ function daystart(night){
 				break;
 		}
 	}, "7000");
+	setTimeout(() => {
+		mutecall.style.display="block";
+	}, "25000");
+	setTimeout(() => {
+		mutecall.style.display="none";
+	}, "80000");
 }
 
 function dayend(){
@@ -1986,6 +2022,24 @@ function upTimer() {
     }
 
     exacttime.innerHTML = minutes + ":" + (seconds < 10 ? "0" : "") + seconds + ":" + (miliseconds % 10);
+}
+
+function mute(){
+	changeVolume("1VO",0);
+	changeVolume("2VO",0);
+	changeVolume("3VO",0);
+	changeVolume("4VO",0);
+	changeVolume("5VO",0);
+	mutecall.style.display="none";
+}
+
+function increasenight(side){
+	if (side==1) {
+		currentnight++;
+	}else{
+		currentnight--;
+	}
+	continuenight.innerHTML="Night " + currentnight;
 }
 
 console.log("ඞ");

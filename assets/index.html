@@ -7,7 +7,7 @@
 	<title>Ryan's Apparition Wandering Restaurant</title>
 </head>
 <body>
-	<h1 id="warning" onclick="fadewarning(3100);">WARNING!<br><br>The game contains flashing lights, loud noises, and lots of fluffy boys!<br><br>Please Fullscreen this page<br>and wear Headphones</h1>
+	<h1 id="warning" onclick="fadewarning(3100);">WARNING!<br><br>The game contains flashing lights, loud noises, and lots of fluffy boys!<br><br>Please Fullscreen this page,<br>wear Headphones and adjust your volume!</h1>
 	<div id="tvstatic">
 		<div id="line" class="lines"></div>
 		<div id="line1" class="lines"></div>
@@ -30,15 +30,18 @@
 		<h1 id="continue" onmouseover="selectmenu(1);" onclick="startnight(currentnight);">Continue</h1>
 		<h1 id="select">>></h1>
 		<h3 id="continuenight">Night 1</h3>
-		<h3 id="version">v1.22</h3>
+		<h3 id="version">v1.23</h3>
 		<h3 id="credits">A game by Kiz & LivingComputer<br>for CrumbledHam</h3>
 		<img src="img/menu/FNaFFreddy_Menu.gif" id="menucharacter" draggable="false">
 		<img src="img/camera/static.gif" id="menustatic" draggable="false">
 		<img src="img/menu/star.png" id="starpng" draggable="false">
+		<img src="img/menu/nightbtn.png" id="leftnightbtn" draggable="false" onclick="increasenight(0)">
+		<img src="img/menu/nightbtn.png" id="rightnightbtn" draggable="false" onclick="increasenight(1)">
 		<h1 id="starnumber">4</h1>
 	</div>
 	<div>
-		<img id="loadscreen" src="img/menu/Loading_Clock_1.png">
+		<img id="skipintro" src="img/menu/skipintro.png" draggable="false" onclick="skipvideo()">
+		<img id="loadscreen" src="img/menu/Loading_Clock_1.png" draggable="false">
 		<video class="myVideo" id="myVideo">
             <source src="img/intro.mp4" type="video/mp4">
             Your browser does not support HTML5 video.
@@ -88,6 +91,7 @@
 		<div id="officemovetrigger22" onmouseover="movebg(4)" onmouseout="movebg(10)"></div>
 		<div id="officemovetrigger222" onmouseover="movebg(5)" onmouseout="movebg(10)"></div>
 		<div id="cameratrigger" onmouseover="cameraopenw()"></div>
+		<img id="mutecall" src="img/buttons/mutecall.png" onclick="mute()" draggable="false" onmouseover="movebg(2)" onmouseout="movebg(10)">
 		<img id="camerabg" draggable="false">
 		<div id="camchar">
 			<img src="img/camera/CAM1B.png" id="cam" draggable="false">
