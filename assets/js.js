@@ -903,9 +903,10 @@ function timecount() {
 		setTimeout(() => {
 			mutecall.style.display="block";
 		}, "18000");
-		setTimeout(() => {
+		const timeout25 = setTimeout(() => {
 			mutecall.style.display="none";
 		}, "73000");
+		timeouts.push(timeout25);
 		const timeout13 = setTimeout(() => {
 			fire.style.display="block";
 			playSound("fire",true);
@@ -916,10 +917,11 @@ function timecount() {
 				lightbreakright=1;
 			}
 		}, "97000");
-		setTimeout(() => {
 		timeouts.push(timeout13);
+		const timeout24 = setTimeout(() => {
 			fire.style.opacity="70%";
 		}, "97100");
+		timeouts.push(timeout24);
 	}
 	amtime.innerHTML= x + " AM";
 }
@@ -1394,16 +1396,18 @@ function windKiz(){
 }
 
 function pizzaPress(press){
-	pressbool = press;
-	if (press==true && windnumb>0) {
-		pizzainterval = setInterval(windButton, 1);
-		playSound("windup2",true);
-	}else{
-		clearInterval(pizzainterval);
-		pizzabtn.src="img/camera/pizzabtn.png";
-		changeVolume("windup2",0);
-		if (press==true && windnumb<=0) {
-			playSound("error",false);
+	if (event.button === 0) {
+		pressbool = press;
+		if (press==true && windnumb>0) {
+			pizzainterval = setInterval(windButton, 1);
+			playSound("windup2",true);
+		}else{
+			clearInterval(pizzainterval);
+			pizzabtn.src="img/camera/pizzabtn.png";
+			changeVolume("windup2",0);
+			if (press==true && windnumb<=0) {
+				playSound("error",false);
+			}
 		}
 	}
 }
