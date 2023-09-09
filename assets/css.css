@@ -13,16 +13,16 @@ body {
 #officemovetrigger1,#officemovetrigger2,#officemovetrigger11,#officemovetrigger111,#officemovetrigger22,#officemovetrigger222{
     position: absolute;
     background-color: transparent;
-    width: 40%;
+    width: 12%;
     height: 100%;
     top: 0;
     z-index: 1;
 }
 
 #officemovetrigger11{
-    width: 27%;
+    width: 13%;
     z-index: 2;
-    left: 0;
+    left: 15%;
 }
 
 #officemovetrigger111{
@@ -32,12 +32,12 @@ body {
 }
 
 #officemovetrigger1{
-    left: 0;
+    left: 28%;
 }
 
 #officemovetrigger2{
     left: default;
-    right: 0;
+    right: 27%;
 }
 
 #officemovetrigger22{
@@ -836,4 +836,8 @@ body {
 
 #leftnightbtn:hover, #rightnightbtn:hover{
     filter: brightness(1.75);
+}
+
+#detach-button-host {
+    display: none !important;
 }

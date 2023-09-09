@@ -554,15 +554,22 @@ function movebg(side) {
 
 function movebgleft(distance) {
 	if (officedistance<=0) {
-		officedistance=officedistance+distance;
-
+		if (navigator.userAgent.indexOf("Firefox") !== -1) {
+		    officedistance=officedistance+distance*3;
+		}else{
+			officedistance=officedistance+distance;
+		}
 		office.style.left= officedistance+"%";
 	}	
 }
 
 function movebgright(distance) {
 	if (officedistance>=-50) {
-		officedistance=officedistance-distance;
+		if (navigator.userAgent.indexOf("Firefox") !== -1) {
+		    officedistance=officedistance-distance*3;
+		}else{
+			officedistance=officedistance-distance;
+		}
 		office.style.left= officedistance+"%";
 	}	
 }
@@ -1169,16 +1176,17 @@ function daystart(night){
 		cameratrigger.style.display="block";
 		camerabutton.style.display="block";
 		freddyboop.style.display="block";
-	    officebg.src="img/background/office.png"
+	    officebg.src="img/background/office.png";
 	    visualPower.innerHTML = "";
 	    character1.style.visibility="hidden";
 		character2.style.visibility="hidden";
 		character3.style.visibility="hidden";
 		pizzabtn.style.display="none";
 		owo.style.display="none";
-		ryanoffice.style.display="none";
 		ryanoffice.style.visibility="hidden";
 		joeyoffice.style.visibility="hidden";
+		ryanoffice.style.display="none";
+		joeyoffice.style.display="none";
 		fire.style.display="none";
 		fire.style.opacity="0%";
 		mutecall.style.display="none";
@@ -1310,16 +1318,22 @@ function playSound(soundUrl, loop) {
     source.connect(gainNode);
     gainNode.connect(analyserNode);
     gainNode.gain.value = 1;
-
-    source.onended = function () {
-      playSound(soundUrl, loop);
-    };
   }
+
+  audioElement.addEventListener('ended', function () {
+    const index = playingSources.findIndex(item => item.audioElement === audioElement);
+    if (index !== -1) {
+      playingSources[index].source.disconnect();
+      audioElement.pause();
+      playingSources.splice(index, 1);
+    }
+  });
 
   audioElement.play();
 
   playingSources.push({ source, audioElement });
 }
+
 
 function stopSound() {
   for (const { source, audioElement } of playingSources) {
@@ -1829,6 +1843,10 @@ function ryanMove(){
 					changecam(currentcam);
 				}
 				ryanoffice.style.display="block";
+				if (light1.checked && windowleft==false) {
+					playSound("windowscare",false);
+					windowleft=true;
+				}
 			}, y);
 			timeouts.push(timeout5);
 			const timeout6 = setTimeout(() => {
@@ -1915,6 +1933,10 @@ function joeyMove(){
 						changecam(currentcam);
 					}
 					joeyoffice.style.display="block";
+					if (light2.checked && windowright==false) {
+						playSound("windowscare",false);
+						windowright=true;
+					}
 				}, y);
 				timeouts.push(timeout10);
 				const timeout11 = setTimeout(() => {
