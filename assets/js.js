@@ -1592,6 +1592,7 @@ function lightBrk(side){
 		}, 1000);
 		setTimeout(() => {
 			officelights1.style.display="none";
+			ryanoffice.style.visibility="none";
 			playSound("break",false);
 		}, 1300);
 	}
@@ -1609,6 +1610,7 @@ function lightBrk(side){
 		}, 1000);
 		setTimeout(() => {
 			officelights2.style.display="none";
+			joeyoffice.style.visibility="none";
 			playSound("break",false);
 		}, 1300);
 	}

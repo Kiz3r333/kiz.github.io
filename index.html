@@ -44,10 +44,8 @@
 			document.getElementById("inlineFrame").width = currentWidth;
 			document.getElementById("inlineFrame").height = (currentWidth*(9/16));
 		}
-		
-		setTimeout(function(){
-			checkSize();
-		},4000);
 	}
+	checkSize();
+	window.addEventListener("resize", checkSize);
 </script>
 </html>
