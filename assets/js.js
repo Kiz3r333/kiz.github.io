@@ -78,6 +78,11 @@ var mutecall = document.getElementById("mutecall");
 var leftnightbtn = document.getElementById("leftnightbtn");
 var rightnightbtn = document.getElementById("rightnightbtn");
 var loadprogress = document.getElementById("loadprogress");
+var egg1 = document.getElementById("egg1");
+var egg1trigger = document.getElementById("egg1trigger");
+var eggrando = 0;
+var eggstate = 0;
+var eggleft = false;
 var officedistance = -25;
 var cameradistance = -25;
 var intervalId = null;
@@ -117,6 +122,10 @@ var forceowo=false;
 var miliseconds = 0;
 var timer = setInterval(upTimer, 100);
 var kizstate = 0;
+var camtime = 0;
+var doorConsumption = 0.02;
+var cameraConsumption = 0.02;
+var lightConsumption = 0.01;
 
 function getCookie(name) {
   const value = `; ${document.cookie}`;
@@ -241,6 +250,16 @@ function preload() {
 		["img/background/fire.gif", "image"],
 		["img/menu/star.png", "image"],
 		["img/buttons/mutecall.png", "image"],
+		["img/egg/raiko0.png", "image"],
+		["img/egg/raiko1.png", "image"],
+		["img/egg/raiko2.png", "image"],
+		["img/egg/raiko3.png", "image"],
+		["img/egg/raiko4.png", "image"],
+		["img/egg/raiko0flipped.png", "image"],
+		["img/egg/raiko1flipped.png", "image"],
+		["img/egg/raiko2flipped.png", "image"],
+		["img/egg/raiko3flipped.png", "image"],
+		["img/egg/raiko4flipped.png", "image"],
 		["sfx/BallastHumMedium2.wav", "audio"],
 		["sfx/MiniDV_Tape_Eject_1.wav", "audio"],
 		["sfx/CAMERA_VIDEO_LOA_60105303.wav", "audio"],
@@ -266,12 +285,14 @@ function preload() {
 		["sfx/3VO.wav", "audio"],
 		["sfx/4VO.wav", "audio"],
 		["sfx/5VO.wav", "audio"],
+		["sfx/6VO.wav", "audio"],
 		["sfx/goop.wav", "audio"],
 		["sfx/goop2.wav", "audio"],
 		["sfx/squeak.wav", "audio"],
 		["sfx/fire.wav", "audio"],
 		["sfx/windowscare.wav", "audio"],
-		["sfx/ariamath.wav", "audio"]
+		["sfx/ariamath.wav", "audio"],
+		["sfx/egg.wav", "audio"]
     ];
 
     preloadMediaList(mediaList, function () {
@@ -310,6 +331,7 @@ function cameraopenw(){
 			officemovetrigger2.style.display="block";
 			officemovetrigger22.style.display="block";
 			officemovetrigger222.style.display="block";
+			egg1trigger.style.display="none";
 			freddyboop.style.display="none";
 			buttontrigger1.style.display="none";
 			lighttrigger1.style.display="none";
@@ -393,6 +415,18 @@ function cameraopenw(){
 				static.style.opacity="40%";
 			}, "320");
 		}else{
+			if (currentnight<4) {
+				eggrando = Math.floor(Math.random() * 100);
+			}else{
+				eggrando = 1;
+			}
+			if (eggrando==1) {
+				//egg1.style.visibility="visible";
+				//egg1trigger.style.display="block";
+			}else{
+				egg1.style.visibility="hidden";
+				egg1trigger.style.display="none";
+			}
 			usagenum--;
 			pizzaPress(false);
 			changeVolume("Buzz_Fan_Florescent2",0.4);
@@ -492,9 +526,6 @@ function tick(){
 
 function loadme(){
 	power -= 0.01;
-	const doorConsumption = 0.02;
-	const cameraConsumption = 0.02;
-	const lightConsumption = 0.01;
 	if (door1.checked) {
 	    power -= doorConsumption;
 	}
@@ -522,6 +553,7 @@ function loadme(){
 
 function movebg(side) {
 	clearInterval(intervalId);
+	egg1trigger.style.zindex="1";
 	if (side<=2 && officedistance<=0 && camera.checked==false) {
 		switch (side){
 			case 0:
@@ -560,6 +592,7 @@ function movebgleft(distance) {
 			officedistance=officedistance+distance;
 		}
 		office.style.left= officedistance+"%";
+		egg1trigger.style.zindex="-1";
 	}	
 }
 
@@ -571,6 +604,7 @@ function movebgright(distance) {
 			officedistance=officedistance-distance;
 		}
 		office.style.left= officedistance+"%";
+		egg1trigger.style.zindex="-1";
 	}	
 }
 
@@ -715,6 +749,7 @@ function outofpower(){
 	}
 	officerepeatsrc="beans";
 	officebg.src="img/background/office2.png";
+	egg1.style.filter= "brightness(3%)";
 	lightbreakright=-1;
 	lightbreakleft=-1;
 	light2.checked=false;
@@ -747,6 +782,13 @@ function outofpower(){
 	buttontrigger2.style.display="block";
 	lighttrigger2.style.display="block";
 	freddyboop.style.display="block";
+	if (eggrando==1) {
+		//egg1.style.visibility="visible";
+		//egg1trigger.style.display="block";
+	}else{
+		egg1.style.visibility="hidden";
+		egg1trigger.style.display="none";
+	}
 	for(i = 0; i < lines.length; i++) {
   	  lines[i].style.visibility="hidden";
   	}
@@ -907,9 +949,10 @@ function timecount() {
 	if (x==3 && currentnight==3 && votest==false) {
 		playSound("4VO",false);
 		votest=true;
-		setTimeout(() => {
+		const timeout26 = setTimeout(() => {
 			mutecall.style.display="block";
 		}, "18000");
+		timeouts.push(timeout26);
 		const timeout25 = setTimeout(() => {
 			mutecall.style.display="none";
 		}, "73000");
@@ -929,6 +972,20 @@ function timecount() {
 			fire.style.opacity="70%";
 		}, "97100");
 		timeouts.push(timeout24);
+	}else{
+		const rare = Math.floor(Math.random() * 100);
+		if (x==3 && currentnight<3 && votest==false && rare==1 || x==3 && currentnight>3 && votest==false && rare>=90 || x==3 && currentnight==21 && votest==false) {
+			playSound("6VO",false);
+			votest=true;
+			const timeout27 = setTimeout(() => {
+				mutecall.style.display="block";
+			}, "18000");
+			timeouts.push(timeout27);
+			const timeout28 = setTimeout(() => {
+				mutecall.style.display="none";
+			}, "73000");
+			timeouts.push(timeout28);
+		}
 	}
 	amtime.innerHTML= x + " AM";
 }
@@ -1054,23 +1111,27 @@ function daystart(night){
 	loadscreen.style.display="none";
 	loadprogress.style.display="none";
 	menutime.style.display="block";
+	if (night>20 || night<-20) {
+		night=night.toString();
+		night=night.slice(-1);
+	}
 	night=parseInt(night);
 	switch (night){
 		case 1:
-			menunight.innerHTML= night + "st Night";
+			menunight.innerHTML= currentnight + "st Night";
 			break;
 		case 2:
-			menunight.innerHTML= night + "nd Night";
+			menunight.innerHTML= currentnight + "nd Night";
 			break;
 		case 3:
-			menunight.innerHTML= night + "rd Night";
+			menunight.innerHTML= currentnight + "rd Night";
 			break;
 		default:
-			menunight.innerHTML= night + "th Night";
+			menunight.innerHTML= currentnight + "th Night";
 			break;
 	}
-	nighttime.innerHTML="Night " + night;
-	continuenight.innerHTML="Night " + night;
+	nighttime.innerHTML="Night " + currentnight;
+	continuenight.innerHTML="Night " + currentnight;
 	menunight.style.display="block";
 	tvstatic.style.transition="opacity 0s";
 	tvstatic.style.opacity="100%";
@@ -1118,6 +1179,8 @@ function daystart(night){
 		}
 		miliseconds = 0;
 		kizstate = 0;
+		camtime=0;
+    	cameraConsumption = 0.02;
 		camera.checked=false;
 		light1.checked = false;
 		light2.checked = false;
@@ -1135,6 +1198,8 @@ function daystart(night){
 		for (var i = 0; i < timeouts.length; i++) {
     	    clearTimeout(timeouts[i]);
     	}
+    	eggrando=0;
+    	eggleft = false;
 		slug.style.display="none";
 		slug.style.left="-25%";
 		slug.style.top="-64%";
@@ -1176,6 +1241,13 @@ function daystart(night){
 		cameratrigger.style.display="block";
 		camerabutton.style.display="block";
 		freddyboop.style.display="block";
+		if (eggrando==1) {
+			//egg1.style.visibility="visible";
+			//egg1trigger.style.display="block";
+		}else{
+			egg1.style.visibility="hidden";
+			egg1trigger.style.display="none";
+		}
 	    officebg.src="img/background/office.png";
 	    visualPower.innerHTML = "";
 	    character1.style.visibility="hidden";
@@ -1513,6 +1585,7 @@ function spawnowo(){
 					buttontrigger2.style.display="none";
 					lighttrigger2.style.display="none";
 					freddyboop.style.display="none";
+					egg1trigger.style.display="none";
 					camchar.style.display="none";
 				}
 			}, y+400);
@@ -1618,70 +1691,93 @@ function lightBrk(side){
 
 function changeofficesrc(){
 	officebg.src="img/background/office.png";
+	egg1.style.filter= "brightness(50%)";
 	timeoutID = setTimeout(() => {
 		officebg.src="img/background/office_flicker.png";
+		egg1.style.filter= "brightness(20%)";
 		if (officerepeatsrc=="beans") {
 			officebg.src="img/background/office2.png";
+			egg1.style.filter= "brightness(3%)";
 		}
 	}, 2000);
 	timeoutID = setTimeout(() => {
 		officebg.src="img/background/office.png";
+		egg1.style.filter= "brightness(50%)";
 		if (officerepeatsrc=="beans") {
 			officebg.src="img/background/office2.png";
+			egg1.style.filter= "brightness(3%)";
 		}
 	}, 2200);
 	timeoutID = setTimeout(() => {
 		officebg.src="img/background/office_flicker.png";
+		egg1.style.filter= "brightness(20%)";
 		if (officerepeatsrc=="beans") {
 			officebg.src="img/background/office2.png";
+			egg1.style.filter= "brightness(3%)";
 		}
 	}, 2300);
 	timeoutID = setTimeout(() => {
 		officebg.src="img/background/office.png";
+		egg1.style.filter= "brightness(50%)";
 		if (officerepeatsrc=="beans") {
 			officebg.src="img/background/office2.png";
+			egg1.style.filter= "brightness(3%)";
 		}
 	}, 2400);
 	timeoutID = setTimeout(() => {
 		officebg.src="img/background/office_flicker.png";
+		egg1.style.filter= "brightness(20%)";
 		if (officerepeatsrc=="beans") {
 			officebg.src="img/background/office2.png";
+			egg1.style.filter= "brightness(3%)";
 		}
 	}, 3400);
 	timeoutID = setTimeout(() => {
 		officebg.src="img/background/office.png";
+		egg1.style.filter= "brightness(50%)";
 		if (officerepeatsrc=="beans") {
 			officebg.src="img/background/office2.png";
+			egg1.style.filter= "brightness(3%)";
 		}
 	}, 3900);
 	timeoutID = setTimeout(() => {
 		officebg.src="img/background/office_flicker.png";
+		egg1.style.filter= "brightness(20%)";
 		if (officerepeatsrc=="beans") {
 			officebg.src="img/background/office2.png";
+			egg1.style.filter= "brightness(3%)";
 		}
 	}, 6900);
 	timeoutID = setTimeout(() => {
 		officebg.src="img/background/office.png";
+		egg1.style.filter= "brightness(50%)";
 		if (officerepeatsrc=="beans") {
 			officebg.src="img/background/office2.png";
+			egg1.style.filter= "brightness(3%)";
 		}
 	}, 7000);
 	timeoutID = setTimeout(() => {
 		officebg.src="img/background/office_flicker.png";
+		egg1.style.filter= "brightness(20%)";
 		if (officerepeatsrc=="beans") {
 			officebg.src="img/background/office2.png";
+			egg1.style.filter= "brightness(3%)";
 		}
 	}, 7100);
 	timeoutID = setTimeout(() => {
 		officebg.src="img/background/office.png";
+		egg1.style.filter= "brightness(50%)";
 		if (officerepeatsrc=="beans") {
 			officebg.src="img/background/office2.png";
+			egg1.style.filter= "brightness(3%)";
 		}
 	}, 7200);
 	timeoutID = setTimeout(() => {
 		officebg.src="img/background/office.png";
+		egg1.style.filter= "brightness(50%)";
 		if (officerepeatsrc=="beans") {
 			officebg.src="img/background/office2.png";
+			egg1.style.filter= "brightness(3%)";
 		}
 	}, 7700);
 	timeoutID = setTimeout(() => {
@@ -1689,6 +1785,7 @@ function changeofficesrc(){
 		if (officerepeatsrc=="beans") {
 			officerepeatsrc="beans";
 			officebg.src="img/background/office2.png";
+			egg1.style.filter= "brightness(3%)";
 		}
 	}, 9700);
 }
@@ -1724,6 +1821,7 @@ function kizzydeath(){
 		buttontrigger2.style.display="none";
 		lighttrigger2.style.display="none";
 		freddyboop.style.display="none";
+		egg1trigger.style.display="none";
 		for(i = 0; i < lines.length; i++) {
   		  lines[i].style.visibility="hidden";
   		}
@@ -2004,7 +2102,24 @@ function furrydeath(){
 
 function upTimer() {
     ++miliseconds;
-
+    if (camera.checked) {
+    	++camtime;
+    	switch (true){
+			case (450<=camtime && 600>camtime):
+				cameraConsumption=cameraConsumption+0.002;
+				usage3.style.display="block";
+				break;
+			case (600<=camtime):
+				cameraConsumption=cameraConsumption+0.01;
+				usage3.style.display="block";
+				usage4.style.display="block";
+				break;
+		}
+    }else{
+    	camtime=0;
+    	cameraConsumption = 0.02;
+    }
+    
     var seconds = Math.floor((miliseconds / 10) % 60); // Calculate seconds
     var minutes = Math.floor(miliseconds / 600); // Calculate minutes
 
@@ -2022,6 +2137,7 @@ function mute(){
 	changeVolume("3VO",0);
 	changeVolume("4VO",0);
 	changeVolume("5VO",0);
+	changeVolume("6VO",0);
 	mutecall.style.display="none";
 }
 
@@ -2084,6 +2200,48 @@ function kizvisual() {
 			timeouts.push(timeout15);
 			break;
 	}
+}
+
+function animateegg1(){
+	x=Math.floor(Math.random() * (30000-16000))+16000;
+	y=Math.floor(Math.random() * (30000-16000))+16000;
+	egg1.style.left="45.5%";
+	egg1trigger.style.left="45.5%";
+	setTimeout(() => {
+		changeeggsprite(true);
+	}, 14000);
+	setTimeout(() => {
+		egg1.style.left="37%";
+		egg1trigger.style.left="37%";
+	}, x);
+	setTimeout(() => {
+		changeeggsprite(false);
+	}, x+14000);
+	setTimeout(() => {
+		animateegg1();
+	}, x+14000+y);
+}
+
+animateegg1();
+
+function changeeggsprite(leftcheck){
+	if (leftcheck==true) {
+		eggleft=true;
+	}else{
+		if (leftcheck==false) {
+			eggleft=false;
+		}
+	}
+	z=eggstate;
+	while(eggstate==z){
+		z=Math.floor(Math.random() * (5));
+	}
+	if (eggleft==true) {
+		egg1.src="img/egg/raiko"+z+".png";
+	}else{
+		egg1.src="img/egg/raiko"+z+"flipped.png";
+	}
+	eggstate=z;
 }
 
 console.log("ඞ");

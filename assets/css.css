@@ -845,3 +845,35 @@ body {
 .txt:hover {
     text-decoration: underline;
 }
+
+#egg1,#egg1trigger{
+  position: absolute;
+  width: 4%;
+  left: 37%;
+  top: 37%;
+  z-index: -1;
+  transition: left 14s;
+  filter: brightness(50%);
+}
+
+#egg1{
+    animation: bounce 1s infinite;
+}
+
+#egg1trigger{
+    z-index: 1;
+    display: none;
+    height: 11%;
+}
+
+@keyframes bounce {
+  0%, 20%, 50%, 80%, 100% {
+    transform: translateY(0) scaleX(1) scaleY(1); /* Bounce and reset scale */
+  }
+  40% {
+    transform: translateY(-2vw) scaleX(1.2) scaleY(0.8); /* Squish */
+  }
+  60% {
+    transform: translateY(-1vw) scaleX(0.8) scaleY(1.2); /* Stretch */
+  }
+}
