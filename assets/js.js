@@ -285,7 +285,6 @@ function preload() {
 		["sfx/3VO.wav", "audio"],
 		["sfx/4VO.wav", "audio"],
 		["sfx/5VO.wav", "audio"],
-		["sfx/6VO.wav", "audio"],
 		["sfx/goop.wav", "audio"],
 		["sfx/goop2.wav", "audio"],
 		["sfx/squeak.wav", "audio"],
@@ -972,20 +971,6 @@ function timecount() {
 			fire.style.opacity="70%";
 		}, "97100");
 		timeouts.push(timeout24);
-	}else{
-		const rare = Math.floor(Math.random() * 100);
-		if (x==3 && currentnight<3 && votest==false && rare==1 || x==3 && currentnight>3 && votest==false && rare>=90 || x==3 && currentnight==21 && votest==false) {
-			playSound("6VO",false);
-			votest=true;
-			const timeout27 = setTimeout(() => {
-				mutecall.style.display="block";
-			}, "18000");
-			timeouts.push(timeout27);
-			const timeout28 = setTimeout(() => {
-				mutecall.style.display="none";
-			}, "73000");
-			timeouts.push(timeout28);
-		}
 	}
 	amtime.innerHTML= x + " AM";
 }
@@ -2137,7 +2122,6 @@ function mute(){
 	changeVolume("3VO",0);
 	changeVolume("4VO",0);
 	changeVolume("5VO",0);
-	changeVolume("6VO",0);
 	mutecall.style.display="none";
 }
 
