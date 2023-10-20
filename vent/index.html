@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>RAWR</title>
+	<link rel="icon" href="assets/img/favicon-32x32.png">
+	<style type="text/css">
+		html{
+			background-color: black;
+			overflow: hidden;
+		}
+		#FS{
+			text-align: center;
+			position: absolute;
+			width: 99%;
+			padding: 0%;
+			top: 0%;
+			left: 0%;
+		}
+		iframe{
+			transition: width 1s, height 1s;
+		}
+	</style>
+</head>
+<body onload="checkSize()">
+	<div id="FS">
+		<iframe id="inlineFrame"
+	    title="RAWR"
+	    width="1920"
+	    height="1080"
+	    frameBorder="0"
+	    src="assets/index.html">
+		</iframe>
+	</div>
+</body>
+<script type="text/javascript">
+	function checkSize() {
+		var currentHeight = window.innerHeight*1;
+		var currentWidth = window.innerWidth*1;
+		if (currentHeight<currentWidth && currentHeight*(16/9)<=window.innerWidth) {
+			document.getElementById("inlineFrame").height = currentHeight;
+			document.getElementById("inlineFrame").width = (currentHeight*(16/9));
+		}else{
+			document.getElementById("inlineFrame").width = currentWidth;
+			document.getElementById("inlineFrame").height = (currentWidth*(9/16));
+		}
+	}
+	checkSize();
+	window.addEventListener("resize", checkSize);
+</script>
+</html>

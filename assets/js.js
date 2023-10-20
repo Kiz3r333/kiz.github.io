@@ -420,8 +420,8 @@ function cameraopenw(){
 				eggrando = 1;
 			}
 			if (eggrando==1) {
-				//egg1.style.visibility="visible";
-				//egg1trigger.style.display="block";
+				egg1.style.visibility="visible";
+				egg1trigger.style.display="block";
 			}else{
 				egg1.style.visibility="hidden";
 				egg1trigger.style.display="none";
@@ -782,8 +782,8 @@ function outofpower(){
 	lighttrigger2.style.display="block";
 	freddyboop.style.display="block";
 	if (eggrando==1) {
-		//egg1.style.visibility="visible";
-		//egg1trigger.style.display="block";
+		egg1.style.visibility="visible";
+		egg1trigger.style.display="block";
 	}else{
 		egg1.style.visibility="hidden";
 		egg1trigger.style.display="none";
@@ -1227,8 +1227,8 @@ function daystart(night){
 		camerabutton.style.display="block";
 		freddyboop.style.display="block";
 		if (eggrando==1) {
-			//egg1.style.visibility="visible";
-			//egg1trigger.style.display="block";
+			egg1.style.visibility="visible";
+			egg1trigger.style.display="block";
 		}else{
 			egg1.style.visibility="hidden";
 			egg1trigger.style.display="none";
