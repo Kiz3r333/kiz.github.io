@@ -135,13 +135,7 @@ function getCookie(name) {
 
 currentnight = getCookie("currentnight");
 nighthighscore = getCookie("nighthighscore");
-if (nighthighscore<4 || nighthighscore === undefined || nighthighscore == undefined || nighthighscore === "undefined" || nighthighscore == "undefined") {
-	nighthighscore = 4;
-}
-var expirationDate = new Date();
-expirationDate.setFullYear(expirationDate.getFullYear() + 1);
 
-document.cookie = `nighthighscore=${nighthighscore}; expires=${expirationDate.toUTCString()}; path=/`;
 if (currentnight === undefined){
 	currentnight = 1;
 }
