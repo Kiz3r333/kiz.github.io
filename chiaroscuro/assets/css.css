@@ -1,0 +1,502 @@
+body {
+  overflow: hidden; /* Hide scrollbars */
+  color: white;
+  background-color: black;
+  -webkit-touch-callout: none; /* iOS Safari */
+    -webkit-user-select: none; /* Safari */
+     -khtml-user-select: none; /* Konqueror HTML */
+       -moz-user-select: none; /* Old versions of Firefox */
+        -ms-user-select: none; /* Internet Explorer/Edge */
+            user-select: none; /* Non-prefixed version, currently
+                                  supported by Chrome, Edge, Opera and Firefox */
+}
+#officemovetrigger1,#officemovetrigger2,#officemovetrigger11,#officemovetrigger111,#officemovetrigger22,#officemovetrigger222{
+    position: absolute;
+    background-color: transparent;
+    width: 12%;
+    height: 100%;
+    top: 0;
+    z-index: 1;
+}
+
+#officemovetrigger11{
+    width: 13%;
+    z-index: 2;
+    left: 15%;
+}
+
+#officemovetrigger111{
+    width: 15%;
+    z-index: 3;
+    left: 0;
+}
+
+#officemovetrigger1{
+    left: 28%;
+}
+
+#officemovetrigger2{
+    left: default;
+    right: 27%;
+}
+
+#officemovetrigger22{
+    width: 27%;
+    z-index: 2;
+    right: 0;
+}
+
+#officemovetrigger222{
+    width: 15%;
+    z-index: 3;
+    right: 0;
+}
+
+#office{
+    position: absolute;
+    width: 150%;
+    height: 100%;
+    left: -25%;
+    top: 0;
+}
+
+#officebg,#officelights1,#officelights2{
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    z-index: -2;
+}
+
+#officelights1,#officelights2{
+    z-index: -3;
+    display: none;
+}
+
+#leftbutton,#leftlight{
+    position: absolute;
+    width: 4%;
+    left: -0.5%;
+    top: 42%;
+    z-index: -1;
+}
+
+#rightbutton,#rightlight{
+    position: absolute;
+    width: 4%;
+    left: 95%;
+    top: 42%;
+    z-index: -1;
+}
+
+#leftdoor{
+    position: absolute;
+    width: 15%;
+    left: -1%;
+    top: -22%;
+    z-index: -2;
+}
+
+#rightdoor{
+    position: absolute;
+    width: 15%;
+    left: 83%;
+    top: -12%;
+    z-index: -2;
+}
+
+#buttontrigger1,#buttontrigger2{
+    position: absolute;
+    left: 0.5%;
+    top: 48%;
+    width: 2%;
+    height: 7%;
+    z-index: 4;
+}
+
+#buttontrigger2{
+    left: 96%;
+}
+
+#lighttrigger1,#lighttrigger2{
+    position: absolute;
+    left: 0.5%;
+    top: 57%;
+    width: 2%;
+    height: 7%;
+    z-index: 4;
+}
+
+#lighttrigger2{
+    left: 96%;
+}
+
+#cameratrigger{
+    position: absolute;
+    width: 50%;
+    height: 15%;
+    bottom: 0;
+    left: 25%;
+    z-index: 2;
+}
+
+#camerabutton{
+    position: absolute;
+    pointer-events: none;
+    display: none;
+    width: 50%;
+    bottom: 1%;
+    left: 25%;
+    z-index: 2;
+}
+
+#camerabg{
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    pointer-events: none;
+    visibility: hidden;
+    z-index: 2;
+}
+
+#UI,#camtxt,#amtime,#nighttime,#title,#newgame,#continue,#version,#select,#credits,#continuenight,
+#warning,#menutime,#menunight,#survived,#survived5,#survived6,#starnumber,#exacttime,#loadprogress{
+    position: absolute;
+    width: 30%;
+    bottom: 7%;
+    left: 5%; 
+    font-size: 2vh;
+    z-index: 9;
+    font-family: consolas;
+    filter: drop-shadow(0 0 1rem black);
+}
+
+#loadprogress{
+    bottom: 2%;
+    left: 77%;
+    font-size: 2vh;
+    z-index: 0;
+    display: none;
+}
+
+#debug{
+    position: absolute;
+    top: 1%;
+    left: 1%;
+    z-index: 100;
+}
+
+#cam,#static,#brokenoverlay{
+    position: absolute;
+    width: 107%;
+    top: 7%;
+    left: 4%;
+    z-index: 1;
+    pointer-events: none;
+}
+
+#cam{
+    position: static;
+    visibility: hidden;
+    width: 114.5%;
+    filter: grayscale(84%) brightness(263%) contrast(229%);
+}
+
+#camchar{
+    transition: left 10s;
+    position: absolute;
+    width: 101%;
+    left: 10%;
+    top: 6%;
+}
+
+#static,#brokenoverlay{
+    z-index: 4;
+    opacity: 70%;
+    width: 91.5%;
+    height: 84.5%;
+    top: 8%;
+}
+
+#brokenoverlay{
+    z-index: 1;
+    display: none;
+    opacity: 70%;
+}
+
+#map{
+    position: absolute;
+    z-index: 2;
+    width: 30%;
+    top: 44%;
+    left: 64%;
+    pointer-events: none;
+}
+
+#cam1a,#cam1b,#cam1c,#cam2a,#cam2b,#cam3,#cam4a,#cam4b,#cam5,#cam6,#cam7{
+    position: absolute;
+    width: 3%;
+    z-index: 3;
+    filter: grayscale(1);
+}
+
+#cam1a{
+    left: 72%;
+    top: 42%;
+    filter: grayscale(0);
+    display: none;
+}
+
+#cam1b{
+    left: 77.5%;
+    top: 60%;
+}
+
+#cam1c{
+    left: 69.7%;
+    top: 69%;
+}
+
+#cam2a{
+    left: 72%;
+    top: 78%;
+    display: none;
+}
+
+#cam2b{
+    left: 72%;
+    top: 84%;
+    display: none;
+}
+
+#cam3{
+    left: 67%;
+    top: 74%;
+    display: none;
+}
+
+#cam4a{
+    left: 80%;
+    top: 78%;
+    display: none;
+}
+
+#cam4b{
+    left: 80%;
+    top: 84%;
+    display: none;
+}
+
+#cam5{
+    left: 63%;
+    top: 58%;
+}
+
+#cam6{
+    left: 90.4%;
+    top: 47%;
+}
+
+#cam7{
+    left: 89%;
+    top: 54%;
+    display: none;
+}
+
+#camtxt{
+    bottom: 58%;
+    left: 63%;
+    font-size: 5vh;
+    z-index: 2;
+}
+
+#amtime{
+    bottom: 81%;
+    left: 64.5%;
+    font-size: 6vh;
+    text-align: right;
+}
+
+#nighttime{
+    bottom: 81%;
+    left: 64.5%;
+    text-align: right;
+}
+
+#exacttime{
+    bottom: 78%;
+    left: 64.5%;
+    text-align: right;
+}
+
+#game{
+    display: none;
+    transition: opacity 3s;
+}
+
+#title{
+    width: 10%;
+    bottom: 54%;
+    left: 13%;
+    font-size: 7vh;
+    z-index: 0;
+}
+
+#newgame,#continue,#select{
+    width: 15%;
+    bottom: 40%;
+    left: 13%;
+    font-size: 6vh;
+    z-index: 0;
+}
+
+#continue{
+    bottom: 30%;
+}
+
+#select{
+    left: 8%;
+    pointer-events: none;
+}
+
+#version,#credits,#continuenight{
+    bottom: -2%;
+    left: 1%;
+    font-size: 3.5vh;
+    z-index: 0;
+}
+
+#continuenight{
+    left: 13%;
+    bottom: 27%;
+    display: none;
+}
+
+#credits{
+    width: 50%;
+    left: 48%;
+    text-align: right;
+}
+
+#menu{
+    display: none;
+    transition: opacity 3s;
+}
+
+#warning{
+    text-align: center;
+    width: 25%;
+    left: 38%;
+    bottom: 50%;
+    transition: opacity 3s;
+}
+
+#loadscreen{
+    display: none;
+    position: absolute;
+    top: 92%;
+    width: 3%;
+    left: 94%;
+}
+
+#menutime,#menunight,#survived,#survived5,#survived6{
+    display: none;
+    transition: opacity 3s;
+    bottom: 60%;
+    left: 35%;
+    font-size: 6vh;
+    text-align: center;
+}
+
+#menunight{
+    bottom: 50%;
+}
+
+#myVideo{
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    display: none;
+}
+
+#skipintro,#mutecall{
+    position: absolute;
+    top: 92%;
+    left: 86%;
+    width: 12%;
+    z-index: 8;
+    opacity: 50%;
+    display: none;
+}
+
+#skipintro:hover,#mutecall:hover{
+    opacity: 100%;
+}
+
+#starpng{
+    position: absolute;
+    display: none;
+    top: 11%;
+    left: 36%;
+    width: 5%;
+}
+
+#starnumber{
+    display: none;
+    width: 4%;
+    bottom: 78%;
+    left: 36.5%;
+    font-size: 5vh;
+    z-index: 1;
+    text-align: center;
+}
+
+#detach-button-host {
+    display: none !important;
+}
+
+.txt:hover {
+    text-decoration: underline;
+}
+
+#valve,#valvehitbox{
+    position: absolute;
+    top: 20%;
+    left: 35%;
+    width: 30%;
+    z-index: 2;
+}
+
+#valvehitbox{
+    height: 53%;
+    z-index: 11;
+}
+
+#room1bg{
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 1;
+}
+
+#room1waterbg{
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 0;
+}
+
+.shadow {
+  position: absolute;
+  width: 200vw;
+  height: 200vh;
+  left: 50%;
+  top: 50%;
+  transform: translateX(-50%) translateY(-50%);
+  background-image: radial-gradient(circle at center, transparent, #000 80%);
+  z-index: 10;
+}
