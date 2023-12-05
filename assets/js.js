@@ -414,12 +414,12 @@ function cameraopenw(){
 				static.style.opacity="40%";
 			}, "320");
 		}else{
-			if (currentnight<4) {
+			if (currentnight<999999999999999999999) {
 				eggrando = Math.floor(Math.random() * 100);
 			}else{
 				eggrando = 1;
 			}
-			if (eggrando==1) {
+			if (eggrando==1333) {
 				egg1.style.visibility="visible";
 				egg1trigger.style.display="block";
 			}else{

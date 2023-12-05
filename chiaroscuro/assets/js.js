@@ -1,8 +1,28 @@
 var cutscene = document.getElementById("cutscene");
 var continuemenu = document.getElementById("continue");
+var triggers = document.getElementById("triggers");
+var lefttrigger = document.getElementById("lefttrigger");
+var righttrigger = document.getElementById("righttrigger");
+var toptrigger = document.getElementById("toptrigger");
 const timeouts = [];
 var currentnight=1;
+var currentroom=2;
+var holding=0;
 
+// Creating a 3-dimensional array
+let threeDimensionalArray = [
+    // First dimension
+    [
+        // Second dimension
+        ["Room 1", 2, 0, 0],
+        ["Room 2", 0, 1, 0]
+    ],
+    [
+        // Second dimension
+        ["Room 1", 2, 0, 0],
+        ["Room 2", 0, 1, 0]
+    ]
+];
 
 function getCookie(name) {
   const value = `; ${document.cookie}`;
@@ -123,7 +143,7 @@ function fadewarning(timerout){
         clearTimeout(timeouts[i]);
     }
 	setTimeout(() => {
-		continuenight.innerHTML="Night " + currentnight;
+		continuenight.innerHTML="Chamber " + currentnight;
 		menu.style.display="block";
 		warning.style.display="none";
   		playSound("darkness_music",true);
@@ -148,54 +168,13 @@ function checkloading(){
 	}
 }
 
-function skipvideo(){
-	myVideo.pause();
-    myVideo.currentTime = 0;
-	videned = true;
-	checkloading();
-}
-
-myVideo.addEventListener('ended',myHandler,false);
-var videned = false;
-function myHandler() {
-	videned = true;
-	checkloading();
-}
-
 function daystart(night){
 	playSound("blip3",false);
 	loadscreen.style.display="none";
 	loadprogress.style.display="none";
-	menutime.style.display="block";
-	if (night>20 || night<-20) {
-		night=night.toString();
-		night=night.slice(-1);
-	}
-	night=parseInt(night);
-	switch (night){
-		case 1:
-			menunight.innerHTML= currentnight + "st Night";
-			break;
-		case 2:
-			menunight.innerHTML= currentnight + "nd Night";
-			break;
-		case 3:
-			menunight.innerHTML= currentnight + "rd Night";
-			break;
-		default:
-			menunight.innerHTML= currentnight + "th Night";
-			break;
-	}
-	continuenight.innerHTML="Night " + currentnight;
-	menunight.style.display="block";
-	setTimeout(() => {
-		menutime.style.opacity="0%";
-		menunight.style.opacity="0%";
-	}, "4000");
-	setTimeout(() => {
-		game.style.display="block";
-		cutscene.style.display="none";
-	}, "7000");
+  loadroom(currentroom);
+  game.style.display="block";
+  cutscene.style.display="none";
 }
 
 let audioContext;
@@ -298,9 +277,6 @@ valvehitbox.addEventListener('mousedown', handleMouseDown);
 document.addEventListener('mouseup', handleMouseUp);
 document.addEventListener('mousemove', handleMouseMove);
 
-// Start continuous rotation when the page loads
-continuousRotationInterval = setInterval(rotateValveContinuously, 10);
-
 function handleMouseDown(event) {
   isMouseDown = true;
   previousAngle = getMouseAngle(event);
@@ -310,9 +286,13 @@ function handleMouseDown(event) {
 
 function handleMouseUp() {
   isMouseDown = false;
-  continuousRotationInterval = setInterval(rotateValveContinuously, 10);
+  clearInterval(continuousRotationInterval);
+  if (accumulatedRotation > minRotation) {
+    continuousRotationInterval = setInterval(rotateValveContinuously, 10);
+  }
   isRotatingManually = false;
 }
+
 
 function handleMouseMove(event) {
   if (isMouseDown) {
@@ -331,14 +311,21 @@ function handleMouseMove(event) {
 }
 
 function rotateValveContinuously() {
+  //console.log(accumulatedRotation);
   if (!isMouseDown && !isRotatingManually) {
     // Adjust this value to change the speed of continuous rotation
-    const continuousRotationSpeed = 0.01;
+    const continuousRotationSpeed = 0.02;
     accumulatedRotation -= continuousRotationSpeed;
     accumulatedRotation = clampRotation(accumulatedRotation);
     valve.style.transform = `rotate(${accumulatedRotation}deg)`;
+
+    // Stop continuous rotation when the valve reaches the minimum rotation
+    if (accumulatedRotation <= minRotation) {
+      clearInterval(continuousRotationInterval);
+    }
   }
 }
+
 
 function getMouseAngle(event) {
   const rect = valve.getBoundingClientRect();
@@ -373,5 +360,34 @@ document.addEventListener('mousemove', (e) => {
   let y = e.clientY - (document.documentElement.clientHeight * 1.5);
   shadow.style.transform = 'translate(' + x + 'px, ' + y + 'px)';
 })
+
+function loadroom(room) {
+  lefttrigger.removeAttribute("onclick");
+  righttrigger.removeAttribute("onclick");
+  toptrigger.removeAttribute("onclick");
+  triggers.style.display="none";
+  document.getElementById("room"+currentroom).style.opacity="0%";
+  setTimeout(() => {
+    document.getElementById("room"+currentroom).style.display="none";
+    document.getElementById("room"+room).style.display="block";
+    document.getElementById("room"+room).style.opacity="0%";
+    currentroom=room;
+  }, "410");
+  setTimeout(() => {
+    document.getElementById("room"+room).style.opacity="100%";
+  }, "500");
+  setTimeout(() => {
+    if (threeDimensionalArray[(currentnight-1)][(room-1)][1]!=0) {
+      lefttrigger.setAttribute("onclick", "loadroom("+threeDimensionalArray[(currentnight-1)][(room-1)][1]+");");
+    }
+    if (threeDimensionalArray[(currentnight-1)][(room-1)][2]!=0) {
+      righttrigger.setAttribute("onclick", "loadroom("+threeDimensionalArray[(currentnight-1)][(room-1)][2]+");");
+    }
+    if (threeDimensionalArray[(currentnight-1)][(room-1)][3]!=0) {
+      toptrigger.setAttribute("onclick", "loadroom("+threeDimensionalArray[(currentnight-1)][(room-1)][3]+");");
+    }
+    triggers.style.display="block";
+  }, "900");
+}
 
 console.log("ඞ");

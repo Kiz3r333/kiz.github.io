@@ -15,7 +15,7 @@
 		<h1 id="continue" onmouseover="selectmenu(1);" onclick="startnight(currentnight);">Continue</h1>
 		<h1 id="select">>></h1>
 		<h3 id="continuenight">Night 1</h3>
-		<h3 id="version">v0.1</h3>
+		<h3 id="version">v0.4</h3>
 		<h3 id="credits">A game by <a class="txt" onclick="window.open('https://www.youtube.com/@KizGalaxy', '_blank')">Kiz</a><br>for <a class="txt" onclick="window.open('https://www.twitch.tv/raiko_shallfaster', '_blank')">Raiko_Shallfaster</a></h3>
 		<img src="img/menu/star.png" id="starpng" draggable="false">
 		<img src="img/menu/nightbtn.png" id="leftnightbtn" draggable="false" onclick="increasenight(0)">
@@ -23,29 +23,27 @@
 		<h1 id="starnumber">4</h1>
 	</div>
 	<div id="cutscene">
-		<img id="skipintro" src="img/menu/skipintro.png" draggable="false" onclick="skipvideo()">
 		<img id="loadscreen" src="img/menu/Loading_Clock_1.png" draggable="false">
 		<h3 id="loadprogress">0 assets loaded out of 0</h3>
-		<video class="myVideo" id="myVideo">
-            <source src="img/intro.mp4" type="video/mp4">
-            Your browser does not support HTML5 video.
-          </video> 
-		<h1 id="menutime">12:00 AM</h1>
-		<h1 id="menunight">1st Night</h1>
-		<div id="survived6div">
-			<h1 id="survived">AM</h1>
-			<h1 id="survived5">5</h1>
-			<h1 id="survived6">6</h1>
-		</div>
 		
 	</div>
 	<div id="game">
 		<div class="shadow"></div>
+		<div id="triggers">
+			<div id="lefttrigger"></div>
+			<div id="righttrigger"></div>
+			<div id="toptrigger"></div>
+		</div>
 		<div id="room1">
 			<img src="img/objects/valve.png" id="valve" draggable="false">
 			<div id="valvehitbox"></div>
 			<img src="img/scene/room1.png" id="room1bg" draggable="false">
-			<img src="img/scene/water.gif" id="room1waterbg" draggable="false">
+		</div>
+		<div id="room2">
+			<img src="img/scene/room2.png" id="room2bg" draggable="false">
+			<img src="img/objects/room2hatch.png" id="room2hatch" draggable="false">
+			<img src="img/objects/room2hatchcover.png" id="room2hatchcover" draggable="false">
+			<img src="img/objects/room2lightred.png" id="room2light" draggable="false">
 		</div>
 	</div>
 </body>
