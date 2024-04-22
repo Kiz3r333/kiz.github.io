@@ -78,11 +78,6 @@ var mutecall = document.getElementById("mutecall");
 var leftnightbtn = document.getElementById("leftnightbtn");
 var rightnightbtn = document.getElementById("rightnightbtn");
 var loadprogress = document.getElementById("loadprogress");
-var egg1 = document.getElementById("egg1");
-var egg1trigger = document.getElementById("egg1trigger");
-var eggrando = 0;
-var eggstate = 0;
-var eggleft = false;
 var officedistance = -25;
 var cameradistance = -25;
 var intervalId = null;
@@ -250,16 +245,6 @@ function preload() {
 		["img/background/fire.gif", "image"],
 		["img/menu/star.png", "image"],
 		["img/buttons/mutecall.png", "image"],
-		["img/egg/raiko0.png", "image"],
-		["img/egg/raiko1.png", "image"],
-		["img/egg/raiko2.png", "image"],
-		["img/egg/raiko3.png", "image"],
-		["img/egg/raiko4.png", "image"],
-		["img/egg/raiko0flipped.png", "image"],
-		["img/egg/raiko1flipped.png", "image"],
-		["img/egg/raiko2flipped.png", "image"],
-		["img/egg/raiko3flipped.png", "image"],
-		["img/egg/raiko4flipped.png", "image"],
 		["sfx/BallastHumMedium2.wav", "audio"],
 		["sfx/MiniDV_Tape_Eject_1.wav", "audio"],
 		["sfx/CAMERA_VIDEO_LOA_60105303.wav", "audio"],
@@ -290,8 +275,7 @@ function preload() {
 		["sfx/squeak.wav", "audio"],
 		["sfx/fire.wav", "audio"],
 		["sfx/windowscare.wav", "audio"],
-		["sfx/ariamath.wav", "audio"],
-		["sfx/egg.wav", "audio"]
+		["sfx/ariamath.wav", "audio"]
     ];
 
     preloadMediaList(mediaList, function () {
@@ -330,7 +314,6 @@ function cameraopenw(){
 			officemovetrigger2.style.display="block";
 			officemovetrigger22.style.display="block";
 			officemovetrigger222.style.display="block";
-			egg1trigger.style.display="none";
 			freddyboop.style.display="none";
 			buttontrigger1.style.display="none";
 			lighttrigger1.style.display="none";
@@ -414,18 +397,6 @@ function cameraopenw(){
 				static.style.opacity="40%";
 			}, "320");
 		}else{
-			if (currentnight<999999999999999999999) {
-				eggrando = Math.floor(Math.random() * 100);
-			}else{
-				eggrando = 1;
-			}
-			if (eggrando==1333) {
-				egg1.style.visibility="visible";
-				egg1trigger.style.display="block";
-			}else{
-				egg1.style.visibility="hidden";
-				egg1trigger.style.display="none";
-			}
 			usagenum--;
 			pizzaPress(false);
 			changeVolume("Buzz_Fan_Florescent2",0.4);
@@ -552,7 +523,6 @@ function loadme(){
 
 function movebg(side) {
 	clearInterval(intervalId);
-	egg1trigger.style.zindex="1";
 	if (side<=2 && officedistance<=0 && camera.checked==false) {
 		switch (side){
 			case 0:
@@ -591,7 +561,6 @@ function movebgleft(distance) {
 			officedistance=officedistance+distance;
 		}
 		office.style.left= officedistance+"%";
-		egg1trigger.style.zindex="-1";
 	}	
 }
 
@@ -603,7 +572,6 @@ function movebgright(distance) {
 			officedistance=officedistance-distance;
 		}
 		office.style.left= officedistance+"%";
-		egg1trigger.style.zindex="-1";
 	}	
 }
 
@@ -748,7 +716,6 @@ function outofpower(){
 	}
 	officerepeatsrc="beans";
 	officebg.src="img/background/office2.png";
-	egg1.style.filter= "brightness(3%)";
 	lightbreakright=-1;
 	lightbreakleft=-1;
 	light2.checked=false;
@@ -781,13 +748,6 @@ function outofpower(){
 	buttontrigger2.style.display="block";
 	lighttrigger2.style.display="block";
 	freddyboop.style.display="block";
-	if (eggrando==1) {
-		egg1.style.visibility="visible";
-		egg1trigger.style.display="block";
-	}else{
-		egg1.style.visibility="hidden";
-		egg1trigger.style.display="none";
-	}
 	for(i = 0; i < lines.length; i++) {
   	  lines[i].style.visibility="hidden";
   	}
@@ -1183,8 +1143,6 @@ function daystart(night){
 		for (var i = 0; i < timeouts.length; i++) {
     	    clearTimeout(timeouts[i]);
     	}
-    	eggrando=0;
-    	eggleft = false;
 		slug.style.display="none";
 		slug.style.left="-25%";
 		slug.style.top="-64%";
@@ -1226,13 +1184,6 @@ function daystart(night){
 		cameratrigger.style.display="block";
 		camerabutton.style.display="block";
 		freddyboop.style.display="block";
-		if (eggrando==1) {
-			egg1.style.visibility="visible";
-			egg1trigger.style.display="block";
-		}else{
-			egg1.style.visibility="hidden";
-			egg1trigger.style.display="none";
-		}
 	    officebg.src="img/background/office.png";
 	    visualPower.innerHTML = "";
 	    character1.style.visibility="hidden";
@@ -1570,7 +1521,6 @@ function spawnowo(){
 					buttontrigger2.style.display="none";
 					lighttrigger2.style.display="none";
 					freddyboop.style.display="none";
-					egg1trigger.style.display="none";
 					camchar.style.display="none";
 				}
 			}, y+400);
@@ -1676,93 +1626,70 @@ function lightBrk(side){
 
 function changeofficesrc(){
 	officebg.src="img/background/office.png";
-	egg1.style.filter= "brightness(50%)";
 	timeoutID = setTimeout(() => {
 		officebg.src="img/background/office_flicker.png";
-		egg1.style.filter= "brightness(20%)";
 		if (officerepeatsrc=="beans") {
 			officebg.src="img/background/office2.png";
-			egg1.style.filter= "brightness(3%)";
 		}
 	}, 2000);
 	timeoutID = setTimeout(() => {
 		officebg.src="img/background/office.png";
-		egg1.style.filter= "brightness(50%)";
 		if (officerepeatsrc=="beans") {
 			officebg.src="img/background/office2.png";
-			egg1.style.filter= "brightness(3%)";
 		}
 	}, 2200);
 	timeoutID = setTimeout(() => {
 		officebg.src="img/background/office_flicker.png";
-		egg1.style.filter= "brightness(20%)";
 		if (officerepeatsrc=="beans") {
 			officebg.src="img/background/office2.png";
-			egg1.style.filter= "brightness(3%)";
 		}
 	}, 2300);
 	timeoutID = setTimeout(() => {
 		officebg.src="img/background/office.png";
-		egg1.style.filter= "brightness(50%)";
 		if (officerepeatsrc=="beans") {
 			officebg.src="img/background/office2.png";
-			egg1.style.filter= "brightness(3%)";
 		}
 	}, 2400);
 	timeoutID = setTimeout(() => {
 		officebg.src="img/background/office_flicker.png";
-		egg1.style.filter= "brightness(20%)";
 		if (officerepeatsrc=="beans") {
 			officebg.src="img/background/office2.png";
-			egg1.style.filter= "brightness(3%)";
 		}
 	}, 3400);
 	timeoutID = setTimeout(() => {
 		officebg.src="img/background/office.png";
-		egg1.style.filter= "brightness(50%)";
 		if (officerepeatsrc=="beans") {
 			officebg.src="img/background/office2.png";
-			egg1.style.filter= "brightness(3%)";
 		}
 	}, 3900);
 	timeoutID = setTimeout(() => {
 		officebg.src="img/background/office_flicker.png";
-		egg1.style.filter= "brightness(20%)";
 		if (officerepeatsrc=="beans") {
 			officebg.src="img/background/office2.png";
-			egg1.style.filter= "brightness(3%)";
 		}
 	}, 6900);
 	timeoutID = setTimeout(() => {
 		officebg.src="img/background/office.png";
-		egg1.style.filter= "brightness(50%)";
 		if (officerepeatsrc=="beans") {
 			officebg.src="img/background/office2.png";
-			egg1.style.filter= "brightness(3%)";
 		}
 	}, 7000);
 	timeoutID = setTimeout(() => {
 		officebg.src="img/background/office_flicker.png";
-		egg1.style.filter= "brightness(20%)";
 		if (officerepeatsrc=="beans") {
 			officebg.src="img/background/office2.png";
-			egg1.style.filter= "brightness(3%)";
 		}
 	}, 7100);
 	timeoutID = setTimeout(() => {
 		officebg.src="img/background/office.png";
-		egg1.style.filter= "brightness(50%)";
 		if (officerepeatsrc=="beans") {
 			officebg.src="img/background/office2.png";
-			egg1.style.filter= "brightness(3%)";
 		}
 	}, 7200);
 	timeoutID = setTimeout(() => {
 		officebg.src="img/background/office.png";
-		egg1.style.filter= "brightness(50%)";
 		if (officerepeatsrc=="beans") {
 			officebg.src="img/background/office2.png";
-			egg1.style.filter= "brightness(3%)";
 		}
 	}, 7700);
 	timeoutID = setTimeout(() => {
@@ -1770,7 +1697,6 @@ function changeofficesrc(){
 		if (officerepeatsrc=="beans") {
 			officerepeatsrc="beans";
 			officebg.src="img/background/office2.png";
-			egg1.style.filter= "brightness(3%)";
 		}
 	}, 9700);
 }
@@ -1806,7 +1732,6 @@ function kizzydeath(){
 		buttontrigger2.style.display="none";
 		lighttrigger2.style.display="none";
 		freddyboop.style.display="none";
-		egg1trigger.style.display="none";
 		for(i = 0; i < lines.length; i++) {
   		  lines[i].style.visibility="hidden";
   		}
@@ -1844,11 +1769,11 @@ function ryanMove(){
 	if (currentnight<5) {
 		var y1=60000-currentnight*4000;
 		var y2=10000-currentnight*2000;
-		var z = Math.floor(Math.random() * 10000-currentnight*1000)+40000-currentnight*2000;
+		var z = Math.floor(Math.random() * 40000-currentnight*2000)+10000-currentnight*1000;
 	}else{
 		var y1=40000-currentnight*200;
 		var y2=2000-currentnight*100;
-		var z = Math.floor(Math.random() * 5000-currentnight*100)+32000-currentnight*200;
+		var z = Math.floor(Math.random() * 32000-currentnight*200)+5000-currentnight*100;
 	}
 	
 	var y = Math.floor(Math.random() * y1)+y2;
@@ -1964,11 +1889,11 @@ function joeyMove(){
 	if (currentnight<5) {
 		var y1=60000-currentnight*4000;
 		var y2=10000-currentnight*2000;
-		var z = Math.floor(Math.random() * 10000-currentnight*1000)+40000-currentnight*2000;
+		var z = Math.floor(Math.random() * 40000-currentnight*2000)+10000-currentnight*1000;
 	}else{
 		var y1=40000-currentnight*100;
 		var y2=2000-currentnight*50;
-		var z = Math.floor(Math.random() * 5000-currentnight*50)+32000-currentnight*100;
+		var z = Math.floor(Math.random() * 32000-currentnight*100)+5000-currentnight*50;
 	}
 	var y = Math.floor(Math.random() * y1)+y2;
 	switch(character2cam){
@@ -2184,48 +2109,6 @@ function kizvisual() {
 			timeouts.push(timeout15);
 			break;
 	}
-}
-
-function animateegg1(){
-	x=Math.floor(Math.random() * (30000-16000))+16000;
-	y=Math.floor(Math.random() * (30000-16000))+16000;
-	egg1.style.left="45.5%";
-	egg1trigger.style.left="45.5%";
-	setTimeout(() => {
-		changeeggsprite(true);
-	}, 14000);
-	setTimeout(() => {
-		egg1.style.left="37%";
-		egg1trigger.style.left="37%";
-	}, x);
-	setTimeout(() => {
-		changeeggsprite(false);
-	}, x+14000);
-	setTimeout(() => {
-		animateegg1();
-	}, x+14000+y);
-}
-
-animateegg1();
-
-function changeeggsprite(leftcheck){
-	if (leftcheck==true) {
-		eggleft=true;
-	}else{
-		if (leftcheck==false) {
-			eggleft=false;
-		}
-	}
-	z=eggstate;
-	while(eggstate==z){
-		z=Math.floor(Math.random() * (5));
-	}
-	if (eggleft==true) {
-		egg1.src="img/egg/raiko"+z+".png";
-	}else{
-		egg1.src="img/egg/raiko"+z+"flipped.png";
-	}
-	eggstate=z;
 }
 
 console.log("ඞ");
