@@ -1775,6 +1775,15 @@ function ryanMove(){
 		var y2=2000-currentnight*100;
 		var z = Math.floor(Math.random() * (32000-currentnight*200))+(5000-currentnight*100);
 	}
+	if (y1<0) {
+		y1=0;
+	}
+	if (y2<0) {
+		y2=0;
+	}
+	if (z<0) {
+		z=0;
+	}
 	
 	var y = Math.floor(Math.random() * y1)+y2;
 	switch(character1cam){
@@ -1894,6 +1903,15 @@ function joeyMove(){
 		var y1=40000-currentnight*100;
 		var y2=2000-currentnight*50;
 		var z = Math.floor(Math.random() * (32000-currentnight*100))+(5000-currentnight*50);
+	}
+	if (y1<0) {
+		y1=0;
+	}
+	if (y2<0) {
+		y2=0;
+	}
+	if (z<0) {
+		z=0;
 	}
 	var y = Math.floor(Math.random() * y1)+y2;
 	switch(character2cam){
