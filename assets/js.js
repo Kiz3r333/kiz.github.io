@@ -78,6 +78,7 @@ var mutecall = document.getElementById("mutecall");
 var leftnightbtn = document.getElementById("leftnightbtn");
 var rightnightbtn = document.getElementById("rightnightbtn");
 var loadprogress = document.getElementById("loadprogress");
+var continuetime = document.getElementById("continuetime");
 var officedistance = -25;
 var cameradistance = -25;
 var intervalId = null;
@@ -93,6 +94,7 @@ var tickinterval = null;
 var blinkinterval = null;
 var pizzainterval = null;
 var glowinterval = null;
+var timerinterval = null;
 var usagenum=1;
 var character1cam="1b";
 var character2cam="1b";
@@ -115,12 +117,12 @@ const timeouts = [];
 var nighthighscore=1;
 var forceowo=false;
 var miliseconds = 0;
-var timer = setInterval(upTimer, 100);
 var kizstate = 0;
 var camtime = 0;
 var doorConsumption = 0.02;
 var cameraConsumption = 0.02;
 var lightConsumption = 0.01;
+var cookieName = "timernight" + currentnight;
 
 function getCookie(name) {
   const value = `; ${document.cookie}`;
@@ -478,6 +480,11 @@ function tick(){
 	}else{
 		clearInterval(tickinterval);
 		clearInterval(blinkinterval);
+		clearInterval(timerinterval);
+		cookieName = "timernight" + currentnight;
+		if (getCookie("timernight"+currentnight) !== undefined && getCookie("timernight"+currentnight)<miliseconds) {
+			document.cookie = cookieName + "=" + miliseconds + "; path=/";
+		}
 		dayend();
 	}
 	movecameras();
@@ -954,9 +961,23 @@ function selectmenu(menutype){
 		continuenight.style.display="none";
 		rightnightbtn.style.display="none";
 		leftnightbtn.style.display="none";
+		continuetime.style.display="none";
 	}else{
 		select.style.bottom="30%";
 		continuenight.style.display="block";
+		if (nighthighscore>=3 && getCookie("timernight"+currentnight) !== undefined && currentnight!=3 && currentnight!=2 && currentnight!=1) {
+			var miliseconds = getCookie("timernight"+currentnight);
+			var seconds = Math.floor((miliseconds / 10) % 60); // Calculate seconds
+    		var minutes = Math.floor(miliseconds / 600); // Calculate minutes
+		
+    		if (minutes >= 1) {
+    		    seconds = Math.floor((miliseconds / 10) % 60);
+    		    minutes = Math.floor((miliseconds / 600) % 60);
+    		}
+		
+    		continuetime.innerHTML = minutes + ":" + (seconds < 10 ? "0" : "") + seconds + ":" + (miliseconds % 10);
+			continuetime.style.display="block";
+		}
 		if (nighthighscore>=4) {
 			rightnightbtn.style.display="block";
 			leftnightbtn.style.display="block";
@@ -984,6 +1005,7 @@ function startnight(night) {
 		continuenight.style.display="none";
 		leftnightbtn.style.display="none";
 		rightnightbtn.style.display="none";
+		continuetime.style.display="none";
 		newgame.setAttribute("onclick", "startnight(1);");
 		newgame.setAttribute("onmouseover", "selectmenu(0);");
 		leftnightbtn.setAttribute("onclick", "increasenight(0);");
@@ -1123,6 +1145,7 @@ function daystart(night){
 			lightbreakright=1;
 		}
 		miliseconds = 0;
+		timerinterval = setInterval(upTimer, 100);
 		kizstate = 0;
 		camtime=0;
     	cameraConsumption = 0.02;
@@ -1283,11 +1306,9 @@ function dayend(){
 			nighthighscore=currentnight;
 		}
 		currentnight++;
-		var expirationDate = new Date();
-		expirationDate.setFullYear(expirationDate.getFullYear() + 1);
 		
-		document.cookie = `currentnight=${currentnight}; expires=${expirationDate.toUTCString()}; path=/`;
-		document.cookie = `nighthighscore=${nighthighscore}; expires=${expirationDate.toUTCString()}; path=/`;
+		document.cookie = `currentnight=${currentnight}; path=/`;
+		document.cookie = `nighthighscore=${nighthighscore}; path=/`;
 		if (currentnight<4) {
 			daystart(currentnight);
 		}else{
@@ -1538,6 +1559,10 @@ function spawnowo(){
 					jumpscare.src="img/background/ryanjump.gif";
 					playSound("squeak",false);
 					clearInterval(tickinterval);
+					cookieName = "timernight" + currentnight;
+					if (getCookie("timernight"+currentnight) !== undefined && getCookie("timernight"+currentnight)<miliseconds) {
+						document.cookie = cookieName + "=" + miliseconds + "; path=/";
+					}
 					fadewarning(1000);
 				}
 			}, y+400+z);
@@ -1751,6 +1776,11 @@ function kizzydeath(){
 			playSound("goop",false);
 			playSound("goop2",false);
 			clearInterval(tickinterval);
+			clearInterval(timerinterval);
+			cookieName = "timernight" + currentnight;
+			if (getCookie("timernight"+currentnight) !== undefined && getCookie("timernight"+currentnight)<miliseconds) {
+				document.cookie = cookieName + "=" + miliseconds + "; path=/";
+			}
 			fadewarning(4000);
 		}, "1000");
 		setTimeout(() => {
@@ -2019,6 +2049,11 @@ function furrydeath(){
 		}
 		playSound("squeak",false);
 		clearInterval(tickinterval);
+		clearInterval(timerinterval);
+		cookieName = "timernight" + currentnight;
+		if (getCookie("timernight"+currentnight) !== undefined && getCookie("timernight"+currentnight)<miliseconds) {
+			document.cookie = cookieName + "=" + miliseconds + "; path=/";
+		}
 		fadewarning(1000);
 		setTimeout(() => {
 			game.style.display="none";
@@ -2069,10 +2104,24 @@ function mute(){
 }
 
 function increasenight(side){
+	continuetime.style.display="none";
 	if (side==1) {
 		currentnight++;
 	}else{
 		currentnight--;
+	}
+	if (getCookie("timernight"+currentnight) !== undefined && currentnight!=3 && currentnight!=2 && currentnight!=1) {
+		var miliseconds = getCookie("timernight"+currentnight);
+		var seconds = Math.floor((miliseconds / 10) % 60); // Calculate seconds
+    	var minutes = Math.floor(miliseconds / 600); // Calculate minutes
+	
+    	if (minutes >= 1) {
+    	    seconds = Math.floor((miliseconds / 10) % 60);
+    	    minutes = Math.floor((miliseconds / 600) % 60);
+    	}
+	
+    	continuetime.innerHTML = minutes + ":" + (seconds < 10 ? "0" : "") + seconds + ":" + (miliseconds % 10);
+		continuetime.style.display="block";
 	}
 	continuenight.innerHTML="Night " + currentnight;
 }

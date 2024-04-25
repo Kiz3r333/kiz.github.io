@@ -161,7 +161,8 @@ body {
 }
 
 #UI,#camtxt,#amtime,#nighttime,#title,#newgame,#continue,#version,#select,#credits,#continuenight,
-#warning,#menutime,#menunight,#survived,#survived5,#survived6,#starnumber,#exacttime,#loadprogress{
+#warning,#menutime,#menunight,#survived,#survived5,#survived6,#starnumber,#exacttime,#loadprogress,
+#continuetime{
     position: absolute;
     width: 30%;
     bottom: 7%;
@@ -360,7 +361,7 @@ body {
     pointer-events: none;
 }
 
-#version,#credits,#continuenight{
+#version,#credits,#continuenight,#continuetime{
     bottom: -2%;
     left: 1%;
     font-size: 3.5vh;
@@ -370,6 +371,13 @@ body {
 #continuenight{
     left: 13%;
     bottom: 27%;
+    display: none;
+}
+
+#continuetime{
+    left: 13%;
+    bottom: 25%;
+    font-size:2.5vh;
     display: none;
 }
 
