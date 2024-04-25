@@ -481,8 +481,9 @@ function tick(){
 		clearInterval(tickinterval);
 		clearInterval(blinkinterval);
 		clearInterval(timerinterval);
+		timerinterval = null;
 		cookieName = "timernight" + currentnight;
-		if (getCookie("timernight"+currentnight) !== undefined && getCookie("timernight"+currentnight)<miliseconds) {
+		if (getCookie("timernight"+currentnight) !== undefined && getCookie("timernight"+currentnight)<miliseconds || getCookie("timernight"+currentnight) === undefined) {
 			document.cookie = cookieName + "=" + miliseconds + "; path=/";
 		}
 		dayend();
@@ -1145,7 +1146,9 @@ function daystart(night){
 			lightbreakright=1;
 		}
 		miliseconds = 0;
-		timerinterval = setInterval(upTimer, 100);
+		if (!timerinterval) {
+		    timerinterval = setInterval(upTimer, 100);
+		}
 		kizstate = 0;
 		camtime=0;
     	cameraConsumption = 0.02;
@@ -1560,7 +1563,7 @@ function spawnowo(){
 					playSound("squeak",false);
 					clearInterval(tickinterval);
 					cookieName = "timernight" + currentnight;
-					if (getCookie("timernight"+currentnight) !== undefined && getCookie("timernight"+currentnight)<miliseconds) {
+					if (getCookie("timernight"+currentnight) !== undefined && getCookie("timernight"+currentnight)<miliseconds || getCookie("timernight"+currentnight) === undefined) {
 						document.cookie = cookieName + "=" + miliseconds + "; path=/";
 					}
 					fadewarning(1000);
@@ -1777,8 +1780,9 @@ function kizzydeath(){
 			playSound("goop2",false);
 			clearInterval(tickinterval);
 			clearInterval(timerinterval);
+			timerinterval = null;
 			cookieName = "timernight" + currentnight;
-			if (getCookie("timernight"+currentnight) !== undefined && getCookie("timernight"+currentnight)<miliseconds) {
+			if (getCookie("timernight"+currentnight) !== undefined && getCookie("timernight"+currentnight)<miliseconds || getCookie("timernight"+currentnight) === undefined) {
 				document.cookie = cookieName + "=" + miliseconds + "; path=/";
 			}
 			fadewarning(4000);
@@ -2050,8 +2054,9 @@ function furrydeath(){
 		playSound("squeak",false);
 		clearInterval(tickinterval);
 		clearInterval(timerinterval);
+		timerinterval = null;
 		cookieName = "timernight" + currentnight;
-		if (getCookie("timernight"+currentnight) !== undefined && getCookie("timernight"+currentnight)<miliseconds) {
+		if (getCookie("timernight"+currentnight) !== undefined && getCookie("timernight"+currentnight)<miliseconds || getCookie("timernight"+currentnight) === undefined) {
 			document.cookie = cookieName + "=" + miliseconds + "; path=/";
 		}
 		fadewarning(1000);
