@@ -79,6 +79,12 @@ var leftnightbtn = document.getElementById("leftnightbtn");
 var rightnightbtn = document.getElementById("rightnightbtn");
 var loadprogress = document.getElementById("loadprogress");
 var continuetime = document.getElementById("continuetime");
+var timescore = document.getElementById("timescore");
+var crnttime = document.getElementById("crnttime");
+var prevtime = document.getElementById("prevtime");
+var crnttimedesc = document.getElementById("crnttimedesc");
+var prevtimedesc = document.getElementById("prevtimedesc");
+var menucharacter2 = document.getElementById("menucharacter2");
 var officedistance = -25;
 var cameradistance = -25;
 var intervalId = null;
@@ -247,6 +253,8 @@ function preload() {
 		["img/background/fire.gif", "image"],
 		["img/menu/star.png", "image"],
 		["img/buttons/mutecall.png", "image"],
+		["img/menu/boykisszaza.gif", "image"],
+		["img/menu/boykissthigh.gif", "image"],
 		["sfx/BallastHumMedium2.wav", "audio"],
 		["sfx/MiniDV_Tape_Eject_1.wav", "audio"],
 		["sfx/CAMERA_VIDEO_LOA_60105303.wav", "audio"],
@@ -277,7 +285,8 @@ function preload() {
 		["sfx/squeak.wav", "audio"],
 		["sfx/fire.wav", "audio"],
 		["sfx/windowscare.wav", "audio"],
-		["sfx/ariamath.wav", "audio"]
+		["sfx/ariamath.wav", "audio"],
+		["sfx/item.wav", "audio"]
     ];
 
     preloadMediaList(mediaList, function () {
@@ -1027,6 +1036,8 @@ function fadewarning(timerout){
 		continuenight.innerHTML="Night " + currentnight;
 		menu.style.display="block";
 		warning.style.display="none";
+		timescore.style.display = "none";
+		timescore.style.opacity = "100%";
 		for(i = 0; i < lines.length; i++) {
   		  lines[i].style.display="block";
   		}
@@ -1562,11 +1573,13 @@ function spawnowo(){
 					jumpscare.src="img/background/ryanjump.gif";
 					playSound("squeak",false);
 					clearInterval(tickinterval);
-					cookieName = "timernight" + currentnight;
-					if (getCookie("timernight"+currentnight) !== undefined && getCookie("timernight"+currentnight)<miliseconds || getCookie("timernight"+currentnight) === undefined) {
-						document.cookie = cookieName + "=" + miliseconds + "; path=/";
+					clearInterval(timerinterval);
+					timerinterval = null;
+					if (currentnight>=1 && currentnight<=3) {
+						fadewarning(1000);
+					}else{
+						showtimerdeath(1000);
 					}
-					fadewarning(1000);
 				}
 			}, y+400+z);
 			timeouts.push(timeout21);
@@ -1781,11 +1794,11 @@ function kizzydeath(){
 			clearInterval(tickinterval);
 			clearInterval(timerinterval);
 			timerinterval = null;
-			cookieName = "timernight" + currentnight;
-			if (getCookie("timernight"+currentnight) !== undefined && getCookie("timernight"+currentnight)<miliseconds || getCookie("timernight"+currentnight) === undefined) {
-				document.cookie = cookieName + "=" + miliseconds + "; path=/";
+			if (currentnight>=1 && currentnight<=3) {
+				fadewarning(4000);
+			}else{
+				showtimerdeath(4000);
 			}
-			fadewarning(4000);
 		}, "1000");
 		setTimeout(() => {
 			stopSound();
@@ -2055,11 +2068,11 @@ function furrydeath(){
 		clearInterval(tickinterval);
 		clearInterval(timerinterval);
 		timerinterval = null;
-		cookieName = "timernight" + currentnight;
-		if (getCookie("timernight"+currentnight) !== undefined && getCookie("timernight"+currentnight)<miliseconds || getCookie("timernight"+currentnight) === undefined) {
-			document.cookie = cookieName + "=" + miliseconds + "; path=/";
+		if (currentnight>=1 && currentnight<=3) {
+			fadewarning(1000);
+		}else{
+			showtimerdeath(1000);
 		}
-		fadewarning(1000);
 		setTimeout(() => {
 			game.style.display="none";
 			jumpscare.style.display="none";
@@ -2097,6 +2110,7 @@ function upTimer() {
     }
 
     exacttime.innerHTML = minutes + ":" + (seconds < 10 ? "0" : "") + seconds + ":" + (miliseconds % 10);
+    crnttime.innerHTML = minutes + ":" + (seconds < 10 ? "0" : "") + seconds + ":" + (miliseconds % 10);
 }
 
 function mute(){
@@ -2181,6 +2195,55 @@ function kizvisual() {
 			timeouts.push(timeout15);
 			break;
 	}
+}
+
+function showtimerdeath(timerout){
+	setTimeout(() => {
+		cookieName = "timernight" + currentnight;
+		if (getCookie("timernight"+currentnight) !== undefined) {
+			var tempcookie = getCookie("timernight"+currentnight);
+			var seconds = Math.floor((tempcookie / 10) % 60); // Calculate seconds
+    		var minutes = Math.floor(tempcookie / 600); // Calculate minutes
+		
+    		if (minutes >= 1) {
+    		    seconds = Math.floor((tempcookie / 10) % 60);
+    		    minutes = Math.floor((tempcookie / 600) % 60);
+    		}
+    		prevtime.innerHTML = minutes + ":" + (seconds < 10 ? "0" : "") + seconds + ":" + (tempcookie % 10);
+    		prevtime.style.display="block";
+    		if (getCookie("timernight"+currentnight)<miliseconds) {
+    			prevtimedesc.innerHTML="Your previous time was:";
+    			menucharacter2.src="img/menu/boykisszaza.gif";
+    			menucharacter2.style.top="-4%";
+    			menucharacter2.style.left="30%";
+    			menucharacter2.style.width="80%";
+    		}else{
+    			prevtimedesc.innerHTML="Your best time is:";
+    			menucharacter2.src="img/menu/boykissthigh.gif";
+    			menucharacter2.style.top="24%";
+    			menucharacter2.style.left="0%";
+    			menucharacter2.style.width="52%";
+    		}
+			prevtimedesc.style.display="block";
+		}
+		if (getCookie("timernight"+currentnight) === undefined) {
+			menucharacter2.src="img/menu/boykissthigh.gif";
+			menucharacter2.style.top="24%";
+    		menucharacter2.style.left="0%";
+    		menucharacter2.style.width="52%";
+			prevtime.style.display="none";
+			prevtimedesc.style.display="none";
+		}
+		if (getCookie("timernight"+currentnight) !== undefined && getCookie("timernight"+currentnight)<miliseconds || getCookie("timernight"+currentnight) === undefined) {
+			document.cookie = cookieName + "=" + miliseconds + "; path=/";
+		}
+		timescore.style.display = "block";
+		playSound("item",false);
+	}, timerout+100);
+	setTimeout(() => {
+		timescore.style.opacity = "0%";
+		fadewarning(3000);
+	}, timerout+6500);
 }
 
 console.log("ඞ");

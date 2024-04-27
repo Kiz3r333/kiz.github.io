@@ -162,7 +162,7 @@ body {
 
 #UI,#camtxt,#amtime,#nighttime,#title,#newgame,#continue,#version,#select,#credits,#continuenight,
 #warning,#menutime,#menunight,#survived,#survived5,#survived6,#starnumber,#exacttime,#loadprogress,
-#continuetime{
+#continuetime,#crnttime,#prevtime,#crnttimedesc,#prevtimedesc{
     position: absolute;
     width: 30%;
     bottom: 7%;
@@ -171,6 +171,36 @@ body {
     z-index: 9;
     font-family: consolas;
     filter: drop-shadow(0 0 1rem black);
+}
+
+#crnttime{
+    width: 46%;
+    bottom: 52%;
+    left: 26%;
+    font-size: 8vh;
+    animation: blink 0.3s infinite;
+    text-align: center;
+}
+#prevtime{
+    width: 30%;
+    bottom: 13%;
+    left: 34%;
+    font-size: 5vh;
+    text-align: center;
+}
+#crnttimedesc{
+    width: 73%;
+    bottom: 69%;
+    left: 14%;
+    font-size: 5vh;
+    text-align: center;
+}
+#prevtimedesc{
+    width: 30%;
+    bottom: 23%;
+    left: 34%;
+    font-size: 3vh;
+    text-align: center;
 }
 
 #loadprogress{
@@ -397,7 +427,7 @@ body {
     opacity: 50%;
 }
 
-#menucharacter{
+#menucharacter,#menucharacter2{
     position: absolute;
     width: 80%;
     top: -4%;
@@ -853,3 +883,14 @@ body {
 .txt:hover {
     text-decoration: underline;
 }
+
+#timescore{
+    display: none;
+    transition: opacity 3s;
+}
+
+@keyframes blink {
+    0% { opacity: 1; }
+    50% { opacity: 0.2; }
+    100% { opacity: 1; }
+  }
