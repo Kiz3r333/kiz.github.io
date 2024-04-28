@@ -1143,6 +1143,8 @@ function daystart(night){
 		character2.style.top="33%";
 		character2.style.width="31%";
 		character2.style.transform = "rotate(0deg)";
+		lampleft.style.top="27%";
+		lampright.style.top="27%";
 		camtxt.innerHTML="Dining Area";
 		usagenum=1;
 		document.getElementById("cam"+currentcam).style.filter ="grayscale(1)";
