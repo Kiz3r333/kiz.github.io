@@ -2246,4 +2246,29 @@ function showtimerdeath(timerout){
 	}, timerout+6500);
 }
 
+let isRKeyPressed = false;
+
+document.addEventListener('keydown', function(event) {
+    if (event.key === 'r') {
+        isRKeyPressed = true;
+    }
+});
+
+document.addEventListener('keyup', function(event) {
+    if (event.key === 'r') {
+        isRKeyPressed = false;
+    }
+});
+
+function restartNight(){
+	if (isRKeyPressed) {
+		game.style.display="none";
+		clearInterval(tickinterval);
+		clearInterval(timerinterval);
+		timerinterval = null;
+		stopSound();
+		daystart(currentnight);
+	}
+}
+
 console.log("ඞ");
