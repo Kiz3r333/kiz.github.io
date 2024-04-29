@@ -286,7 +286,13 @@ function preload() {
 		["sfx/fire.wav", "audio"],
 		["sfx/windowscare.wav", "audio"],
 		["sfx/ariamath.wav", "audio"],
-		["sfx/item.wav", "audio"]
+		["sfx/chipi.wav", "audio"],
+		["sfx/chapa.wav", "audio"],
+		["sfx/dubi.wav", "audio"],
+		["sfx/daba.wav", "audio"],
+		["sfx/magico.wav", "audio"],
+		["sfx/duby.wav", "audio"],
+		["sfx/boom.wav", "audio"]
     ];
 
     preloadMediaList(mediaList, function () {
@@ -2058,6 +2064,7 @@ function joeyMove(){
 
 function furrydeath(){
 	if (deathdelay==true && currenttime<4800 && power>0) {
+		kizdeathtoggle=true;
 		deathdelay=false;
 		stopSound();
 		jumpscare.style.display="block";
@@ -2214,12 +2221,14 @@ function showtimerdeath(timerout){
     		prevtime.innerHTML = minutes + ":" + (seconds < 10 ? "0" : "") + seconds + ":" + (tempcookie % 10);
     		prevtime.style.display="block";
     		if (getCookie("timernight"+currentnight)<miliseconds) {
+    			crnttimedesc.innerHTML="You got a new best time of:";
     			prevtimedesc.innerHTML="Your previous time was:";
     			menucharacter2.src="img/menu/boykisszaza.gif";
     			menucharacter2.style.top="-4%";
     			menucharacter2.style.left="30%";
     			menucharacter2.style.width="80%";
     		}else{
+    			crnttimedesc.innerHTML="You got a time of:";
     			prevtimedesc.innerHTML="Your best time is:";
     			menucharacter2.src="img/menu/boykissthigh.gif";
     			menucharacter2.style.top="24%";

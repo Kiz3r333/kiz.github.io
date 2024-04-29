@@ -9,11 +9,22 @@
 <body>
 	<div id="gamestate">
 		<h3 id="tiredprcnt">Tired: 0%</h3>
+		<h3 id="powerprcnt">Power: 100%</h3>
+		<img src="img/gameboy.png" id="gameboyimg">
+		<img src="img/charger.png" id="gameboychargerimg">
+		<div id="gameboytrigger" onclick="togglegameboy();"></div>
+		<div id="gameboychargertrigger" onclick="togglecharger();"></div>
+	</div>
+	<div id="sleepui">
+		<img src="img/eyeopen.png" id="eyeimg">
+		<div id="eyetrigger" onclick="toggleeye();"></div>
 	</div>
 	<div id="debug" style="display:none">
 		<h1>DEBUG</h1>
 		<div >
 			<input type="checkbox"id="gameboy">Gameboy
+			<input type="checkbox"id="gameboycharger">Charger
+			<input type="checkbox"id="eye">Charger
 		</div>
 	</div>
 </body>

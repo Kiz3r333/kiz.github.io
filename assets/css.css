@@ -773,13 +773,69 @@ body {
     left: 89%;
 }
 
-#freddyboop{
+#freddyboop,#boopchipi,#boopchapa,#boopdubi,#boopdaba,#boopmagico,#boopduby,#boopboom{
     position: absolute;
     width: 1%;
     height: 3%;
     top: 62%;
     left: 23.6%;
     z-index: 2;
+}
+
+#boopchipi{
+    width: 1%;
+    height: 1.5%;
+    top: 27%;
+    left: 33.5%;
+    z-index: 0;
+}
+
+#boopchapa{
+    width: 1%;
+    height: 1.5%;
+    top: 43%;
+    left: 39%;
+    z-index: 0;
+}
+
+#boopdubi{
+    width: 1%;
+    height: 1.5%;
+    top: 34%;
+    left: 43%;
+    z-index: 0;
+}
+
+#boopmagico{
+    width: 1%;
+    height: 1.5%;
+    top: 41%;
+    left: 48.3%;
+    z-index: 0;
+}
+
+#boopboom{
+    width: 1%;
+    height: 1.5%;
+    top: 28.6%;
+    left: 53.5%;
+    z-index: 0;
+}
+
+#boopduby{
+    width: 1%;
+    height: 1.5%;
+    top: 25%;
+    left: 51.2%;
+    z-index: 0;
+}
+
+#boopdaba{
+    width: 1%;
+    height: 1.5%;
+    top: 30%;
+    left: 45.6%;
+    z-index: 0;
 }
 
 #slug{

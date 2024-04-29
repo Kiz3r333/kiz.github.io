@@ -15,13 +15,55 @@ body {
 	display: block;
 }
 
-#tiredprcnt{
+#tiredprcnt,#powerprcnt{
 	position: absolute;
-    width: 30%;
-    bottom: 7%;
-    left: 5%; 
-    font-size: 2vh;
-    z-index: 9;
-    font-family: consolas;
-    filter: drop-shadow(0 0 1rem black);
+  width: 13%;
+  bottom: 7%;
+  left: 5%; 
+  font-size: 2vh;
+  z-index: 9;
+  font-family: consolas;
+  filter: drop-shadow(0 0 1rem black);
+}
+
+#powerprcnt{
+  bottom: 17%;
+}
+
+#gameboyimg,#gameboychargerimg,#eyeimg{
+  position: absolute;
+  width: 6%;
+  bottom: 10%;
+  left: 49%;
+}
+
+#eyeimg{
+  left: 79%;
+  filter: invert(1);
+}
+
+#gameboychargerimg{
+  width: 6%;
+  left: 29%;
+}
+
+#gameboytrigger,#gameboychargertrigger,#eyetrigger{
+  position: absolute;
+  width: 6%;
+  height: 18%;
+  bottom: 10%;
+  left: 49%;
+  background-color: transparent;
+}
+
+#eyetrigger{
+  left: 79%;
+  width: 7%;
+  height: 13%;
+}
+
+#gameboychargertrigger{
+  left: 29%;
+  width: 7%;
+  height: 13%;
 }
