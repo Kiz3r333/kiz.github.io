@@ -85,6 +85,11 @@ var prevtime = document.getElementById("prevtime");
 var crnttimedesc = document.getElementById("crnttimedesc");
 var prevtimedesc = document.getElementById("prevtimedesc");
 var menucharacter2 = document.getElementById("menucharacter2");
+var options = document.getElementById("options");
+var title = document.getElementById("title");
+var optionscontents = document.getElementById("optionscontents");
+var audiopercent = document.getElementById("audiopercent");
+var audioslider = document.getElementById("audioslider");
 var officedistance = -25;
 var cameradistance = -25;
 var intervalId = null;
@@ -192,6 +197,7 @@ function preload() {
 		["sfx/static.wav", "audio"],
 		["img/menu/Loading_Clock_1.png", "image"],
 		["img/menu/skipintro.png", "image"],
+		["img/menu/boykisscomputer.gif", "image"],
 		["img/menu/nightbtn.png", "image"],
     	["img/background/office.png", "image"],
     	["img/background/office2.png", "image"],
@@ -971,35 +977,63 @@ function movecameras(){
 }
 
 function selectmenu(menutype){
-	playSound("blip3",false);
-	if (menutype==0) {
-		select.style.bottom="40%";
-		continuenight.style.display="none";
-		rightnightbtn.style.display="none";
-		leftnightbtn.style.display="none";
-		continuetime.style.display="none";
-	}else{
-		select.style.bottom="30%";
-		continuenight.style.display="block";
-		if (nighthighscore>=3 && getCookie("timernight"+currentnight) !== undefined && currentnight!=3 && currentnight!=2 && currentnight!=1) {
-			var miliseconds = getCookie("timernight"+currentnight);
-			var seconds = Math.floor((miliseconds / 10) % 60); // Calculate seconds
-    		var minutes = Math.floor(miliseconds / 600); // Calculate minutes
-		
-    		if (minutes >= 1) {
-    		    seconds = Math.floor((miliseconds / 10) % 60);
-    		    minutes = Math.floor((miliseconds / 600) % 60);
-    		}
-		
-    		continuetime.innerHTML = minutes + ":" + (seconds < 10 ? "0" : "") + seconds + ":" + (miliseconds % 10);
-			continuetime.style.display="block";
-		}
-		if (nighthighscore>=4) {
-			rightnightbtn.style.display="block";
-			leftnightbtn.style.display="block";
-		}
-	}	
+    playSound("blip3",false);
+    switch(menutype){
+        case 0:
+            select.style.bottom="40%";
+            select.style.left="8%";
+            continuenight.style.display="none";
+            rightnightbtn.style.display="none";
+            leftnightbtn.style.display="none";
+            continuetime.style.display="none";
+            break;
+        case 1:
+            select.style.bottom="30%";
+            select.style.left="8%";
+            continuenight.style.display="block";
+            if (nighthighscore>=3 && getCookie("timernight"+currentnight) !== undefined && currentnight!=3 && currentnight!=2 && currentnight!=1) {
+                var miliseconds = getCookie("timernight"+currentnight);
+                var seconds = Math.floor((miliseconds / 10) % 60); // Calculate seconds
+                var minutes = Math.floor(miliseconds / 600); // Calculate minutes
+
+                if (minutes >= 1) {
+                    seconds = Math.floor((miliseconds / 10) % 60);
+                    minutes = Math.floor((miliseconds / 600) % 60);
+                }
+
+                continuetime.innerHTML = minutes + ":" + (seconds < 10 ? "0" : "") + seconds + ":" + (miliseconds % 10);
+                continuetime.style.display="block";
+            }
+            if (nighthighscore>=4) {
+                rightnightbtn.style.display="block";
+                leftnightbtn.style.display="block";
+            }
+            break;
+        case 2:
+            select.style.bottom="7%";
+            select.style.left="83%";
+            continuenight.style.display="none";
+            rightnightbtn.style.display="none";
+            leftnightbtn.style.display="none";
+            continuetime.style.display="none";
+            break;
+        case 3:
+        	select.style.bottom="50%";
+            select.style.left="8%";
+        	break;
+        case 4:
+            select.style.bottom="7%";
+            select.style.left="80%";
+            break;
+        case 5:
+            select.style.bottom="40%";
+            select.style.left="8%";
+            break;
+        default:
+            break;
+    }
 }
+
 
 function startnight(night) {
 	currentnight=night;
@@ -1007,6 +1041,8 @@ function startnight(night) {
 	tvstatic.style.opacity="0%";
 	newgame.removeAttribute("onclick");
 	newgame.removeAttribute("onmouseover");
+	options.removeAttribute("onclick");
+	options.removeAttribute("onmouseover");
 	leftnightbtn.removeAttribute("onclick");
 	rightnightbtn.removeAttribute("onclick");
 	continuemenu.removeAttribute("onclick");
@@ -1024,6 +1060,8 @@ function startnight(night) {
 		continuetime.style.display="none";
 		newgame.setAttribute("onclick", "startnight(1);");
 		newgame.setAttribute("onmouseover", "selectmenu(0);");
+		options.setAttribute("onclick", "optionsmenu(0);");
+		options.setAttribute("onmouseover", "selectmenu(2);");
 		leftnightbtn.setAttribute("onclick", "increasenight(0);");
 		rightnightbtn.setAttribute("onclick", "increasenight(1);");
 		continuemenu.setAttribute("onclick", "startnight(currentnight);");
@@ -1342,6 +1380,7 @@ function dayend(){
 let audioContext;
 let analyserNode;
 let playingSources = [];
+let globalVolume = 0.5; // Default volume is set to maximum
 
 function initializeVisuals() {
   if (!audioContext) {
@@ -1368,7 +1407,7 @@ function playSound(soundUrl, loop) {
     const gainNode = audioContext.createGain();
     source.connect(gainNode);
     gainNode.connect(analyserNode);
-    gainNode.gain.value = 1;
+    gainNode.gain.value = globalVolume; // Set the initial volume
   }
 
   audioElement.addEventListener('ended', function () {
@@ -1380,6 +1419,7 @@ function playSound(soundUrl, loop) {
     }
   });
 
+  audioElement.volume = globalVolume; // Set the volume
   audioElement.play();
 
   playingSources.push({ source, audioElement });
@@ -1403,8 +1443,7 @@ function stopSound() {
 function changeVolume(soundUrl, volume) {
   for (const { audioElement } of playingSources) {
     if (audioElement.src.endsWith(soundUrl + ".wav")) {
-      audioElement.volume = volume;
-
+      audioElement.volume = volume * globalVolume; // Adjust the volume
       if (volume === 0) {
         const index = playingSources.findIndex(item => item.audioElement === audioElement);
         if (index !== -1) {
@@ -1423,6 +1462,16 @@ function getAudioData() {
   analyserNode.getByteFrequencyData(dataArray);
   return dataArray;
 }
+
+// Function to set the global volume
+function setGlobalVolume(volume) {
+  globalVolume = volume;
+  for (const { audioElement } of playingSources) {
+    audioElement.volume = volume;
+  }
+}
+
+
 
 
 function updateUsage(){
@@ -2280,6 +2329,67 @@ function restartNight(){
 		stopSound();
 		daystart(currentnight);
 	}
+}
+
+function optionsmenu(active){
+	playSound("blip3",false);
+	if (active==0) {
+		options.setAttribute("onclick", "optionsmenu(1);");
+		options.setAttribute("onmouseover", "selectmenu(4);");
+		select.style.bottom="7%";
+        select.style.left="80%";
+		newgame.style.display="none";
+		title.style.display="none";
+		continuemenu.style.display="none";
+		menucharacter.src="img/menu/boykisscomputer.gif";
+		starpng.style.display="none";
+		starnumber.style.display="none";
+		optionscontents.style.display="block";
+		options.innerHTML="Main Menu";
+
+	}else{
+		options.innerHTML="Options";
+		options.setAttribute("onclick", "optionsmenu(0);");
+		options.setAttribute("onmouseover", "selectmenu(2);");
+		select.style.bottom="7%";
+        select.style.left="83%";
+		optionscontents.style.display="none";
+		newgame.style.display="block";
+		title.style.display="block";
+		continuemenu.style.display="block";
+		menucharacter.src="img/menu/FNaFFreddy_Menu.gif";
+		if (nighthighscore>=3) {
+  			starpng.style.display="block";
+  			if (nighthighscore>=4) {
+  				starnumber.style.display="block";
+  				starnumber.innerHTML=nighthighscore;
+  			}
+  		}
+	}
+	
+}
+
+function sendMessageToParent() {
+    window.parent.postMessage("executeFunction", "*");
+}
+
+audioslider.addEventListener('input', function() {
+    updateValue(this.value);
+});
+
+function updateValue(value) {
+    // Update the variable
+    globalVolume = parseFloat(value);
+    // Log the updated value for demonstration
+    audiopercent.innerHTML=Math.trunc(globalVolume*100)+"%";
+    if (globalVolume>0) {
+    	changeVolume("darkness_music",globalVolume);
+    	changeVolume("static",globalVolume);
+    }else{
+    	changeVolume("darkness_music",0.00001);
+    	changeVolume("static",0.00001);
+    }
+    
 }
 
 console.log("ඞ");

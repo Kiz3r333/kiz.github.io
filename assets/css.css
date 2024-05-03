@@ -162,7 +162,8 @@ body {
 
 #UI,#camtxt,#amtime,#nighttime,#title,#newgame,#continue,#version,#select,#credits,#continuenight,
 #warning,#menutime,#menunight,#survived,#survived5,#survived6,#starnumber,#exacttime,#loadprogress,
-#continuetime,#crnttime,#prevtime,#crnttimedesc,#prevtimedesc,#resettip{
+#continuetime,#crnttime,#prevtime,#crnttimedesc,#prevtimedesc,#resettip,#options,#fullscreenoption,
+#optionstitle,#audiooptions,#audioslider,#audiopercent{
     position: absolute;
     width: 30%;
     bottom: 7%;
@@ -172,6 +173,75 @@ body {
     font-family: consolas;
     filter: drop-shadow(0 0 1rem black);
 }
+
+#audioslider {
+    z-index: 0;
+    width: 19%;
+    bottom: 39%;
+    left: 13%;
+}
+
+/* Firefox */
+@supports (-moz-appearance: none) {
+  input[type="range"] {
+    -webkit-appearance: none;
+    width: 100%;
+    height: 2%;
+    background: transparent;
+    margin: 1% 0;
+  }
+
+  input[type="range"]::-moz-range-thumb {
+    -webkit-appearance: none;
+    width: 6%;
+    height: 100%;
+    border-radius: 50%;
+    background: #0FD;
+    cursor: pointer;
+  }
+
+  input[type="range"]::-moz-range-progress {
+    background: #0FD;
+  }
+
+  input[type="range"]::-moz-range-track {
+    width: 100%;
+    height: 16%;
+    cursor: pointer;
+    background: #ccc;
+  }
+}
+
+/* Other Browsers */
+@supports not (-moz-appearance: none) {
+  input[type="range"] {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 100%;
+    height: 2px;
+    background: transparent;
+    margin: 1% 0;
+  }
+
+  input[type="range"]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    background: #0FD;
+    cursor: pointer;
+    margin-top: -14px;
+  }
+
+  input[type="range"]::-webkit-slider-runnable-track {
+    width: 100%;
+    height: 4px;
+    cursor: pointer;
+    background: #ccc;
+  }
+}
+
 
 #resettip{
     width: 100%;
@@ -374,7 +444,7 @@ body {
     transition: opacity 3s;
 }
 
-#title{
+#title,#optionstitle{
     width: 10%;
     bottom: 54%;
     left: 13%;
@@ -382,12 +452,47 @@ body {
     z-index: 0;
 }
 
-#newgame,#continue,#select{
+#optionstitle{
+    bottom: 68%;
+    font-size: 10vh;
+}
+
+#newgame,#continue,#select,#options,#fullscreenoption,#audiooptions,#audiopercent{
     width: 15%;
     bottom: 40%;
     left: 13%;
     font-size: 6vh;
     z-index: 0;
+}
+
+#optionscontents{
+    display: none;
+}
+
+#fullscreenoption,#audiooptions{
+    bottom: 50%;
+    left: 13%;
+    font-size: 6vh;
+    width: 19%;
+}
+
+#audiooptions{
+    bottom: 40%;
+}
+
+#audiopercent{
+    bottom: 41.3%;
+    left: 19%;
+    font-size: 4.5vh;
+    width: 13%;
+    text-align: right;
+}
+
+#options{
+    bottom: 8%;
+    left: 83.5%;
+    font-size: 5vh;
+    text-align: right;
 }
 
 #continue{
