@@ -145,13 +145,6 @@ function getCookie(name) {
 currentnight = getCookie("currentnight");
 nighthighscore = getCookie("nighthighscore");
 
-if (getCookie("nighthighscore")==1987) {
-	currentnight=50;
-	nighthighscore=50;
-	document.cookie = `currentnight=${currentnight}; path=/`;
-	document.cookie = `nighthighscore=${nighthighscore}; path=/`;
-}
-
 if (currentnight === undefined){
 	currentnight = 1;
 }
