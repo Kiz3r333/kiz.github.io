@@ -1527,7 +1527,8 @@ function windKiz(){
 function pizzaPress(press){
 	if (event.button === 0) {
 		pressbool = press;
-		if (press==true && windnumb>0) {
+		if (press==true && windnumb>0 && windingbool==false) {
+			windingbool=true;
 			pizzainterval = setInterval(windButton, 1);
 			playSound("windup2",true);
 		}else{
@@ -1543,17 +1544,14 @@ function pizzaPress(press){
 }
 
 function windButton(){
-	if (windingbool==false) {
-		windingbool=true;
-		if (windnumb<99 && currentnight<5) {
-			windnumb=windnumb+0.017;
-		}else{
-			if (windnumb<99) {
-				windnumb=windnumb+0.017+(currentnight-4)*0.002;
-			}
+	if (windnumb<99 && currentnight<5) {
+		windnumb=windnumb+0.017;
+	}else{
+		if (windnumb<99) {
+			windnumb=windnumb+0.017+(currentnight-4)*0.002;
 		}
-		pizzabtn.src="img/camera/pizzabtnon.png";
 	}
+	pizzabtn.src="img/camera/pizzabtnon.png";
 }
 
 function spawnowo(){
