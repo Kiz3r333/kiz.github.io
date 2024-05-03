@@ -133,6 +133,7 @@ var camtime = 0;
 var doorConsumption = 0.02;
 var cameraConsumption = 0.02;
 var lightConsumption = 0.01;
+var windingbool = false;
 var cookieName = "timernight" + currentnight;
 
 function getCookie(name) {
@@ -143,6 +144,13 @@ function getCookie(name) {
 
 currentnight = getCookie("currentnight");
 nighthighscore = getCookie("nighthighscore");
+
+if (getCookie("nighthighscore")==1987) {
+	currentnight=50;
+	nighthighscore=50;
+	document.cookie = `currentnight=${currentnight}; path=/`;
+	document.cookie = `nighthighscore=${nighthighscore}; path=/`;
+}
 
 if (currentnight === undefined){
 	currentnight = 1;
@@ -1223,6 +1231,7 @@ function daystart(night){
 		windowright=false;
 		pressbool=false;
 		forceowo=false;
+		windingbool=false;
 		for (var i = 0; i < timeouts.length; i++) {
     	    clearTimeout(timeouts[i]);
     	}
@@ -1382,6 +1391,12 @@ let analyserNode;
 let playingSources = [];
 let globalVolume = 0.5; // Default volume is set to maximum
 
+if (getCookie("volumecookie") !== undefined) {
+	globalVolume=getCookie("volumecookie");
+	audioslider.value=globalVolume;
+	audiopercent.innerHTML=Math.trunc(globalVolume*100)+"%";
+}
+
 function initializeVisuals() {
   if (!audioContext) {
     audioContext = new (window.AudioContext || window.webkitAudioContext)();
@@ -1517,6 +1532,7 @@ function pizzaPress(press){
 			playSound("windup2",true);
 		}else{
 			clearInterval(pizzainterval);
+			windingbool=false;
 			pizzabtn.src="img/camera/pizzabtn.png";
 			changeVolume("windup2",0);
 			if (press==true && windnumb<=0) {
@@ -1527,14 +1543,17 @@ function pizzaPress(press){
 }
 
 function windButton(){
-	if (windnumb<99 && currentnight<5) {
-		windnumb=windnumb+0.017;
-	}else{
-		if (windnumb<99) {
-			windnumb=windnumb+0.017+(currentnight-4)*0.002;
+	if (windingbool==false) {
+		windingbool=true;
+		if (windnumb<99 && currentnight<5) {
+			windnumb=windnumb+0.017;
+		}else{
+			if (windnumb<99) {
+				windnumb=windnumb+0.017+(currentnight-4)*0.002;
+			}
 		}
+		pizzabtn.src="img/camera/pizzabtnon.png";
 	}
-	pizzabtn.src="img/camera/pizzabtnon.png";
 }
 
 function spawnowo(){
@@ -2322,6 +2341,9 @@ document.addEventListener('keyup', function(event) {
 
 function restartNight(){
 	if (isRKeyPressed) {
+		for (var i = 0; i < timeouts.length; i++) {
+        	clearTimeout(timeouts[i]);
+    	}
 		game.style.display="none";
 		clearInterval(tickinterval);
 		clearInterval(timerinterval);
@@ -2346,7 +2368,6 @@ function optionsmenu(active){
 		starnumber.style.display="none";
 		optionscontents.style.display="block";
 		options.innerHTML="Main Menu";
-
 	}else{
 		options.innerHTML="Options";
 		options.setAttribute("onclick", "optionsmenu(0);");
@@ -2381,7 +2402,7 @@ function updateValue(value) {
     // Update the variable
     globalVolume = parseFloat(value);
     // Log the updated value for demonstration
-    audiopercent.innerHTML=Math.trunc(globalVolume*100)+"%";
+    audiopercent.innerHTML=Math.trunc(globalVolume*100)+"%";	
     if (globalVolume>0) {
     	changeVolume("darkness_music",globalVolume);
     	changeVolume("static",globalVolume);
@@ -2389,7 +2410,7 @@ function updateValue(value) {
     	changeVolume("darkness_music",0.00001);
     	changeVolume("static",0.00001);
     }
-    
+    document.cookie = `volumecookie=${globalVolume}; path=/`;
 }
 
 console.log("ඞ");
