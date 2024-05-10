@@ -76,6 +76,14 @@
     window.addEventListener("message", function(event) {
         if (event.data === "executeFunction") {
             openFullscreen();
+        }else{
+        	if (event.data === "mirrorit") {
+        	    elem.style.transform = 'scaleX(-1)';
+        	}else{
+        		if (event.data === "unmirrorit") {
+        		    elem.style.transform = 'scaleX(1)';
+        		}
+        	}
         }
     });
 </script>

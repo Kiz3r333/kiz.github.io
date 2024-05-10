@@ -7,6 +7,7 @@
 	<title>Ryan's Apparition Wandering Restaurant</title>
 </head>
 <body>
+	<div id="flashlight"></div>
 	<h1 id="warning" onclick="fadewarning(3100);">WARNING!<br><br>The game contains flashing lights, loud noises, and lots of fluffy boys!<br><br>Please Fullscreen this page,<br>wear Headphones and adjust your volume!</h1>
 	<div id="tvstatic">
 		<div id="line" class="lines"></div>
@@ -26,26 +27,82 @@
 		Wandering
 		Restaurant
 		</h1>
+		<h3 id="titlemode">Blind Mode</h3>
 		<h1 id="newgame" onmouseover="selectmenu(0);" onclick="startnight(1);">New Game</h1>
 		<h1 id="continue" onmouseover="selectmenu(1);" onclick="startnight(currentnight);">Continue</h1>
 		<h1 id="options" onmouseover="selectmenu(2);" onclick="optionsmenu(0);">Options</h1>
+		<h1 id="extras" onmouseover="selectmenu(6);" onclick="extrasmenu(0);">Extras</h1>
 		<h1 id="select">>></h1>
 		<h3 id="continuenight">Night 1</h3>
 		<h3 id="continuetime">0:00:0</h3>
-		<h3 id="version">v1.40</h3>
+		<img src="img/menu/flash.png" id="continueflash" draggable="false">
+		<img src="img/menu/mirror.png" id="continuemirror" draggable="false">
+		<img src="img/menu/warning.png" id="continuewarning" draggable="false" onmouseover="warningmessage(true)" onmouseout="warningmessage(false)">
+		<h3 id="continuewarningmsg">You're using one or multiple cheats that won't allow you to earn badges, highscores and personal bests!</h3>
+		<h3 id="version">v2.0.0</h3>
 		<h3 id="credits">A game by <a class="txt" onclick="window.open('https://www.youtube.com/@KizGalaxy', '_blank')">Kiz</a> & <a class="txt" onclick="window.open('https://www.youtube.com/@magicalblueberries', '_blank')">Magical Blueberries</a><br>for <a class="txt" onclick="window.open('https://www.youtube.com/@crumbledham922', '_blank')">CrumbledHam</a></h3>
 		<img src="img/menu/FNaFFreddy_Menu.gif" id="menucharacter" draggable="false">
 		<img src="img/camera/static.gif" id="menustatic" draggable="false">
 		<img src="img/menu/star.png" id="starpng" draggable="false">
+		<img src="img/menu/star.png" id="starpng1" draggable="false">
+		<img src="img/menu/star.png" id="starpng2" draggable="false">
+		<img src="img/menu/star.png" id="starpng3" draggable="false">
 		<img src="img/menu/nightbtn.png" id="leftnightbtn" draggable="false" onclick="increasenight(0)">
 		<img src="img/menu/nightbtn.png" id="rightnightbtn" draggable="false" onclick="increasenight(1)">
 		<h1 id="starnumber">4</h1>
+		<h1 id="starnumber1">4</h1>
+		<h1 id="starnumber2">4</h1>
+		<h1 id="starnumber3">4</h1>
 		<div id="optionscontents">
 			<h1 id="fullscreenoption" onmouseover="selectmenu(3);" onclick="sendMessageToParent()">Fullscreen</h1>
 			<h1 id="optionstitle">Options</h1>
 			<h1 id="audiooptions" onmouseover="selectmenu(5);">Volume</h1>
 			<h1 id="audiopercent">50%</h1>
 			<input id="audioslider" type="range" min="0" max="1" step="0.01" value="0.5" onmouseover="selectmenu(5);">
+		</div>
+		<div id="extrascontents">
+			<h1 id="extrastitle">Extras</h1>
+			<h1 id="extrasdev" onmouseover="selectmenu(8);" onclick="exrtrasdev()">RAWR Development</h1>
+			<h1 id="extraschallenge" onmouseover="selectmenu(9);" onclick="exrtraschalleng()">Challenges</h1>
+			<h1 id="extrascredits" onmouseover="selectmenu(10);" onclick="exrtrascred()">Credits</h1>
+			<h1 id="extrascheats" onmouseover="selectmenu(11);" onclick="exrtraschet()">Cheats</h1>
+			<img src="img/menu/lock.png" id="extraslock" draggable="false" onmouseover="lockmessage(true)" onmouseout="lockmessage(false)">
+			<h3 id="extraslockmsg">Complete Night 4 to unlock Challenges!</h3>
+			<div id="extrasdevmenu">
+				<img src="img/menu/nightbtn.png" id="leftextrasbtn" draggable="false" onclick="increasedev(0)">
+				<img src="img/menu/nightbtn.png" id="rightextrasbtn" draggable="false" onclick="increasedev(1)">
+				<img src="img/menu/dev/8.png" id="devimg" draggable="false">
+				<video id="devvid" controls><source id="devvidsource" src="img/menu/dev/1.mp4" type="video/mp4"></video>
+				<h3 id="devdescription">First Power Test with Lights And Doors</h3>
+			</div>
+			<div id="extrascreditsmenu">
+				<h1>Ryan's Apparition Wandering Restaurant</h1><br>
+				<h3>Programmer & Phone Guy VA - Kiz</h3>
+				<h3>Artist & CEO VA - Magical Blueberries</h3>
+				<h3>Five Nights at Freddy's Creator - Scott Cawthon</h3>
+				<h3>Boykisser Creator - Mauzymice</h3><br>
+				<h3>RAWR was developed in a week's time as a gift for CrumbledHam</h3>
+				<h3>We don't claim to own any of the assets/concepts used in this game!</h3><br>
+				<h3>Thank you for playing!</h3>
+			</div>
+			<div id="extraschallengemenu">
+				<h1 id="blindmodetext">Blind Mode</h1>
+				<input type="checkbox" id="blindcheckbox" disabled onclick="togglechallenge('blind')">
+				<h1 id="milkmodetext">Milk Mode</h1>
+				<input type="checkbox" id="milkcheckbox" onclick="togglechallenge('milk')">
+				<img src="img/menu/lock.png" id="extrasmilklock" draggable="false" onmouseover="lockmilkmessage(true)" onmouseout="lockmilkmessage(false)">
+				<h3 id="extrasmilklockmsg">Complete Milk Mode to unlock Blind Mode!</h3>
+			</div>
+			<div id="extrascheatsmenu">
+				<h1 id="radarmodetext">Radar</h1>
+				<input type="checkbox" id="radarcheckbox"  onclick="toggleradar()">
+				<h1 id="infpowertext">Infinite M.I.L.K</h1>
+				<input type="checkbox" id="powercheckbox" onclick="toggleinfinitepower()">
+				<h1 id="flashlighttext">Flashlight</h1>
+				<input type="checkbox" id="flashlightcheckbox" onclick="toggleflashlightbtn()">
+				<h1 id="mirrortext">Mirrored</h1>
+				<input type="checkbox" id="mirrorcheckbox" onclick="togglemirror()">
+			</div>
 		</div>
 	</div>
 	<div>
@@ -58,6 +115,7 @@
           </video> 
 		<h1 id="menutime">12:00 AM</h1>
 		<h1 id="menunight">1st Night</h1>
+		<h3 id="menutitlemode">Blind Mode</h3>
 		<div id="survived6div">
 			<h1 id="survived">AM</h1>
 			<h1 id="survived5">5</h1>
@@ -74,6 +132,12 @@
 				<div id="usage2"></div>
 				<div id="usage3"></div>
 				<div id="usage4"></div>
+				<div id="radarassets">
+					<img src="img/camera/radar.png" draggable="false" id="radarimg">
+					<div id="radarryan"></div>
+					<div id="radarjoey"></div>
+					<div id="radarkizzy"></div>
+				</div>
 			</div>
 			<div>
 				<h1 id="amtime">12 AM</h1>
@@ -109,6 +173,7 @@
 			<img id="character2" src="img/camera/joey_camPose.gif" draggable="false">
 			<img id="character3" src="img/camera/box_frame_1.png" draggable="false">
 			<img id="slug" src="img/camera/slug.gif" draggable="false">
+			<div id="led"></div>
 		</div>
 		<div id="camerassets" style="display:none">
 			<img src="img/camera/static.gif" id="static" draggable="false">
@@ -116,18 +181,18 @@
 			<h1 id="camtxt">Show Stage</h1>
 			<img src="img/camera/pizzabtn.png" id="pizzabtn" onmousedown="pizzaPress(true)" onmouseup="pizzaPress(false)" onmouseout="pizzaPress(false)" draggable="false">
 			<img src="img/camera/graphicscrate-broken-glass-13_prev_lg.png" id="brokenoverlay">
+			<img id="milkbtn1" draggable="false" src="img/camera/colorbtn.png" onclick="clickledbutton('red');playSound('mlkbtn',false);">
+			<img id="milkbtn2" draggable="false" src="img/camera/colorbtn.png" onclick="clickledbutton('green')playSound('mlkbtn',false);">
+			<img id="milkbtn3" draggable="false" src="img/camera/colorbtn.png" onclick="clickledbutton('blue')playSound('mlkbtn',false);">
+			<img id="milkbtn4" draggable="false" src="img/camera/colorbtn.png" onclick="clickledbutton('purple')playSound('mlkbtn',false);">
+			<img id="shockbtn1" draggable="false" src="img/camera/shockbtn.png" onclick="shocking('ryan')">
+			<img id="shockbtn2" draggable="false" src="img/camera/shockbtn.png" onclick="shocking('joey')">
 			<div id="cameras">
-				<img src="img/camera/Cam_01_text.png" id="cam1a" draggable="false" onclick="changecam('1a')">
 				<img src="img/camera/Cam_01b_text.png" id="cam1b" draggable="false" onclick="changecam('1b')">
 				<img src="img/camera/Cam_01c_text.png" id="cam1c" draggable="false" onclick="changecam('1c')">
-				<img src="img/camera/Cam_02_text.png" id="cam2a" draggable="false" onclick="changecam('2a')">
-				<img src="img/camera/Cam_02b_text.png" id="cam2b" draggable="false" onclick="changecam('2b')">
-				<img src="img/camera/Cam_03_text.png" id="cam3" draggable="false" onclick="changecam('3')">
-				<img src="img/camera/Cam_04_text.png" id="cam4a" draggable="false" onclick="changecam('4a')">
-				<img src="img/camera/Cam_04b_text.png" id="cam4b" draggable="false" onclick="changecam('4b')">
 				<img src="img/camera/Cam_05_text.png" id="cam5" draggable="false" onclick="changecam('5')">
 				<img src="img/camera/Cam_06_text.png" id="cam6" draggable="false" onclick="changecam('6')">
-				<img src="img/camera/Cam_07_text.png" id="cam7" draggable="false" onclick="changecam('7')">
+				<img src="img/camera/Cam_mlk_text.png" id="cammilk" draggable="false" onclick="changecam('milk')">
 			</div>
 		</div>
 		<img src="" id="jumpscare" draggable="false">

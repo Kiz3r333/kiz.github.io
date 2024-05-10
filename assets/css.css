@@ -163,7 +163,10 @@ body {
 #UI,#camtxt,#amtime,#nighttime,#title,#newgame,#continue,#version,#select,#credits,#continuenight,
 #warning,#menutime,#menunight,#survived,#survived5,#survived6,#starnumber,#exacttime,#loadprogress,
 #continuetime,#crnttime,#prevtime,#crnttimedesc,#prevtimedesc,#resettip,#options,#fullscreenoption,
-#optionstitle,#audiooptions,#audioslider,#audiopercent{
+#optionstitle,#audiooptions,#audioslider,#audiopercent,#extras,#extrastitle,#extrasdev,#extraschallenge,
+#extrascredits,#extrascheats,#devdescription,#radarmodetext,#infpowertext,#flashlighttext,#mirrortext,
+#continuewarningmsg,#extraslockmsg,#blindmodetext,#milkmodetext,#extrasmilklockmsg,#titlemode,
+#starnumber1,#starnumber2,#starnumber3,#menutitlemode{
     position: absolute;
     width: 30%;
     bottom: 7%;
@@ -343,18 +346,11 @@ body {
     pointer-events: none;
 }
 
-#cam1a,#cam1b,#cam1c,#cam2a,#cam2b,#cam3,#cam4a,#cam4b,#cam5,#cam6,#cam7{
+#cam1b,#cam1c,#cam5,#cam6,#cammilk{
     position: absolute;
     width: 3%;
     z-index: 3;
     filter: grayscale(1);
-}
-
-#cam1a{
-    left: 72%;
-    top: 42%;
-    filter: grayscale(0);
-    display: none;
 }
 
 #cam1b{
@@ -367,36 +363,6 @@ body {
     top: 69%;
 }
 
-#cam2a{
-    left: 72%;
-    top: 78%;
-    display: none;
-}
-
-#cam2b{
-    left: 72%;
-    top: 84%;
-    display: none;
-}
-
-#cam3{
-    left: 67%;
-    top: 74%;
-    display: none;
-}
-
-#cam4a{
-    left: 80%;
-    top: 78%;
-    display: none;
-}
-
-#cam4b{
-    left: 80%;
-    top: 84%;
-    display: none;
-}
-
 #cam5{
     left: 63%;
     top: 58%;
@@ -407,10 +373,9 @@ body {
     top: 47%;
 }
 
-#cam7{
-    left: 89%;
-    top: 54%;
-    display: none;
+#cammilk{
+    left: 70%;
+    top: 45.5%;
 }
 
 #camtxt{
@@ -444,7 +409,7 @@ body {
     transition: opacity 3s;
 }
 
-#title,#optionstitle{
+#title,#optionstitle,#extrastitle,#titlemode,#menutitlemode{
     width: 10%;
     bottom: 54%;
     left: 13%;
@@ -452,12 +417,58 @@ body {
     z-index: 0;
 }
 
-#optionstitle{
+#titlemode,#menutitlemode{
+    width: 21%;
+    bottom: 52%;
+    left: 13%;
+    font-size: 4vh;
+    text-shadow: 0 0 10px #00ffff, 0 0 20px #00ffff, 0 0 30px #00ffff, 0 0 40px #00ffff, 0 0 50px #00ffff, 0 0 60px #00ffff, 0 0 70px #00ffff, 0 0 80px #00ffff;
+    animation: glowingch1 1.5s infinite;
+}
+
+@keyframes glowingch1 {
+    0% {
+        text-shadow: 0 0 10px #00ffff, 0 0 20px #00ffff, 0 0 30px #00ffff, 0 0 40px #00ffff, 0 0 50px #00ffff, 0 0 60px #00ffff, 0 0 70px #00ffff, 0 0 80px #00ffff;
+    }
+    50% {
+        text-shadow: none;
+    }
+    100% {
+        text-shadow: 0 0 10px #00ffff, 0 0 20px #00ffff, 0 0 30px #00ffff, 0 0 40px #00ffff, 0 0 50px #00ffff, 0 0 60px #00ffff, 0 0 70px #00ffff, 0 0 80px #00ffff;
+    }
+}
+
+@keyframes glowingch2 {
+    0% {
+        text-shadow: 0 0 10px #FFFFFF, 0 0 20px #FFFFFF, 0 0 30px #FFFFFF, 0 0 40px #FFFFFF, 0 0 50px #FFFFFF, 0 0 60px #FFFFFF, 0 0 70px #FFFFFF, 0 0 80px #FFFFFF;
+    }
+    50% {
+        text-shadow: none;
+    }
+    100% {
+        text-shadow: 0 0 10px #FFFFFF, 0 0 20px #FFFFFF, 0 0 30px #FFFFFF, 0 0 40px #FFFFFF, 0 0 50px #FFFFFF, 0 0 60px #FFFFFF, 0 0 70px #FFFFFF, 0 0 80px #FFFFFF;
+    }
+}
+
+@keyframes glowingch3 {
+    0% {
+        text-shadow: 0 0 10px #FF00FF, 0 0 20px #FF00FF, 0 0 30px #FF00FF, 0 0 40px #FF00FF, 0 0 50px #FF00FF, 0 0 60px #FF00FF, 0 0 70px #FF00FF, 0 0 80px #FF00FF;
+    }
+    50% {
+        text-shadow: none;
+    }
+    100% {
+        text-shadow: 0 0 10px #FF00FF, 0 0 20px #FF00FF, 0 0 30px #FF00FF, 0 0 40px #FF00FF, 0 0 50px #FF00FF, 0 0 60px #FF00FF, 0 0 70px #FF00FF, 0 0 80px #FF00FF;
+    }
+}
+
+#optionstitle,#extrastitle{
     bottom: 68%;
     font-size: 10vh;
 }
 
-#newgame,#continue,#select,#options,#fullscreenoption,#audiooptions,#audiopercent{
+#newgame,#continue,#select,#options,#fullscreenoption,#audiooptions,#audiopercent,#extras,#extrasdev,#extraschallenge,#extrascredits,
+#extrascheats,#devdescription{
     width: 15%;
     bottom: 40%;
     left: 13%;
@@ -465,7 +476,7 @@ body {
     z-index: 0;
 }
 
-#optionscontents{
+#optionscontents,#extrascontents{
     display: none;
 }
 
@@ -474,6 +485,28 @@ body {
     left: 13%;
     font-size: 6vh;
     width: 19%;
+}
+
+#extrasdev,#extraschallenge,#extrascredits,#extrascheats{
+    bottom: 54%;
+    left: 13%;
+    font-size: 5vh;
+    width: 25%;
+}
+
+#extraschallenge{
+    bottom: 44%;
+    width: 16%;
+}
+
+#extrascheats{
+    bottom: 34%;
+    width: 11%;
+}
+
+#extrascredits{
+    bottom: 24%;
+    width: 11%;
 }
 
 #audiooptions{
@@ -488,11 +521,17 @@ body {
     text-align: right;
 }
 
-#options{
+#options,#extras{
     bottom: 8%;
-    left: 83.5%;
+    left: 83%;
     font-size: 5vh;
     text-align: right;
+    z-index: 1;
+}
+
+#extras{
+    bottom: 14%;
+    display: none;
 }
 
 #continue{
@@ -502,6 +541,14 @@ body {
 #select{
     left: 8%;
     pointer-events: none;
+}
+
+#devdescription{
+    bottom: 30%;
+    left: 44%;
+    font-size: 2.5vh;
+    text-align: center;
+    width: 50%;
 }
 
 #version,#credits,#continuenight,#continuetime{
@@ -724,13 +771,21 @@ body {
     left: 94%;
 }
 
-#menutime,#menunight,#survived,#survived5,#survived6{
+#menutime,#menunight,#survived,#survived5,#survived6,#menutitlemode{
     display: none;
     transition: opacity 3s;
     bottom: 60%;
     left: 35%;
     font-size: 6vh;
     text-align: center;
+}
+
+#menutitlemode{
+    bottom: 74%;
+    left: 34%;
+    font-size: 7vh;
+    z-index: 1;
+    width: 33%;
 }
 
 #menunight{
@@ -1017,17 +1072,112 @@ body {
     width: 5%;
 }
 
-#starnumber{
+#starpng1{
+    position: absolute;
     display: none;
-    width: 4%;
+    top: 11%;
+    left: 50%;
+    width: 5%;
+    filter: hue-rotate(115deg);
+}
+
+#starpng2{
+    position: absolute;
+    display: none;
+    top: 11%;
+    left: 43%;
+    width: 5%;
+    filter: grayscale(100%) brightness(2);
+}
+
+#starpng3{
+    position: absolute;
+    display: none;
+    top: 11%;
+    left: 57%;
+    width: 5%;
+    filter: hue-rotate(250deg);
+}
+
+#starnumber,#starnumber1,#starnumber2,#starnumber3{
+    display: none;
+    width: 5%;
     bottom: 78%;
-    left: 36.5%;
+    left: 36%;
     font-size: 5vh;
     z-index: 1;
     text-align: center;
+    text-shadow: 0 0 0px #ffff00, 0 0 0px #ffff00, 0 0 10px #ffff00, 0 0 20px #ffff00, 0 0 30px #ffff00, 0 0 40px #ffff00, 0 0 50px #ffff00, 0 0 60px #ffff00;
+    animation: glowing2 5s infinite;
 }
 
-#leftnightbtn,#rightnightbtn{
+@keyframes glowing2 {
+    0% {
+        text-shadow: 0 0 0px #ffff00, 0 0 0px #ffff00, 0 0 10px #ffff00, 0 0 20px #ffff00, 0 0 30px #ffff00, 0 0 40px #ffff00, 0 0 50px #ffff00, 0 0 60px #ffff00;
+    }
+    50% {
+        text-shadow: 0 0 0px #ffff00, 0 0 3px #ffff00, 0 0 6px #ffff00, 0 0 9px #ffff00, 0 0 12px #ffff00, 0 0 15px #ffff00, 0 0 18px #ffff00, 0 0 21px #ffff00;
+    }
+    100% {
+        text-shadow: 0 0 0px #ffff00, 0 0 0px #ffff00, 0 0 10px #ffff00, 0 0 20px #ffff00, 0 0 30px #ffff00, 0 0 40px #ffff00, 0 0 50px #ffff00, 0 0 60px #ffff00;
+    }
+}
+
+#starnumber1{
+    left: 50%;
+    text-shadow: 0 0 0px #00FFFF, 0 0 0px #00FFFF, 0 0 10px #00FFFF, 0 0 20px #00FFFF, 0 0 30px #00FFFF, 0 0 40px #00FFFF, 0 0 50px #00FFFF, 0 0 60px #00FFFF;
+    animation: glowing3 5s infinite;
+}
+
+@keyframes glowing3 {
+    0% {
+        text-shadow: 0 0 0px #00FFFF, 0 0 0px #00FFFF, 0 0 10px #00FFFF, 0 0 20px #00FFFF, 0 0 30px #00FFFF, 0 0 40px #00FFFF, 0 0 50px #00FFFF, 0 0 60px #00FFFF;
+    }
+    50% {
+        text-shadow: 0 0 0px #00FFFF, 0 0 3px #00FFFF, 0 0 6px #00FFFF, 0 0 9px #00FFFF, 0 0 12px #00FFFF, 0 0 15px #00FFFF, 0 0 18px #00FFFF, 0 0 21px #00FFFF;
+    }
+    100% {
+        text-shadow: 0 0 0px #00FFFF, 0 0 0px #00FFFF, 0 0 10px #00FFFF, 0 0 20px #00FFFF, 0 0 30px #00FFFF, 0 0 40px #00FFFF, 0 0 50px #00FFFF, 0 0 60px #00FFFF;
+    }
+}
+
+#starnumber2{
+    left: 43%;
+    text-shadow: 0 0 0px #FFFFFF, 0 0 0px #FFFFFF, 0 0 10px #FFFFFF, 0 0 20px #FFFFFF, 0 0 30px #FFFFFF, 0 0 40px #FFFFFF, 0 0 50px #FFFFFF, 0 0 60px #FFFFFF;
+    animation: glowing4 5s infinite;
+}
+
+@keyframes glowing4 {
+    0% {
+        text-shadow: 0 0 0px #FFFFFF, 0 0 0px #FFFFFF, 0 0 10px #FFFFFF, 0 0 20px #FFFFFF, 0 0 30px #FFFFFF, 0 0 40px #FFFFFF, 0 0 50px #FFFFFF, 0 0 60px #FFFFFF;
+    }
+    50% {
+        text-shadow: 0 0 0px #FFFFFF, 0 0 3px #FFFFFF, 0 0 6px #FFFFFF, 0 0 9px #FFFFFF, 0 0 12px #FFFFFF, 0 0 15px #FFFFFF, 0 0 18px #FFFFFF, 0 0 21px #FFFFFF;
+    }
+    100% {
+        text-shadow: 0 0 0px #FFFFFF, 0 0 0px #FFFFFF, 0 0 10px #FFFFFF, 0 0 20px #FFFFFF, 0 0 30px #FFFFFF, 0 0 40px #FFFFFF, 0 0 50px #FFFFFF, 0 0 60px #FFFFFF;
+    }
+}
+
+#starnumber3{
+    left: 57%;
+    text-shadow: 0 0 0px #FF00FF, 0 0 0px #FF00FF, 0 0 10px #FF00FF, 0 0 20px #FF00FF, 0 0 30px #FF00FF, 0 0 40px #FF00FF, 0 0 50px #FF00FF, 0 0 60px #FF00FF;
+    animation: glowing5 5s infinite;
+}
+
+@keyframes glowing5 {
+    0% {
+        text-shadow: 0 0 0px #FF00FF, 0 0 0px #FF00FF, 0 0 10px #FF00FF, 0 0 20px #FF00FF, 0 0 30px #FF00FF, 0 0 40px #FF00FF, 0 0 50px #FF00FF, 0 0 60px #FF00FF;
+    }
+    50% {
+        text-shadow: 0 0 0px #FF00FF, 0 0 3px #FF00FF, 0 0 6px #FF00FF, 0 0 9px #FF00FF, 0 0 12px #FF00FF, 0 0 15px #FF00FF, 0 0 18px #FF00FF, 0 0 21px #FF00FF;
+    }
+    100% {
+        text-shadow: 0 0 0px #FF00FF, 0 0 0px #FF00FF, 0 0 10px #FF00FF, 0 0 20px #FF00FF, 0 0 30px #FF00FF, 0 0 40px #FF00FF, 0 0 50px #FF00FF, 0 0 60px #FF00FF;
+    }
+}
+
+#leftnightbtn,#rightnightbtn,#leftextrasbtn,#rightextrasbtn{
     position: absolute;
     width: 4%;
     bottom: 14%;
@@ -1036,13 +1186,29 @@ body {
     opacity: 90%;
 }
 
-#rightnightbtn{
+#rightnightbtn,#rightextrasbtn{
     left: 23.5%;
     transform: scaleX(-1);
 }
 
-#leftnightbtn:hover, #rightnightbtn:hover{
+#leftnightbtn:hover, #rightnightbtn:hover, #leftextrasbtn:hover ,#rightextrasbtn:hover{
     filter: brightness(1.75);
+}
+
+#leftextrasbtn{
+    bottom: 50%;
+    left: 44%;
+    display: none;
+}
+
+#rightextrasbtn{
+    bottom: 50%;
+    left: 90%;
+    display: block;
+}
+
+#extrasdevmenu,#extraschallengemenu,#extrascheatsmenu{
+    display: none;
 }
 
 #detach-button-host {
@@ -1063,3 +1229,363 @@ body {
     50% { opacity: 0.2; }
     100% { opacity: 1; }
   }
+
+#devimg{
+    display: none;
+}
+
+#devvid,#devimg{
+    position: absolute;
+    width: 42%;
+    left: 48%;
+    top: 21%;
+    z-index: 1;
+}
+
+#devimg{
+    height: 42%;
+}
+
+#extrascreditsmenu{
+    position: absolute;
+    width: 60%;
+    bottom: 15%;
+    left: 37%; 
+    font-size: 2.5vh;
+    z-index: 0;
+    font-family: consolas;
+    filter: drop-shadow(0 0 1rem black);
+    text-align: center;
+}
+
+#extrascreditsmenu h1{
+    font-size: 3.5vh;
+}
+
+#extrascheatsmenu input, #extraschallengemenu input{
+    position: absolute;
+    width: 3%;
+    height: 4%;
+    left: 75%;
+}
+
+#radarcheckbox{
+    bottom: 67%;
+}
+#powercheckbox,#milkcheckbox{
+    bottom: 57%;
+}
+#flashlightcheckbox,#blindcheckbox{
+    bottom: 47%;
+}
+#mirrorcheckbox{
+    bottom: 37%;
+}
+
+#extrascheatsmenu input[type="checkbox"]:checked, #extraschallengemenu input[type="checkbox"]:checked{
+    accent-color: #0FD;
+}
+
+#radarmodetext{
+    bottom: 63%;
+    left: 44%; 
+    font-size: 5.5vh;
+    z-index: 0;
+    text-align: right;
+}
+#infpowertext{
+    bottom: 53%;
+    left: 44%; 
+    font-size: 5.5vh;
+    z-index: 0;
+    text-align: right;
+}
+#flashlighttext{
+    bottom: 43%;
+    left: 44%; 
+    font-size: 5.5vh;
+    z-index: 0;
+    text-align: right;
+}
+#mirrortext{
+    bottom: 33%;
+    left: 44%; 
+    font-size: 5.5vh;
+    z-index: 0;
+    text-align: right;
+}
+
+#blindmodetext{
+    bottom: 43%;
+    left: 44%; 
+    font-size: 5.5vh;
+    z-index: 0;
+    text-align: right;
+}
+
+#milkmodetext{
+    bottom: 53%;
+    left: 44%; 
+    font-size: 5.5vh;
+    z-index: 0;
+    text-align: right;
+}
+
+#flashlight {
+  position: absolute;
+  width: 200vw;
+  height: 200vh;
+  left: 50%;
+  top: 50%;
+  transform: translateX(-50%) translateY(-50%);
+  background-image: radial-gradient(circle at center, transparent, #000 20%);
+  z-index: 999;
+  pointer-events: none;
+  display: none;
+}
+
+#continueflash{
+    position: absolute;
+    width: 1.3%;
+    left: 20%;
+    top: 70.3%;
+    display: none;
+}
+
+#continuemirror{
+    position: absolute;
+    width: 1.5%;
+    left: 18%;
+    top: 70%;
+    display: none;
+}
+
+#continuewarning{
+    position: absolute;
+    width: 2.5%;
+    left: 29%;
+    top: 61%;
+    display: none;
+    animation: blink 0.7s infinite;
+}
+
+#continuewarningmsg,#extraslockmsg,#extrasmilklockmsg{
+    color:#e1b435;
+    width: 23%;
+    bottom: 31%;
+    left: 32.5%;
+    opacity: 0;
+    display: none;
+    transition: opacity 0.5s;
+}
+
+#extraslockmsg{
+    width: 16%;
+    bottom: 45%;
+    left: 33.5%;
+}
+
+#extrasmilklockmsg{
+    width: 13%;
+    bottom: 45%;
+    left: 82.5%;
+    display: block;
+}
+
+#radarassets{
+    display: none;
+}
+
+#radarimg{
+    position: absolute;
+    width: 45%;
+    opacity: 50%;
+    bottom: 510%;
+    left: 0%;
+}
+
+#radarryan,#radarjoey,#radarkizzy{
+    position: absolute;
+    background-color: #ffae64;
+    width: 3%;
+    height: 13%;
+    bottom: 579%;
+    left: 18%;
+    opacity: 80%;
+}
+
+#radarjoey{
+    background-color: #ff93c4;
+    bottom: 579%;
+    left: 22%;
+}
+
+#radarkizzy{
+    background-color: #00FF00;
+    bottom: 593%;
+    left: 2%;
+}
+
+#extraslock,#extrasmilklock{
+    position: absolute;
+    width: 2.5%;
+    left: 30%;
+    top: 48%;
+    display: none;
+    animation: blink 0.7s infinite;
+}
+
+#extrasmilklock{
+    left: 79%;
+    top: 48%;
+    display: block;
+}
+
+#milkbtn1{
+    position: absolute;
+    width: 8%;
+    height: 13%;
+    left: 8%;
+    top: 67%;
+    opacity: 50%;
+    z-index: 3;
+}
+
+#milkbtn1:hover{
+    opacity: 70%;
+}
+
+#milkbtn1:active{
+    opacity: 90%;
+}
+
+#milkbtn2{
+    position: absolute;
+    width: 8%;
+    height: 13%;
+    left: 20%;
+    top: 67%;
+    filter: hue-rotate(140deg);
+    opacity: 50%;
+    z-index: 3;
+}
+
+#milkbtn2:hover{
+    opacity: 70%;
+}
+
+#milkbtn2:active{
+    opacity: 90%;
+}
+
+#milkbtn3{
+    position: absolute;
+    width: 8%;
+    height: 13%;
+    left: 32%;
+    top: 67%;
+    filter: hue-rotate(230deg);
+    opacity: 50%;
+    z-index: 3;
+}
+
+#milkbtn3:hover{
+    opacity: 70%;
+}
+
+#milkbtn3:active{
+    opacity: 90%;
+}
+
+#milkbtn4{
+    position: absolute;
+    width: 8%;
+    height: 13%;
+    left: 44%;
+    top: 67%;
+    filter: hue-rotate(300deg);
+    opacity: 50%;
+    z-index: 3;
+}
+
+#milkbtn4:hover{
+    opacity: 70%;
+}
+
+#milkbtn4:active{
+    opacity: 90%;
+}
+
+#led{
+    position: absolute;
+    display: none;
+    width: 2%;
+    height: 5%;
+    left: 48%;
+    top: 31%;
+    opacity: 90%;
+    z-index: 0;
+    background-color: red;
+    border-radius: 30%;
+    animation: ledglowred 1s ease-in-out infinite alternate;
+}
+
+@keyframes ledglowred {
+    from {
+        box-shadow: 0 0 20px 10px red;
+    }
+    to {
+        box-shadow: 0 0 30px 15px red;
+    }
+}
+
+@keyframes ledglowblue {
+    from {
+        box-shadow: 0 0 20px 10px blue;
+    }
+    to {
+        box-shadow: 0 0 30px 15px blue;
+    }
+}
+
+@keyframes ledglowgreen {
+    from {
+        box-shadow: 0 0 20px 10px green;
+    }
+    to {
+        box-shadow: 0 0 30px 15px green;
+    }
+}
+
+@keyframes ledglowpurple {
+    from {
+        box-shadow: 0 0 20px 10px purple;
+    }
+    to {
+        box-shadow: 0 0 30px 15px purple;
+    }
+}
+
+@keyframes ledglowtransparent {
+    from {
+        box-shadow: 0 0 20px 10px transparent;
+    }
+    to {
+        box-shadow: 0 0 30px 15px transparent;
+    }
+}
+
+#shockbtn1,#shockbtn2{
+    position: absolute;
+    width: 5%;
+    height: 13%;
+    left: 8%;
+    top: 51%;
+    z-index: 3;
+    display: none;
+}
+
+#shockbtn2{
+    left: 47%;
+    top: 52%;
+}
