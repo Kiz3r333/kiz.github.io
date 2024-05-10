@@ -4437,3 +4437,4 @@ function shocking(chara){
 }
 
 console.log("ඞ");
+console.log("ඞ");
