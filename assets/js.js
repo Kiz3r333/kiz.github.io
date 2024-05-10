@@ -2788,7 +2788,6 @@ function ryanMove(){
 				}
 			}else{
 				x = Math.floor(Math.random() * 6);
-				x=3;
 				if (x>=4) {
 					const timeout0 = setTimeout(() => {
 						character1cam="6";
@@ -3073,7 +3072,6 @@ function joeyMove(){
 				}
 			}else{
 				x = Math.floor(Math.random() * 6);
-				x=3;
 				if (x<=2) {
 					const timeout7 = setTimeout(() => {
 						character2cam="6";
