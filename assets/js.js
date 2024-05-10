@@ -952,6 +952,14 @@ function outofpower(){
 	character3.style.visibility="hidden";
 	ryanoffice.style.visibility="hidden";
 	joeyoffice.style.visibility="hidden";
+	milkbtn1.style.display="none";
+	milkbtn2.style.display="none";
+	milkbtn3.style.display="none";
+	milkbtn4.style.display="none";
+	led.style.display="none";
+	shockbtn1.style.display="none";
+	shockbtn2.style.display="none";
+	ledcolor="nothing";
 	officemovetrigger1.style.display="block";
 	officemovetrigger11.style.display="block";
 	officemovetrigger111.style.display="block";
@@ -4287,27 +4295,29 @@ flashlightcheckbox.checked=false;
 mirrorcheckbox.checked=false;
 
 function ledrando(){
-	const colors = ["red", "blue", "green", "purple"];
+	if (currenttime<4800) {
+		const colors = ["red", "blue", "green", "purple"];
 
-	for (let i = colors.length - 1; i > 0; i--) {
-	  const j = Math.floor(Math.random() * (i + 1));
-	  [colors[i], colors[j]] = [colors[j], colors[i]];
-	}
+		for (let i = colors.length - 1; i > 0; i--) {
+		  const j = Math.floor(Math.random() * (i + 1));
+		  [colors[i], colors[j]] = [colors[j], colors[i]];
+		}
 
-	led.style.backgroundColor=colors[0];
-	led.style.animation="ledglow"+colors[0]+" 1s ease-in-out infinite alternate";
-	ledcolor=colors[0];
-	if (currentcam=="milk" && camera.checked==true) {
-		playSound("ding",false);
+		led.style.backgroundColor=colors[0];
+		led.style.animation="ledglow"+colors[0]+" 1s ease-in-out infinite alternate";
+		ledcolor=colors[0];
+		if (currentcam=="milk" && camera.checked==true) {
+			playSound("ding",false);
+		}
+		milkbtn1.style.opacity="50%";
+		milkbtn2.style.opacity="50%";
+		milkbtn3.style.opacity="50%";
+		milkbtn4.style.opacity="50%";
+		milkbtn1.setAttribute("onclick", "clickledbutton('red');playSound('mlkbtn',false);");
+		milkbtn2.setAttribute("onclick", "clickledbutton('green');playSound('mlkbtn',false);");
+		milkbtn3.setAttribute("onclick", "clickledbutton('blue');playSound('mlkbtn',false);");
+		milkbtn4.setAttribute("onclick", "clickledbutton('purple');playSound('mlkbtn',false);");
 	}
-	milkbtn1.style.opacity="50%";
-	milkbtn2.style.opacity="50%";
-	milkbtn3.style.opacity="50%";
-	milkbtn4.style.opacity="50%";
-	milkbtn1.setAttribute("onclick", "clickledbutton('red');playSound('mlkbtn',false);");
-	milkbtn2.setAttribute("onclick", "clickledbutton('green');playSound('mlkbtn',false);");
-	milkbtn3.setAttribute("onclick", "clickledbutton('blue');playSound('mlkbtn',false);");
-	milkbtn4.setAttribute("onclick", "clickledbutton('purple');playSound('mlkbtn',false);");
 }
 
 function clickledbutton(colormlk){
