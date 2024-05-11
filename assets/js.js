@@ -548,7 +548,7 @@ function cameraopenw(){
 					shockbtn2.style.display="none";
 				}
 
-				if (challenge==1 || challenge==3) {
+				if (challenge==1 || challenge==3 && currentcam!="milk") {
 					character1.style.visibility="hidden";
 					character2.style.visibility="hidden";
 					character3.style.visibility="hidden";
@@ -4444,5 +4444,4 @@ function shocking(chara){
 	}
 }
 
-console.log("ඞ");
 console.log("ඞ");
