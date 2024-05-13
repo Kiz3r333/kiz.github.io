@@ -194,7 +194,7 @@ var currentnightch3=1;
 var nighthighscorech1=1;
 var nighthighscorech2=1;
 var nighthighscorech3=1;
-var ledcolor="red";
+var ledcolor="nothing";
 var timeout28;
 var timeout29;
 var timeout34;
@@ -1911,6 +1911,13 @@ function daystart(night){
 		clearTimeout(timeoutID);
 		camerassets.style.display="none";
 		cam.style.visibility="hidden";
+		milkbtn1.style.display="none";
+		milkbtn2.style.display="none";
+		milkbtn3.style.display="none";
+		milkbtn4.style.display="none";
+		led.style.display="none";
+		shockbtn1.style.display="none";
+		shockbtn2.style.display="none";
 		camerabg.style.visibility="hidden";
 		menutime.style.display="none";
 		menutitlemode.style.display="none";
@@ -4331,6 +4338,8 @@ function clickledbutton(colormlk){
 	milkbtn4.removeAttribute("onclick");
 	led.style.backgroundColor="transparent";
 	led.style.animation="ledglowtransparent 1s ease-in-out infinite alternate";
+	console.log("colormlk "+colormlk);
+	console.log("ledcolor "+ledcolor);
 	if (colormlk==ledcolor) {
 		ledcolor="transparent";
 		var timemilk = Math.floor(Math.random() * 50000) + 15000;
@@ -4339,7 +4348,6 @@ function clickledbutton(colormlk){
 		while (timemilksub >= timemilk) {
 		    timemilksub = Math.floor(Math.random() * 25000) + 4000;
 		}
-		console.log(timemilk);
 		playSound("genstart",false);
 		const timeout27 = setTimeout(() => {
 			playSound("gen",true);
@@ -4445,3 +4453,42 @@ function shocking(chara){
 }
 
 console.log("ඞ");
+
+function handleSubmit() {
+    var username = document.getElementById("username").value;
+    var password = document.getElementById("password").value;
+
+    GJAPI.UserLoginManual(username, password, function(pResponse) {
+      if (pResponse.success === "true") {
+        console.log("HOLY SHIT GAEMJOTL LOGIN WORKED!!!??=");
+      }else{
+      	console.log("EPIC FAIL");
+      }
+    });
+
+    return false;
+}
+
+console.log("⣿⡪⡪⣿	⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀");
+console.log("⢸⡯⡯⡪⡇		⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀");
+console.log("⢸⡯⡇⠪⣇⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣀⢀		⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀");
+console.log("⢸⡯⡣⡨⣻⡀⠀⠀⠀⠀⠀⠀⠀⠀⡠⠚⠁⠈⢳⡀⠀⠀⠀⠀⠀⣀⠴⠖⢂⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀");
+console.log("⠈⣿⡪⡺⣺⡇⠀⠀⠀⠀⠀⠀⠀⣸⠁⠀⠀⠀⣀⢳⠀⠀⠀⢀⠞⠁⠀⠀⠈⢧⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀");
+console.log("⠀⢸⣮⣪⣨⣷⠀⠀⠀⠀⠀⠀⢀⡇⠀⠀⠀⠸⡏⠻⣇⠀⣰⠋⠀⠀⠀⠀⠀⢸⡆⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀");
+console.log("⠀⢸⣯⣪⣹⡇⠀⠀⠀⠀⠀⠀⢸⠀⠀⠀⣀⢤⠇⠀⠈⠀⠗⠀⠀⠀⠀⠀⠀⠈⡇⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀");
+console.log("⠀⠈⣿⣿⣿⣇⡀⠀⠀⠀⠀⠀⠸⡆⠀⠀⠉⠓⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⡇⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀");
+console.log("⠀⢀⣿⠃⢸⠀⠉⠑⠲⢤⣀⠀⠀⢳⡶⠆⣠⢞⣶⠂⠀⣴⢲⣶⡄⠠⠤⠤⢤⡸⠃⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀");
+console.log("⠀⠈⣇⠀⡘⠀⠀⠀⠀⠀⠈⠉⠒⠾⢧⣴⣟⡺⠿⣠⡄⠁⠸⣿⡿⢠⠀⢀⡞⠁⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀");
+console.log("⠀⠀⠘⠶⠇⠀⠀⠀⠀⠀⠠⣤⣀⣀⣤⣄⣈⣉⣒⡶⠤⠆⠀⠸⠉⠉⠰⡏⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀");
+console.log("⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠉⠙⢢⡄⠀⠀⠀⠀⠀⠀⢠⡄⠀⣽⠂⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀");
+console.log("⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣀⣀⣴⠉⠀⠀⠀⠀⠀⠀⠀⠀⠙⠦⢠⡴⠶⠲⢄⡀⠀⠀⠀⠀⠀⠀⠀⠀");
+console.log("⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢡⠀⠁⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠉⢢⡀⠀⠙⢦⡀⠀⠀⠀⢀⣠⠄");
+console.log("⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠘⢧⠀⠀⠀⠀⠀⠀⠀⠀⠓⢦⣀⠀⠀⠀⠀⢹⠀⠀⠀⠉⠒⠒⠒⢻⡟⠀");
+console.log("⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢰⣏⣄⠀⠀⠀⠀⠀⠀⠀⠀⡼⠉⠁⠀⠀⢀⡞⠂⠀⠀⠀⠀⠀⠀⡸⠁⠀");
+console.log("⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢸⡀⠀⠀⠀⠀⠀⠀⢸⠁⠀⠀⠀⠀⣞⠀⠀⠀⠀⠀⠀⠀⡰⠃⠀⠀");
+console.log("⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠈⣧⠀⠀⠀⠀⢀⠀⠸⡄⠀⠀⠀⠀⢨⢇⠀⠀⠀⣀⡠⠞⠁⠀⠀⠀");
+console.log("⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⡼⠇⠀⠀⠀⠸⣆⠀⠈⠲⠤⠤⡴⠋⠈⠉⠉⠉⠁⠀⠀⠀⠀⠀⠀");
+console.log("⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢰⣁⠀⠀⠀⠀⡀⣀⡼⢆⠀⠀⠀⠀⢱⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀");
+console.log("⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠉⠉⠉⠉⠉⠁⠀⠀⠸⡄⠀⠀⠀⠹⡆⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀");
+console.log("⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠳⣄⣀⠀⣸⠃⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀");
+console.log("⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠈⠉⠁⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀");

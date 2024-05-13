@@ -286,10 +286,11 @@ body {
 
 #loadprogress{
     bottom: 2%;
-    left: 77%;
+    left: 63.5%;
     font-size: 2vh;
     z-index: 0;
     display: none;
+    text-align: right;
 }
 
 #debug{
@@ -1588,4 +1589,8 @@ body {
 #shockbtn2{
     left: 47%;
     top: 52%;
+}
+
+#formgj{
+    display: none;
 }
