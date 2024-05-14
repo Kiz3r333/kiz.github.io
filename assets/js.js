@@ -699,10 +699,10 @@ function loadme(){
 		power -= 0.01;
 	}else{
 		if (challenge==2 && currentnightch2>4) {
-			power = power+0.01+0.001*currentnightch2;
+			power = power+0.01+0.0002*currentnightch2;
 		}else{
 			if (challenge==3 && currentnightch3>4) {
-				power = power+0.01+0.001*currentnightch3;
+				power = power+0.01+0.0002*currentnightch3;
 			}else{
 				power = power+0.01;
 			}
@@ -2951,6 +2951,7 @@ function ryanMove(){
 					windowleft=false;
 					ryanMove();
 				}else{
+					character1cam="death";
 					deathdelay=true;
 					changeVolume("BallastHumMedium2",0);
 					officelights1.style.display="none";
@@ -3203,6 +3204,7 @@ function joeyMove(){
 						joeyMove();
 						windowright=false;
 					}else{
+						character2cam="death";
 						deathdelay=true;
 						changeVolume("BallastHumMedium2",0);
 						officelights1.style.display="none";
@@ -3265,7 +3267,7 @@ function furrydeath(){
 		deathdelay=false;
 		stopSound();
 		jumpscare.style.display="block";
-		if (character1cam=="office") {
+		if (character1cam=="death") {
 			jumpscare.src="img/background/ryanjump.gif";
 		}else{
 			jumpscare.src="img/background/joeyjump.gif";
