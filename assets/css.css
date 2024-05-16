@@ -166,7 +166,7 @@ body {
 #optionstitle,#audiooptions,#audioslider,#audiopercent,#extras,#extrastitle,#extrasdev,#extraschallenge,
 #extrascredits,#extrascheats,#devdescription,#radarmodetext,#infpowertext,#flashlighttext,#mirrortext,
 #continuewarningmsg,#extraslockmsg,#blindmodetext,#milkmodetext,#extrasmilklockmsg,#titlemode,
-#starnumber1,#starnumber2,#starnumber3,#menutitlemode{
+#starnumber1,#starnumber2,#starnumber3,#menutitlemode,#gamejoltbtntxt{
     position: absolute;
     width: 30%;
     bottom: 7%;
@@ -469,7 +469,7 @@ body {
 }
 
 #newgame,#continue,#select,#options,#fullscreenoption,#audiooptions,#audiopercent,#extras,#extrasdev,#extraschallenge,#extrascredits,
-#extrascheats,#devdescription{
+#extrascheats,#devdescription,#gamejoltbtntxt{
     width: 15%;
     bottom: 40%;
     left: 13%;
@@ -481,11 +481,17 @@ body {
     display: none;
 }
 
-#fullscreenoption,#audiooptions{
+#fullscreenoption,#audiooptions,#gamejoltbtntxt{
     bottom: 50%;
     left: 13%;
     font-size: 6vh;
     width: 19%;
+}
+
+#gamejoltbtntxt{
+    bottom: 26%;
+    left: 19%;
+    display: none;
 }
 
 #extrasdev,#extraschallenge,#extrascredits,#extrascheats{
@@ -1592,5 +1598,13 @@ body {
 }
 
 #formgj{
+    display: none;
+}
+
+#gamejoltbtn{
+    position: absolute;
+    width: 5%;
+    left: 13%;
+    top: 63%;
     display: none;
 }

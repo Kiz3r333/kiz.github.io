@@ -136,6 +136,7 @@ var led = document.getElementById("led");
 var radarimg = document.getElementById("radarimg");
 var shockbtn1 = document.getElementById("shockbtn1");
 var shockbtn2 = document.getElementById("shockbtn2");
+var gamejoltbtntxt = document.getElementById("gamejoltbtntxt");
 var officedistance = -25;
 var cameradistance = -25;
 var intervalId = null;
@@ -674,7 +675,7 @@ function tick(){
     		}
     		
     		if (getCookie(cookieName) !== undefined && getCookie(cookieName) < miliseconds || getCookie(cookieName) === undefined) {
-    		    document.cookie = cookieName + "=" + miliseconds + "; path=/";
+    		    document.cookie = cookieName + "=" + miliseconds + "; expires=Fri, 31 Dec 9999 23:59:59 GMT; path=/";
     		}
 		}
 
@@ -1437,6 +1438,10 @@ function selectmenu(menutype){
             select.style.bottom="33%";
             select.style.left="8%";
             break;
+        case 12:
+            select.style.bottom="26%";
+            select.style.left="8%";
+            break;
         default:
             break;
     }
@@ -2060,56 +2065,56 @@ function dayend(){
 						nighthighscore=currentnight;
 					}
 					if (flashlightcheckbox.checked) {
-						document.cookie = "cookieFlash" + currentnight + "=true; path=/";
+						document.cookie = "cookieFlash" + currentnight + "=true; expires=Fri, 31 Dec 9999 23:59:59 GMT; path=/";
 					}
 					if (mirrorcheckbox.checked) {
-						document.cookie = "cookieMirror" + currentnight + "=true; path=/";
+						document.cookie = "cookieMirror" + currentnight + "=true; expires=Fri, 31 Dec 9999 23:59:59 GMT; path=/";
 					}
 					currentnight++;
-					document.cookie = `currentnight=${currentnight}; path=/`;
-					document.cookie = `nighthighscore=${nighthighscore}; path=/`;
+					document.cookie = `currentnight=${currentnight}; expires=Fri, 31 Dec 9999 23:59:59 GMT; path=/`;
+					document.cookie = `nighthighscore=${nighthighscore}; expires=Fri, 31 Dec 9999 23:59:59 GMT; path=/`;
 					break;
 				case 1:
 					if (currentnightch1>nighthighscorech1) {
 						nighthighscorech1=currentnightch1;
 					}
 					if (flashlightcheckbox.checked) {
-						document.cookie = "ch1cookieFlash" + currentnightch1 + "=true; path=/";
+						document.cookie = "ch1cookieFlash" + currentnightch1 + "=true; expires=Fri, 31 Dec 9999 23:59:59 GMT; path=/";
 					}
 					if (mirrorcheckbox.checked) {
-						document.cookie = "ch1cookieMirror" + currentnightch1 + "=true; path=/";
+						document.cookie = "ch1cookieMirror" + currentnightch1 + "=true; expires=Fri, 31 Dec 9999 23:59:59 GMT; path=/";
 					}
 					currentnightch1++;
-					document.cookie = `currentnightch1=${currentnightch1}; path=/`;
-					document.cookie = `nighthighscorech1=${nighthighscorech1}; path=/`;
+					document.cookie = `currentnightch1=${currentnightch1}; expires=Fri, 31 Dec 9999 23:59:59 GMT; path=/`;
+					document.cookie = `nighthighscorech1=${nighthighscorech1}; expires=Fri, 31 Dec 9999 23:59:59 GMT; path=/`;
 					break;
 				case 2:
 					if (currentnightch2>nighthighscorech2) {
 						nighthighscorech2=currentnightch2;
 					}
 					if (flashlightcheckbox.checked) {
-						document.cookie = "ch2cookieFlash" + currentnightch2 + "=true; path=/";
+						document.cookie = "ch2cookieFlash" + currentnightch2 + "=true; expires=Fri, 31 Dec 9999 23:59:59 GMT; path=/";
 					}
 					if (mirrorcheckbox.checked) {
-						document.cookie = "ch2cookieMirror" + currentnightch2 + "=true; path=/";
+						document.cookie = "ch2cookieMirror" + currentnightch2 + "=true; expires=Fri, 31 Dec 9999 23:59:59 GMT; path=/";
 					}
 					currentnightch2++;
-					document.cookie = `currentnightch2=${currentnightch2}; path=/`;
-					document.cookie = `nighthighscorech2=${nighthighscorech2}; path=/`;
+					document.cookie = `currentnightch2=${currentnightch2}; expires=Fri, 31 Dec 9999 23:59:59 GMT; path=/`;
+					document.cookie = `nighthighscorech2=${nighthighscorech2}; expires=Fri, 31 Dec 9999 23:59:59 GMT; path=/`;
 					break;
 				case 3:
 					if (currentnightch3>nighthighscorech3) {
 						nighthighscorech3=currentnightch3;
 					}
 					if (flashlightcheckbox.checked) {
-						document.cookie = "ch3cookieFlash" + currentnightch3 + "=true; path=/";
+						document.cookie = "ch3cookieFlash" + currentnightch3 + "=true; expires=Fri, 31 Dec 9999 23:59:59 GMT; path=/";
 					}
 					if (mirrorcheckbox.checked) {
-						document.cookie = "ch3cookieMirror" + currentnightch3 + "=true; path=/";
+						document.cookie = "ch3cookieMirror" + currentnightch3 + "=true; expires=Fri, 31 Dec 9999 23:59:59 GMT; path=/";
 					}
 					currentnightch3++;
-					document.cookie = `currentnightch3=${currentnightch3}; path=/`;
-					document.cookie = `nighthighscorech3=${nighthighscorech3}; path=/`;
+					document.cookie = `currentnightch3=${currentnightch3}; expires=Fri, 31 Dec 9999 23:59:59 GMT; path=/`;
+					document.cookie = `nighthighscorech3=${nighthighscorech3}; expires=Fri, 31 Dec 9999 23:59:59 GMT; path=/`;
 					break;
 			}
 		}
@@ -3629,7 +3634,7 @@ function showtimerdeath(timerout){
 					prevtimedesc.style.display="none";
 				}
 				if (getCookie("timernight"+currentnight) !== undefined && getCookie("timernight"+currentnight)<miliseconds || getCookie("timernight"+currentnight) === undefined) {
-					document.cookie = cookieName + "=" + miliseconds + "; path=/";
+					document.cookie = cookieName + "=" + miliseconds + "; expires=Fri, 31 Dec 9999 23:59:59 GMT; path=/";
 				}
 		        break;
 		    case 1:
@@ -3671,7 +3676,7 @@ function showtimerdeath(timerout){
 					prevtimedesc.style.display="none";
 				}
 				if (getCookie("ch1timernight"+currentnightch1) !== undefined && getCookie("ch1timernight"+currentnightch1)<miliseconds || getCookie("ch1timernight"+currentnightch1) === undefined) {
-					document.cookie = cookieName + "=" + miliseconds + "; path=/";
+					document.cookie = cookieName + "=" + miliseconds + "; expires=Fri, 31 Dec 9999 23:59:59 GMT; path=/";
 				}
 		        break;
 		    case 2:
@@ -3713,7 +3718,7 @@ function showtimerdeath(timerout){
 					prevtimedesc.style.display="none";
 				}
 				if (getCookie("ch2timernight"+currentnightch2) !== undefined && getCookie("ch2timernight"+currentnightch2)<miliseconds || getCookie("ch2timernight"+currentnightch2) === undefined) {
-					document.cookie = cookieName + "=" + miliseconds + "; path=/";
+					document.cookie = cookieName + "=" + miliseconds + "; expires=Fri, 31 Dec 9999 23:59:59 GMT; path=/";
 				}
 		        break;
 		    case 3:
@@ -3755,7 +3760,7 @@ function showtimerdeath(timerout){
 					prevtimedesc.style.display="none";
 				}
 				if (getCookie("ch3timernight"+currentnightch3) !== undefined && getCookie("ch3timernight"+currentnightch3)<miliseconds || getCookie("ch3timernight"+currentnightch3) === undefined) {
-					document.cookie = cookieName + "=" + miliseconds + "; path=/";
+					document.cookie = cookieName + "=" + miliseconds + "; expires=Fri, 31 Dec 9999 23:59:59 GMT; path=/";
 				}
 		        break;
 		    default:
@@ -3940,7 +3945,7 @@ function updateValue(value) {
     	changeVolume("darkness_music",0.00001);
     	changeVolume("static",0.00001);
     }
-    document.cookie = `volumecookie=${globalVolume}; path=/`;
+    document.cookie = `volumecookie=${globalVolume}; expires=Fri, 31 Dec 9999 23:59:59 GMT; path=/`;
 }
 
 function extrasmenu(active){
