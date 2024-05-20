@@ -22,7 +22,7 @@
 		<div id="line9" class="lines"></div>
 	</div>
 	<div id="menu">
-		<h1 id="title">Ryan's
+		<h1 id="title" onclick="deleteUserData();">Ryan's
 		Apparition
 		Wandering
 		Restaurant
@@ -39,7 +39,8 @@
 		<img src="img/menu/mirror.png" id="continuemirror" draggable="false">
 		<img src="img/menu/warning.png" id="continuewarning" draggable="false" onmouseover="warningmessage(true)" onmouseout="warningmessage(false)">
 		<h3 id="continuewarningmsg">You're using one or multiple cheats that won't allow you to earn badges, highscores and personal bests!</h3>
-		<h3 id="version">v2.0.7</h3>
+		<h3 id="version">v2.1.0</h3>
+		<h3 id="loggedas">Not logged in!</h3>
 		<h3 id="credits">A game by <a class="txt" onclick="window.open('https://www.youtube.com/@KizGalaxy', '_blank')">Kiz</a> & <a class="txt" onclick="window.open('https://www.youtube.com/@magicalblueberries', '_blank')">Magical Blueberries</a><br>for <a class="txt" onclick="window.open('https://www.youtube.com/@crumbledham922', '_blank')">CrumbledHam</a></h3>
 		<img src="img/menu/FNaFFreddy_Menu.gif" id="menucharacter" draggable="false">
 		<img src="img/camera/static.gif" id="menustatic" draggable="false">
@@ -58,18 +59,24 @@
 			<h1 id="optionstitle">Options</h1>
 			<h1 id="audiooptions" onmouseover="selectmenu(5);">Volume</h1>
 			<h1 id="audiopercent">50%</h1>
+			<h3 id="tipdelete">Press and hold [Delete] to reset all data.</h3>
 			<input id="audioslider" type="range" min="0" max="1" step="0.01" value="0.5" onmouseover="selectmenu(5);">
 			<img src="img/menu/gamejolt.png" id="gamejoltbtn" draggable="false" onclick="gamejoltbtntoggle(true)" onmouseover="selectmenu(12);">
 			<h1 id="gamejoltbtntxt" onclick="gamejoltbtntoggle(true)" onmouseover="selectmenu(12);">Login</h1>
-			<form method="get" onsubmit="return handleSubmit()" id="formgj">
-  			  <label for="username">Username</label>
-  			  <input type="text" id="username" name="username" placeholder="Enter your Username" required>
-			
-  			  <label for="password">Token</label>
-  			  <input type="password" id="password" name="password" placeholder="Enter your Game Token" required>
-			
-  			  <input type="submit" value="Login">
-  			</form>
+			<div id="screencover" onclick="gamejoltbtntoggle(false)"></div>
+			<div id="loginpopup">
+				<img src="img/menu/gamejoltlogo.png" id="gamejoltlogo" draggable="false">
+				<h3 id="formerr">Error!</h1>
+				<form method="get" onsubmit="return handleSubmit()" id="formgj">
+  				  <h1 id="usernamelabel">Username</h1>
+  				  <input type="text" id="username" name="username" placeholder="Enter your Username" required>
+				
+  				  <h1 id="passwordlabel">Token</h1>
+  				  <input type="password" id="password" name="password" placeholder="Enter your Game Token" required>
+				
+  				  <input type="submit" value="Login" id="loginbtn">
+  				</form>
+  			</div>
 		</div>
 		<div id="extrascontents">
 			<h1 id="extrastitle">Extras</h1>
@@ -192,6 +199,8 @@
 			<h1 id="camtxt">Show Stage</h1>
 			<img src="img/camera/pizzabtn.png" id="pizzabtn" onmousedown="pizzaPress(true)" onmouseup="pizzaPress(false)" onmouseout="pizzaPress(false)" draggable="false">
 			<img src="img/camera/graphicscrate-broken-glass-13_prev_lg.png" id="brokenoverlay">
+			<img src="img/camera/ice.png" id="iceoverlay">
+			<img src="img/camera/ice.png" id="iceoverlay2">
 			<img id="milkbtn1" draggable="false" src="img/camera/colorbtn.png" onclick="clickledbutton('red');playSound('mlkbtn',false);">
 			<img id="milkbtn2" draggable="false" src="img/camera/colorbtn.png" onclick="clickledbutton('green')playSound('mlkbtn',false);">
 			<img id="milkbtn3" draggable="false" src="img/camera/colorbtn.png" onclick="clickledbutton('blue')playSound('mlkbtn',false);">

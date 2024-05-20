@@ -166,7 +166,8 @@ body {
 #optionstitle,#audiooptions,#audioslider,#audiopercent,#extras,#extrastitle,#extrasdev,#extraschallenge,
 #extrascredits,#extrascheats,#devdescription,#radarmodetext,#infpowertext,#flashlighttext,#mirrortext,
 #continuewarningmsg,#extraslockmsg,#blindmodetext,#milkmodetext,#extrasmilklockmsg,#titlemode,
-#starnumber1,#starnumber2,#starnumber3,#menutitlemode,#gamejoltbtntxt{
+#starnumber1,#starnumber2,#starnumber3,#menutitlemode,#gamejoltbtntxt,#usernamelabel,#passwordlabel,
+#loggedas,#formerr,#tipdelete{
     position: absolute;
     width: 30%;
     bottom: 7%;
@@ -221,25 +222,25 @@ body {
     -webkit-appearance: none;
     appearance: none;
     width: 100%;
-    height: 2px;
+    height: 3%;
     background: transparent;
-    margin: 1% 0;
+    margin: 0.5% 0;
   }
 
   input[type="range"]::-webkit-slider-thumb {
     -webkit-appearance: none;
     appearance: none;
-    width: 30px;
-    height: 30px;
+    width: 7%;
+    height: 500%;
     border-radius: 50%;
     background: #0FD;
     cursor: pointer;
-    margin-top: -14px;
+    margin-top: -3%; 
   }
 
   input[type="range"]::-webkit-slider-runnable-track {
     width: 100%;
-    height: 4px;
+    height: 16%;
     cursor: pointer;
     background: #ccc;
   }
@@ -300,7 +301,7 @@ body {
     z-index: 100;
 }
 
-#cam,#static,#brokenoverlay{
+#cam,#static,#brokenoverlay,#iceoverlay,#iceoverlay2{
     position: absolute;
     width: 107%;
     top: 7%;
@@ -324,7 +325,7 @@ body {
     top: 6%;
 }
 
-#static,#brokenoverlay{
+#static,#brokenoverlay,#iceoverlay,#iceoverlay2{
     z-index: 4;
     opacity: 70%;
     width: 91.5%;
@@ -332,10 +333,38 @@ body {
     top: 8%;
 }
 
-#brokenoverlay{
+#brokenoverlay,#iceoverlay,#iceoverlay2{
     z-index: 1;
     display: none;
     opacity: 70%;
+}
+
+#iceoverlay,#iceoverlay2{
+    opacity: 65%;
+    animation: slide 50s linear infinite;
+}
+
+#iceoverlay2{
+    left: 95.5%;
+    animation: slide2 50s linear infinite;
+}
+
+@keyframes slide {
+  0% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(0%);
+  }
+}
+
+@keyframes slide2 {
+  0% {
+    transform: translateX(-100%) scaleX(-1);
+  }
+  100% {
+    transform: translateX(0%) scaleX(-1);
+  }
 }
 
 #map{
@@ -491,7 +520,6 @@ body {
 #gamejoltbtntxt{
     bottom: 26%;
     left: 19%;
-    display: none;
 }
 
 #extrasdev,#extraschallenge,#extrascredits,#extrascheats{
@@ -558,11 +586,23 @@ body {
     width: 50%;
 }
 
-#version,#credits,#continuenight,#continuetime{
+#version,#credits,#continuenight,#continuetime,#loggedas,#tipdelete{
     bottom: -2%;
     left: 1%;
     font-size: 3.5vh;
     z-index: 0;
+}
+
+#loggedas{
+    bottom: 3%;
+    font-size: 2.5vh;
+}
+
+#tipdelete{
+    bottom: 17%;
+    left: 14%;
+    font-size: 2.5vh;
+    width: 20%;
 }
 
 #continuenight{
@@ -1526,14 +1566,14 @@ body {
 #led{
     position: absolute;
     display: none;
-    width: 2%;
-    height: 5%;
-    left: 48%;
-    top: 31%;
+    width: 7%;
+    height: 15%;
+    left: 66%;
+    top: 38%;
     opacity: 90%;
     z-index: 0;
     background-color: red;
-    border-radius: 30%;
+    border-radius: 43%;
     animation: ledglowred 1s ease-in-out infinite alternate;
 }
 
@@ -1598,7 +1638,6 @@ body {
 }
 
 #formgj{
-    display: none;
 }
 
 #gamejoltbtn{
@@ -1606,5 +1645,91 @@ body {
     width: 5%;
     left: 13%;
     top: 63%;
+}
+
+#screencover{
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: black;
+    opacity: 50%;
+    display: none;
+    z-index: 2;
+}
+
+#loginpopup{
+    position: absolute;
+    width: 50%;
+    height: 50%;
+    left: 25%;
+    top: 19%;
+    display: none;
+    z-index: 3;
+    font-family: consolas;
+}
+
+#gamejoltlogo{
+    position: absolute;
+    width: 80%;
+    left: 9%;
+    top: 10%;
+    filter: drop-shadow(0 0 1rem black);
+}
+
+#usernamelabel{
+    position: absolute;
+    width: 80%;
+    left: 9%;
+    bottom: 50%;
+    filter: drop-shadow(0 0 1rem black);
+    font-size: 5vh;
+}
+
+#passwordlabel{
+    position: absolute;
+    width: 80%;
+    left: 9%;
+    bottom: 14%;
+    filter: drop-shadow(0 0 1rem black);
+    font-size: 5vh;
+}
+
+#username{
+    position: absolute;
+    width: 80%;
+    left: 9%;
+    top: 44%;
+    filter: drop-shadow(0 0 1rem black);
+    font-size: 3vh;
+}
+
+#password{
+    position: absolute;
+    width: 80%;
+    left: 9%;
+    top: 80%;
+    filter: drop-shadow(0 0 1rem black);
+    font-size: 3vh;
+}
+
+#loginbtn{
+    position: absolute;
+    width: 12%;
+    left: 78%;
+    top: 97%;
+    filter: drop-shadow(0 0 1rem black);
+    font-size: 3vh;
+}
+
+#formerr{
+    position: absolute;
+    width: 11%;
+    left: 65%;
+    bottom: -13%;
+    filter: drop-shadow(0 0 1rem red);
+    font-size: 3vh;
+    color: red;
     display: none;
 }

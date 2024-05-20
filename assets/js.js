@@ -137,6 +137,12 @@ var radarimg = document.getElementById("radarimg");
 var shockbtn1 = document.getElementById("shockbtn1");
 var shockbtn2 = document.getElementById("shockbtn2");
 var gamejoltbtntxt = document.getElementById("gamejoltbtntxt");
+var screencover = document.getElementById("screencover");
+var loginpopup = document.getElementById("loginpopup");
+var loggedas = document.getElementById("loggedas");
+var formerr = document.getElementById("formerr");
+var formerr = document.getElementById("iceoverlay");
+var formerr = document.getElementById("iceoverlay2");
 var officedistance = -25;
 var cameradistance = -25;
 var intervalId = null;
@@ -203,6 +209,8 @@ var timeout35;
 var timeout36;
 var timeout32;
 var timeout33;
+var username;
+var password;
 
 function getCookie(name) {
   const value = `; ${document.cookie}`;
@@ -218,6 +226,8 @@ currentnightch2 = getCookie("currentnightch2");
 nighthighscorech2 = getCookie("nighthighscorech2");
 currentnightch3 = getCookie("currentnightch3");
 nighthighscorech3 = getCookie("nighthighscorech3");
+username = getCookie("gjusername");
+password = getCookie("gjpassword");
 
 const variablesToCheck = [
     { variable: 'currentnight', defaultValue: 1 },
@@ -235,6 +245,13 @@ variablesToCheck.forEach(item => {
         window[item.variable] = item.defaultValue;
     }
 });
+
+if (username !== undefined && password !== undefined) {
+	//console.log("kurwa");
+	document.getElementById("username").value=username;
+	document.getElementById("password").value=password;
+	handleSubmit();
+}
 
 document.addEventListener('contextmenu', event => event.preventDefault());
 
@@ -284,6 +301,8 @@ function preload() {
 		["img/menu/Loading_Clock_1.png", "image"],
 		["img/menu/skipintro.png", "image"],
 		["img/menu/boykisscomputer.gif", "image"],
+		["img/menu/gamejolt.png", "image"],
+		["img/menu/gamejoltlogo.png", "image"],
 		["img/menu/nightbtn.png", "image"],
     	["img/background/office.png", "image"],
     	["img/background/office2.png", "image"],
@@ -345,6 +364,7 @@ function preload() {
 		["img/menu/lock.png", "image"],
 		["img/camera/shockbtn.png", "image"],
 		["img/camera/shockbtnon.png", "image"],
+		["img/camera/ice.png", "image"],
 		["sfx/BallastHumMedium2.wav", "audio"],
 		["sfx/MiniDV_Tape_Eject_1.wav", "audio"],
 		["sfx/CAMERA_VIDEO_LOA_60105303.wav", "audio"],
@@ -539,6 +559,8 @@ function cameraopenw(){
 					led.style.display="block";
 					shockbtn1.style.display="block";
 					shockbtn2.style.display="block";
+					iceoverlay.style.display="block";
+					iceoverlay2.style.display="block";
 				}else{
 					milkbtn1.style.display="none";
 					milkbtn2.style.display="none";
@@ -547,6 +569,8 @@ function cameraopenw(){
 					led.style.display="none";
 					shockbtn1.style.display="none";
 					shockbtn2.style.display="none";
+					iceoverlay.style.display="none";
+					iceoverlay2.style.display="none";
 				}
 
 				if (challenge==1 || challenge==3 && currentcam!="milk") {
@@ -592,6 +616,8 @@ function cameraopenw(){
 			freddyboop.style.display="block";
 			camerassets.style.display="none";
 			brokenoverlay.style.display="none";
+			iceoverlay.style.display="none";
+			iceoverlay2.style.display="none";
 			slug.style.display="none";
 			led.style.display="none";
 			cam.style.visibility="hidden";
@@ -676,6 +702,7 @@ function tick(){
     		
     		if (getCookie(cookieName) !== undefined && getCookie(cookieName) < miliseconds || getCookie(cookieName) === undefined) {
     		    document.cookie = cookieName + "=" + miliseconds + "; expires=Fri, 31 Dec 9999 23:59:59 GMT; path=/";
+    		    storeDataWithAPI(cookieName,miliseconds);
     		}
 		}
 
@@ -1080,6 +1107,8 @@ function changecam(camnmb){
 		led.style.display="block";
 		shockbtn1.style.display="block";
 		shockbtn2.style.display="block";
+		iceoverlay.style.display="block";
+		iceoverlay2.style.display="block";
 	}else{
 		milkbtn1.style.display="none";
 		milkbtn2.style.display="none";
@@ -1088,6 +1117,8 @@ function changecam(camnmb){
 		led.style.display="none";
 		shockbtn1.style.display="none";
 		shockbtn2.style.display="none";
+		iceoverlay.style.display="none";
+		iceoverlay2.style.display="none";
 	}
 	slug.style.display="none";
 	if (windnumb<=-1000 && camnmb=="1c" && currenttime<4800 && power>0) {
@@ -2066,13 +2097,17 @@ function dayend(){
 					}
 					if (flashlightcheckbox.checked) {
 						document.cookie = "cookieFlash" + currentnight + "=true; expires=Fri, 31 Dec 9999 23:59:59 GMT; path=/";
+						storeDataWithAPI("cookieFlash" + currentnight,currentnight);
 					}
 					if (mirrorcheckbox.checked) {
 						document.cookie = "cookieMirror" + currentnight + "=true; expires=Fri, 31 Dec 9999 23:59:59 GMT; path=/";
+						storeDataWithAPI("cookieMirror" + currentnight,currentnight);
 					}
 					currentnight++;
 					document.cookie = `currentnight=${currentnight}; expires=Fri, 31 Dec 9999 23:59:59 GMT; path=/`;
 					document.cookie = `nighthighscore=${nighthighscore}; expires=Fri, 31 Dec 9999 23:59:59 GMT; path=/`;
+					storeDataWithAPI("currentnight",currentnight);
+					storeDataWithAPI("nighthighscore",nighthighscore);
 					break;
 				case 1:
 					if (currentnightch1>nighthighscorech1) {
@@ -2080,13 +2115,17 @@ function dayend(){
 					}
 					if (flashlightcheckbox.checked) {
 						document.cookie = "ch1cookieFlash" + currentnightch1 + "=true; expires=Fri, 31 Dec 9999 23:59:59 GMT; path=/";
+						storeDataWithAPI("ch1cookieFlash" + currentnightch1,currentnightch1);
 					}
 					if (mirrorcheckbox.checked) {
 						document.cookie = "ch1cookieMirror" + currentnightch1 + "=true; expires=Fri, 31 Dec 9999 23:59:59 GMT; path=/";
+						storeDataWithAPI("ch1cookieMirror" + currentnightch1,currentnightch1);
 					}
 					currentnightch1++;
 					document.cookie = `currentnightch1=${currentnightch1}; expires=Fri, 31 Dec 9999 23:59:59 GMT; path=/`;
 					document.cookie = `nighthighscorech1=${nighthighscorech1}; expires=Fri, 31 Dec 9999 23:59:59 GMT; path=/`;
+					storeDataWithAPI("currentnightch1",currentnightch1);
+					storeDataWithAPI("nighthighscorech1",nighthighscorech1);
 					break;
 				case 2:
 					if (currentnightch2>nighthighscorech2) {
@@ -2094,13 +2133,17 @@ function dayend(){
 					}
 					if (flashlightcheckbox.checked) {
 						document.cookie = "ch2cookieFlash" + currentnightch2 + "=true; expires=Fri, 31 Dec 9999 23:59:59 GMT; path=/";
+						storeDataWithAPI("ch2cookieFlash" + currentnightch2,currentnightch2);
 					}
 					if (mirrorcheckbox.checked) {
 						document.cookie = "ch2cookieMirror" + currentnightch2 + "=true; expires=Fri, 31 Dec 9999 23:59:59 GMT; path=/";
+						storeDataWithAPI("ch2cookieMirror" + currentnightch2,currentnightch2);
 					}
 					currentnightch2++;
 					document.cookie = `currentnightch2=${currentnightch2}; expires=Fri, 31 Dec 9999 23:59:59 GMT; path=/`;
 					document.cookie = `nighthighscorech2=${nighthighscorech2}; expires=Fri, 31 Dec 9999 23:59:59 GMT; path=/`;
+					storeDataWithAPI("currentnightch2",currentnightch2);
+					storeDataWithAPI("nighthighscorech2",nighthighscorech2);
 					break;
 				case 3:
 					if (currentnightch3>nighthighscorech3) {
@@ -2108,13 +2151,17 @@ function dayend(){
 					}
 					if (flashlightcheckbox.checked) {
 						document.cookie = "ch3cookieFlash" + currentnightch3 + "=true; expires=Fri, 31 Dec 9999 23:59:59 GMT; path=/";
+						storeDataWithAPI("ch3cookieFlash" + currentnightch3,currentnightch3);
 					}
 					if (mirrorcheckbox.checked) {
 						document.cookie = "ch3cookieMirror" + currentnightch3 + "=true; expires=Fri, 31 Dec 9999 23:59:59 GMT; path=/";
+						storeDataWithAPI("ch3cookieMirror" + currentnightch3,currentnightch3);
 					}
 					currentnightch3++;
 					document.cookie = `currentnightch3=${currentnightch3}; expires=Fri, 31 Dec 9999 23:59:59 GMT; path=/`;
 					document.cookie = `nighthighscorech3=${nighthighscorech3}; expires=Fri, 31 Dec 9999 23:59:59 GMT; path=/`;
+					storeDataWithAPI("currentnightch3",currentnightch3);
+					storeDataWithAPI("nighthighscorech3",nighthighscorech3);
 					break;
 			}
 		}
@@ -3635,6 +3682,7 @@ function showtimerdeath(timerout){
 				}
 				if (getCookie("timernight"+currentnight) !== undefined && getCookie("timernight"+currentnight)<miliseconds || getCookie("timernight"+currentnight) === undefined) {
 					document.cookie = cookieName + "=" + miliseconds + "; expires=Fri, 31 Dec 9999 23:59:59 GMT; path=/";
+					storeDataWithAPI(cookieName,miliseconds);
 				}
 		        break;
 		    case 1:
@@ -3677,6 +3725,7 @@ function showtimerdeath(timerout){
 				}
 				if (getCookie("ch1timernight"+currentnightch1) !== undefined && getCookie("ch1timernight"+currentnightch1)<miliseconds || getCookie("ch1timernight"+currentnightch1) === undefined) {
 					document.cookie = cookieName + "=" + miliseconds + "; expires=Fri, 31 Dec 9999 23:59:59 GMT; path=/";
+					storeDataWithAPI(cookieName,miliseconds);
 				}
 		        break;
 		    case 2:
@@ -3719,6 +3768,7 @@ function showtimerdeath(timerout){
 				}
 				if (getCookie("ch2timernight"+currentnightch2) !== undefined && getCookie("ch2timernight"+currentnightch2)<miliseconds || getCookie("ch2timernight"+currentnightch2) === undefined) {
 					document.cookie = cookieName + "=" + miliseconds + "; expires=Fri, 31 Dec 9999 23:59:59 GMT; path=/";
+					storeDataWithAPI(cookieName,miliseconds);
 				}
 		        break;
 		    case 3:
@@ -3761,6 +3811,7 @@ function showtimerdeath(timerout){
 				}
 				if (getCookie("ch3timernight"+currentnightch3) !== undefined && getCookie("ch3timernight"+currentnightch3)<miliseconds || getCookie("ch3timernight"+currentnightch3) === undefined) {
 					document.cookie = cookieName + "=" + miliseconds + "; expires=Fri, 31 Dec 9999 23:59:59 GMT; path=/";
+					storeDataWithAPI(cookieName,miliseconds);
 				}
 		        break;
 		    default:
@@ -3776,10 +3827,29 @@ function showtimerdeath(timerout){
 }
 
 let isRKeyPressed = false;
+let isDeleteKeyPressed = false;
+let deleteHoldTimer = null;
+let deletetoggle = false;
 
 document.addEventListener('keydown', function(event) {
     if (event.key === 'r') {
         isRKeyPressed = true;
+    }
+    if (event.key === 'Delete') {
+        isDeleteKeyPressed = true;
+        deleteHoldTimer = setTimeout(() => {
+            if (isDeleteKeyPressed) {
+            	if (deletetoggle==false) {
+            		deletetoggle=true;
+            		// Run your code here
+                	//console.log("Code executed after holding Delete for 5 seconds.");
+                	if (menu.style.display=="block") {
+                		deleteUserData();
+                	}
+                	clearTimeout(deleteHoldTimer);
+            	}
+            }
+        }, 5000);
     }
 });
 
@@ -3787,7 +3857,13 @@ document.addEventListener('keyup', function(event) {
     if (event.key === 'r') {
         isRKeyPressed = false;
     }
+    if (event.key === 'Delete') {
+        isDeleteKeyPressed = false;
+        deletetoggle=false;
+        clearTimeout(deleteHoldTimer);
+    }
 });
+
 
 function restartNight(){
 	if (isRKeyPressed) {
@@ -3852,7 +3928,7 @@ function optionsmenu(active){
 		options.setAttribute("onclick", "optionsmenu(0);");
 		options.setAttribute("onmouseover", "selectmenu(2);");
 		select.style.bottom="7%";
-        select.style.left="83%";
+        select.style.left="82%";
 		optionscontents.style.display="none";
 		newgame.style.display="block";
 		title.style.display="block";
@@ -3946,6 +4022,7 @@ function updateValue(value) {
     	changeVolume("static",0.00001);
     }
     document.cookie = `volumecookie=${globalVolume}; expires=Fri, 31 Dec 9999 23:59:59 GMT; path=/`;
+    storeDataWithAPI("volumecookie",globalVolume);
 }
 
 function extrasmenu(active){
@@ -4345,8 +4422,8 @@ function clickledbutton(colormlk){
 	milkbtn4.removeAttribute("onclick");
 	led.style.backgroundColor="transparent";
 	led.style.animation="ledglowtransparent 1s ease-in-out infinite alternate";
-	console.log("colormlk "+colormlk);
-	console.log("ledcolor "+ledcolor);
+	//console.log("colormlk "+colormlk);
+	//console.log("ledcolor "+ledcolor);
 	if (colormlk==ledcolor) {
 		ledcolor="transparent";
 		var timemilk = Math.floor(Math.random() * 50000) + 15000;
@@ -4459,22 +4536,305 @@ function shocking(chara){
 	}
 }
 
+function gamejoltbtntoggle(tofle){
+	if (tofle==true) {
+		playSound("blip3",false);
+		screencover.style.display="block";
+		loginpopup.style.display="block";
+	}else{
+		screencover.style.display="none";
+		loginpopup.style.display="none";
+	}
+}
+
 console.log("ඞ");
 
 function handleSubmit() {
-    var username = document.getElementById("username").value;
-    var password = document.getElementById("password").value;
+	formerr.style.display="none";
+	gamejoltbtntxt.removeAttribute("onclick");
+	gamejoltbtn.removeAttribute("onclick");
+   	username = document.getElementById("username").value;
+   	password = document.getElementById("password").value;
 
     GJAPI.UserLoginManual(username, password, function(pResponse) {
       if (pResponse.success === "true") {
-        console.log("HOLY SHIT GAEMJOTL LOGIN WORKED!!!??=");
+      	gamejoltbtntoggle(false);
+        //console.log("HOLY SHIT GAEMJOTL LOGIN WORKED!!!??=");
+        gamejoltbtntxt.innerHTML="Log out";
+        loggedas.innerHTML="Logged in as '"+username+"'";
+        gamejoltbtntxt.setAttribute("onclick", "logoutmoment();");
+        gamejoltbtn.setAttribute("onclick", "logoutmoment();");
+        document.cookie = "gjusername=" + username + "; expires=Fri, 31 Dec 9999 23:59:59 GMT; path=/";
+        document.cookie = "gjpassword=" + password + "; expires=Fri, 31 Dec 9999 23:59:59 GMT; path=/";
+        GJAPI.DataStoreFetch(GJAPI.DATA_STORE_USER, "nighthighscore", function(pResponse) {
+        		//console.log(pResponse.data);
+		        if (pResponse.data != "No item with that key could be found.") {
+		            let fetchedNightHighScore = parseInt(pResponse.data, 10); // Parse the fetched score as an integer
+		            if (fetchedNightHighScore > nighthighscore) {
+		                loadNightData();
+		            } else {
+		                storeNightData();
+		            }
+		        } else {
+		            storeNightData(); // If fetchedNightHighScore does not exist
+		        }
+		});
       }else{
-      	console.log("EPIC FAIL");
+      	//console.log("EPIC FAIL");
+      	formerr.style.display="block";
+      	gamejoltbtntxt.innerHTML="Login";
+      	loggedas.innerHTML="Not logged in!";
+      	gamejoltbtntxt.setAttribute("onclick", "gamejoltbtntoggle(true);");
+        gamejoltbtn.setAttribute("onclick", "gamejoltbtntoggle(true);");
+        document.cookie = "gjusername=undefined; expires=Fri, 31 Dec 9999 23:59:59 GMT; path=/";
+		document.cookie = "gjusername=; expires=Thu, 01 Jan 1970 00:00:00 GMT; path=/";
+		document.cookie = "gjpassword=undefined; expires=Fri, 31 Dec 9999 23:59:59 GMT; path=/";
+		document.cookie = "gjpassword=; expires=Thu, 01 Jan 1970 00:00:00 GMT; path=/";
+
       }
     });
 
     return false;
 }
+
+function logoutmoment(){
+	playSound("blip3",false);
+	gamejoltbtntxt.innerHTML="Login";
+    loggedas.innerHTML="Not logged in!";
+    gamejoltbtntxt.setAttribute("onclick", "gamejoltbtntoggle(true);");
+    gamejoltbtn.setAttribute("onclick", "gamejoltbtntoggle(true);");
+    document.cookie = "gjusername=undefined; expires=Fri, 31 Dec 9999 23:59:59 GMT; path=/";
+	document.cookie = "gjusername=; expires=Thu, 01 Jan 1970 00:00:00 GMT; path=/";
+	document.cookie = "gjpassword=undefined; expires=Fri, 31 Dec 9999 23:59:59 GMT; path=/";
+	document.cookie = "gjpassword=; expires=Thu, 01 Jan 1970 00:00:00 GMT; path=/";
+	GJAPI.UserLogout ();
+}
+
+function storeNightData() {
+    // Get all cookies
+    const cookies = document.cookie.split(';').map(cookie => cookie.trim());
+
+    // Filter out cookies you don't want to store
+    const filteredCookies = cookies.filter(cookie => {
+        const [name] = cookie.split('=');
+        return name !== 'gjusername' && name !== 'gjpassword';
+    });
+
+    // Construct nightData object and keys array from filtered cookies
+    const nightData = {};
+    const keys = [];
+    filteredCookies.forEach(cookie => {
+        const [name, value] = cookie.split('=');
+        nightData[name] = value;
+        keys.push(name);
+    });
+
+    keys.forEach(key => {
+        GJAPI.DataStoreFetch(GJAPI.DATA_STORE_USER, key, function(pFetchResponse) {
+            if (pFetchResponse.data != "No item with that key could be found.") {
+                GJAPI.DataStoreSet(GJAPI.DATA_STORE_USER, key, nightData[key], function(pSetResponse) {
+                    if (pSetResponse.success === "true") {
+                        //console.log(`Successfully updated ${key} to ${nightData[key]}`);
+                    } else {
+                        //console.error(`Failed to update ${key}: ${pSetResponse.message}`);
+                    }
+                });
+            } else {
+                GJAPI.DataStoreSet(GJAPI.DATA_STORE_USER, key, nightData[key], function(pSetResponse) {
+                    if (pSetResponse.success === "true") {
+                        //console.log(`Successfully set ${key} to ${nightData[key]}`);
+                    } else {
+                        //console.error(`Failed to set ${key}: ${pSetResponse.message}`);
+                    }
+                });
+            }
+        });
+    });
+}
+
+
+function loadNightData() {
+    var totalKeys = 0;
+    var keysProcessed = 0;
+
+    GJAPI.DataStoreGetKeys(GJAPI.DATA_STORE_USER, function(pResponse) {
+        if (!pResponse.keys) return;
+
+        totalKeys = pResponse.keys.length;
+
+        pResponse.keys.forEach(storeKey => {
+            const key = storeKey.key;
+            GJAPI.DataStoreFetch(GJAPI.DATA_STORE_USER, key, function(pFetchResponse) {
+                if (pFetchResponse.data != "No item with that key could be found.") {
+                    // Dynamically set the respective variable to the fetched value
+                    window[key] = pFetchResponse.data;
+                    //console.log(`Successfully fetched and set ${key} to ${pFetchResponse.data}`);
+
+                    // Save the variable as a cookie
+                    document.cookie = key + "=" + pFetchResponse.data + "; expires=Fri, 31 Dec 9999 23:59:59 GMT; path=/";
+                    //console.log(`Saved ${key} as a cookie`);
+                    if (key == "volumecookie") {
+                        globalVolume = getCookie("volumecookie");
+                        audioslider.value = globalVolume;
+                        audiopercent.innerHTML = Math.trunc(globalVolume * 100) + "%";
+                        updateValue(globalVolume);
+                    }
+
+                    keysProcessed++;
+                    if (keysProcessed === totalKeys) {
+                        // All keys have been processed, execute the specified actions
+                        optionsmenu(0);
+                        extrasmenu(1);
+                        optionsmenu(1);
+                        if (nighthighscore<3) {
+                        	extras.style.display="none";
+                        }else{
+                        	extras.style.display="block";
+                        }
+                    }
+                } else {
+                    //console.error(`Failed to fetch ${key}: ${pFetchResponse.message}`);
+                }
+            });
+        });
+    });
+}
+
+
+
+function deleteUserData() {
+    playSound("blip3", false);
+    currentnight = 1;
+    nighthighscore = 1;
+    currentnightch1 = 1;
+    currentnightch2 = 1;
+    currentnightch3 = 1;
+    nighthighscorech1 = 1;
+    nighthighscorech2 = 1;
+    nighthighscorech3 = 1;
+    var keysToDelete = 0;
+    var keysDeleted = 0;
+
+    // Function to check if all keys are deleted and call optionsmenu(1)
+    function checkAndCallOptionsMenu() {
+        keysDeleted++;
+        if (keysDeleted === keysToDelete) {
+        	//console.log("kurwa");
+        	extras.style.display="none";
+            blindcheckbox.checked=false;
+			milkcheckbox.checked=false;
+			radarcheckbox.checked=false;
+			powercheckbox.checked=false;
+			flashlightcheckbox.checked=false;
+			mirrorcheckbox.checked=false;
+			challenge=0;
+			togglemirror();
+			toggleinfinitepower();
+			toggleflashlightbtn();
+			toggleradar();
+			togglechallenge();
+			optionsmenu(0);
+            extrasmenu(1);
+            optionsmenu(1);
+            selectmenu(0);
+        }
+    }
+
+    GJAPI.DataStoreGetKeys(GJAPI.DATA_STORE_USER, function(pResponse) {
+        if (!pResponse.keys) {
+            //console.error("Failed to fetch user keys.");
+            extras.style.display="none";
+            blindcheckbox.checked=false;
+			milkcheckbox.checked=false;
+			radarcheckbox.checked=false;
+			powercheckbox.checked=false;
+			flashlightcheckbox.checked=false;
+			mirrorcheckbox.checked=false;
+			challenge=0;
+			togglemirror();
+			toggleinfinitepower();
+			toggleflashlightbtn();
+			toggleradar();
+			togglechallenge();
+			optionsmenu(0);
+            extrasmenu(1);
+            optionsmenu(1);
+            selectmenu(0);
+            return;
+        }
+
+        keysToDelete = pResponse.keys.length;
+
+        pResponse.keys.forEach(keyObj => {
+            const key = keyObj.key;
+            GJAPI.DataStoreRemove(GJAPI.DATA_STORE_USER, key, function(pRemoveResponse) {
+                if (pRemoveResponse.success === "true") {
+                    //console.log(`Successfully deleted user data for key: ${key}`);
+                } else {
+                    //console.error(`Failed to delete user data for key: ${key} - ${pRemoveResponse.message}`);
+                }
+                // Check if all keys are deleted
+                checkAndCallOptionsMenu();
+            });
+        });
+    });
+
+    var cookiestemp = document.cookie.split("; ");
+    for (var i = 0; i < cookiestemp.length; i++) {
+        var cookieName = cookiestemp[i].split("=")[0];
+        if (cookieName !== "gjusername" && cookieName !== "gjpassword") {
+            // Delete the cookie
+            document.cookie = cookieName + "=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+
+            // Unset any JavaScript variable with the same name
+            if (typeof window[cookieName] !== 'undefined') {
+                delete window[cookieName];
+            }
+        }
+    }
+}
+
+function storeDataWithAPI(variableName, variableValue) {
+	if (loggedas.innerHTML!="Not logged in!") {
+		// Check if variableName and variableValue are provided
+    	if (!variableName || !variableValue) {
+    	    //console.error('Variable name and value are required.');
+    	    return;
+    	}
+	
+    	// Prepare data to store
+    	const dataToStore = {};
+    	dataToStore[variableName] = variableValue;
+	
+    	// Store data using GJAPI
+    	GJAPI.DataStoreFetch(GJAPI.DATA_STORE_USER, variableName, function(pFetchResponse) {
+    	    if (pFetchResponse.data != "No item with that key could be found.") {
+    	        GJAPI.DataStoreSet(GJAPI.DATA_STORE_USER, variableName, variableValue, function(pSetResponse) {
+    	            if (pSetResponse.success === "true") {
+    	                //console.log(`Successfully updated ${variableName} to ${variableValue}`);
+    	            } else {
+    	                //console.error(`Failed to update ${variableName}: ${pSetResponse.message}`);
+    	            }
+    	        });
+    	    } else {
+    	        GJAPI.DataStoreSet(GJAPI.DATA_STORE_USER, variableName, variableValue, function(pSetResponse) {
+    	            if (pSetResponse.success === "true") {
+    	                //console.log(`Successfully set ${variableName} to ${variableValue}`);
+    	            } else {
+    	                //console.error(`Failed to set ${variableName}: ${pSetResponse.message}`);
+    	            }
+    	        });
+    	    }
+    	});
+
+	}
+
+	GJAPI.DataStoreFetch(GJAPI.DATA_STORE_USER, variableName, function(pFetchResponse) {
+    		//console.log(pFetchResponse.data);
+		});    
+}
+
+
 
 console.log("⣿⡪⡪⣿	⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀");
 console.log("⢸⡯⡯⡪⡇		⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀");
