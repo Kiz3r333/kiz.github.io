@@ -211,6 +211,7 @@ var timeout32;
 var timeout33;
 var username;
 var password;
+var videolol=false;
 
 function getCookie(name) {
   const value = `; ${document.cookie}`;
@@ -258,6 +259,64 @@ document.addEventListener('contextmenu', event => event.preventDefault());
 var mediaFiles = [];
 var loadma = false;
 
+function getSupportedAudioFormats() {
+    var elem = document.createElement('audio');
+    var bool = false;
+    try {
+        if (bool = !!elem.canPlayType) {
+            bool = new Boolean(bool);
+            bool.ogg = elem.canPlayType('audio/ogg; codecs="vorbis"').replace(/^no$/, '');
+            bool.mp3 = elem.canPlayType('audio/mpeg').replace(/^no$/, '');
+            bool.wav = elem.canPlayType('audio/wav; codecs="1"').replace(/^no$/, '');
+            bool.aac = elem.canPlayType('audio/mp4; codecs="mp4a.40.2"').replace(/^no$/, '');
+        }
+    } catch (e) {}
+    return bool;
+}
+
+function getAudioFormat() {
+    var bool = getSupportedAudioFormats();
+    if (bool.mp3 !== '') {
+        return 'mp3';
+    }
+    if (bool.ogg !== '') {
+        return 'ogg';
+    }
+    if (bool.wav !== '') {
+        return 'wav';
+    }
+    if (bool.aac !== '') {
+        return 'aac';
+    }
+}
+
+function preloadAudio(url, callback) {
+    var audio = new Audio();
+    audio.addEventListener('canplaythrough', function() {
+        console.log('Audio loaded:', url);
+        callback();
+    }, false);
+    audio.src = url;
+}
+
+
+function preloadAudioList(audioList, onComplete) {
+    var loadedAudio = 0;
+    var totalAudio = audioList.length;
+
+    function audioLoaded() {
+        loadedAudio++;
+        if (loadedAudio === totalAudio) {
+            onComplete();
+        }
+    }
+
+    for (var i = 0; i < totalAudio; i++) {
+        var url = audioList[i];
+        preloadAudio(url, audioLoaded);
+    }
+}
+
 function preloadMedia(url, type, callback) {
     var media;
 
@@ -279,7 +338,7 @@ function preloadMediaList(mediaList, onComplete) {
 
     function mediaLoaded() {
         loadedMedia++;
-        loadprogress.innerHTML=loadedMedia + " assets loaded out of " + totalMedia;
+        loadprogress.innerHTML = loadedMedia + " assets loaded out of " + totalMedia;
         if (loadedMedia === totalMedia) {
             onComplete();
         }
@@ -288,7 +347,11 @@ function preloadMediaList(mediaList, onComplete) {
     for (var i = 0; i < totalMedia; i++) {
         var url = mediaList[i][0];
         var type = mediaList[i][1];
-        preloadMedia(url, type, mediaLoaded);
+        if (type === 'audio') {
+            preloadAudio(url, mediaLoaded);
+        } else {
+            preloadMedia(url, type, mediaLoaded);
+        }
     }
 }
 
@@ -1649,7 +1712,7 @@ function fadewarning(timerout){
 }
 
 function checkloading(){
-	if (currentnight==1 && videned==false && challenge==0) {
+	if (currentnight==1 && videned==false && challenge==0 && videolol==true) {
 		myVideo.style.display="block";
 		myVideo.play();
 		skipintro.style.display="block";
@@ -4530,7 +4593,9 @@ function shocking(chara){
 			radarjoey.style.bottom="579%";
 			joeyMove();
 		}else{
-			power=power-5;
+			if (powercheat==false) {
+				power=power-5;
+			}
 			playSound("shockfail",false);
 		}
 	}
@@ -4546,6 +4611,63 @@ function gamejoltbtntoggle(tofle){
 		loginpopup.style.display="none";
 	}
 }
+
+function getSupportedVideoFormats() {
+    // Test from Modernizr.
+    var elem = document.createElement('video');
+    var bool = false;
+    // IE9 Running on Windows Server SKU can cause an exception to be thrown, bug #224
+    try {
+        if (bool = !!elem.canPlayType) {
+            bool = new Boolean(bool);
+            bool.ogg = elem.canPlayType('video/ogg; codecs="theora"').replace(/^no$/, '');
+            // Without QuickTime, this value will be `undefined`. github.com/Modernizr/Modernizr/issues/546
+            bool.h264 = elem.canPlayType('video/mp4; codecs="avc1.42E01E"').replace(/^no$/, '');
+            bool.webm = elem.canPlayType('video/webm; codecs="vp8, vorbis"').replace(/^no$/, '');
+            bool.vp9 = elem.canPlayType('video/webm; codecs="vp9"').replace(/^no$/, '');
+            bool.hls = elem.canPlayType('application/x-mpegURL; codecs="avc1.42E01E"').replace(/^no$/, '');
+        }
+    } catch (e) {}
+    return bool;
+}
+
+function getVideoFormat() {
+    var bool = getSupportedVideoFormats();
+    // Prioritization of video format fallback.
+    if (bool.h264 !== '') {
+        return 'mp4';
+    }
+    if (bool.webm !== '') {
+        return 'webm';
+    }
+    if (bool.ogg !== '') {
+        return 'ogv';
+    }
+}
+
+function loadVideoFully(event) {
+    function onLoad(event) {
+        console.log('Video fully loaded.');
+        videolol=true;
+    }
+
+    function GET(url) {
+        var xhr = new XMLHttpRequest();
+        xhr.open('GET', url, true);
+        xhr.setRequestHeader('Access-Control-Allow-Origin', '*');
+        xhr.responseType = 'arraybuffer';
+        xhr.onload = onLoad;
+        xhr.send();
+    }
+
+    var url = 'img/intro.' + getVideoFormat();
+    GET(url);
+}
+
+document.addEventListener('DOMContentLoaded', function () {
+    loadVideoFully();
+});
+
 
 console.log("ඞ");
 
@@ -4598,6 +4720,7 @@ function handleSubmit() {
 }
 
 function logoutmoment(){
+	GJAPI.UserLogout ();
 	playSound("blip3",false);
 	gamejoltbtntxt.innerHTML="Login";
     loggedas.innerHTML="Not logged in!";
@@ -4607,7 +4730,7 @@ function logoutmoment(){
 	document.cookie = "gjusername=; expires=Thu, 01 Jan 1970 00:00:00 GMT; path=/";
 	document.cookie = "gjpassword=undefined; expires=Fri, 31 Dec 9999 23:59:59 GMT; path=/";
 	document.cookie = "gjpassword=; expires=Thu, 01 Jan 1970 00:00:00 GMT; path=/";
-	GJAPI.UserLogout ();
+	deleteUserData();
 }
 
 function storeNightData() {
