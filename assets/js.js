@@ -478,7 +478,8 @@ function preload() {
 		["sfx/mlkbtn.wav", "audio"],
 		["sfx/mlkerror.wav", "audio"],
 		["sfx/shock.wav", "audio"],
-		["sfx/shockfail.wav", "audio"]
+		["sfx/shockfail.wav", "audio"],
+		["sfx/PartyFavorraspyPart_AC01__3.wav", "audio"]
     ];
 
     preloadMediaList(mediaList, function () {
