@@ -23,14 +23,16 @@
 	</style>
 </head>
 <body onload="checkSize()">
-	<div id="FS">
-		<iframe id="inlineFrame"
-	    title="RAWR"
-	    width="1920"
-	    height="1080"
-	    frameBorder="0"
-	    src="assets/index.html">
-		</iframe>
+	<div id="tofscn">
+		<div id="FS">
+			<iframe id="inlineFrame"
+		    title="RAWR"
+		    width="1920"
+		    height="1080"
+		    frameBorder="0"
+		    src="assets/index.html">
+			</iframe>
+		</div>
 	</div>
 </body>
 <script type="text/javascript">
@@ -49,16 +51,17 @@
 	window.addEventListener("resize", checkSize);
 
 	var elem = document.getElementById("FS");
+	var tofscn = document.getElementById("tofscn");
 
 	function openFullscreen() {
 	  if (!document.fullscreenElement && !document.webkitFullscreenElement && !document.msFullscreenElement) {
 	    // If no element is in full screen mode, make the element full screen
-	    if (elem.requestFullscreen) {
-	      elem.requestFullscreen();
-	    } else if (elem.webkitRequestFullscreen) { /* Safari */
-	      elem.webkitRequestFullscreen();
-	    } else if (elem.msRequestFullscreen) { /* IE11 */
-	      elem.msRequestFullscreen();
+	    if (tofscn.requestFullscreen) {
+	      tofscn.requestFullscreen();
+	    } else if (tofscn.webkitRequestFullscreen) { /* Safari */
+	      tofscn.webkitRequestFullscreen();
+	    } else if (tofscn.msRequestFullscreen) { /* IE11 */
+	      tofscn.msRequestFullscreen();
 	    }
 	  } else {
 	    // If an element is in full screen mode, exit full screen

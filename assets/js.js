@@ -293,7 +293,7 @@ function getAudioFormat() {
 function preloadAudio(url, callback) {
     var audio = new Audio();
     audio.addEventListener('canplaythrough', function() {
-        console.log('Audio loaded:', url);
+        //console.log('Audio loaded:', url);
         callback();
     }, false);
     audio.src = url;
@@ -1542,7 +1542,7 @@ function selectmenu(menutype){
 }
 
 
-function startnight(night) {
+function startnight(night,firstnight) {
 	switch (challenge) {
 	    case 0:
 	        currentnight = night;
@@ -1583,7 +1583,7 @@ function startnight(night) {
 		continuetime.style.display="none";
 		continueflash.style.display="none";
         continuemirror.style.display="none";
-		newgame.setAttribute("onclick", "startnight(1);");
+		newgame.setAttribute("onclick", "startnight(1,true);");
 		newgame.setAttribute("onmouseover", "selectmenu(0);");
 		options.setAttribute("onclick", "optionsmenu(0);");
 		options.setAttribute("onmouseover", "selectmenu(2);");
@@ -1591,21 +1591,31 @@ function startnight(night) {
 		rightnightbtn.setAttribute("onclick", "increasenight(1);");
 		switch (challenge) {
 		    case 0:
-		        continuemenu.setAttribute("onclick", "startnight(currentnight);");
+		        continuemenu.setAttribute("onclick", "startnight(currentnight,false);");
 		        break;
 		    case 1:
-		        continuemenu.setAttribute("onclick", "startnight(currentnightch1);");
+		        continuemenu.setAttribute("onclick", "startnight(currentnightch1,false);");
 		        break;
 		    case 2:
-		        continuemenu.setAttribute("onclick", "startnight(currentnightch2);");
+		        continuemenu.setAttribute("onclick", "startnight(currentnightch2,false);");
 		        break;
 		    case 3:
-		        continuemenu.setAttribute("onclick", "startnight(currentnightch3);");
+		        continuemenu.setAttribute("onclick", "startnight(currentnightch3,false);");
 		        break;
 		    default:
 		        break;
 		}
 		continuemenu.setAttribute("onmouseover", "selectmenu(1);");
+		if (currentnight==1 && challenge==0 && firstnight==true) {
+			videned = false;
+			setTimeout(() => {
+				if (videolol!=true) {
+					videned = true;
+				}
+			}, "45000");
+		}else{
+			videned = true;
+		}
 		checkloading();
 	}, "3100");
 }
@@ -2259,6 +2269,7 @@ if (getCookie("volumecookie") !== undefined) {
 	globalVolume=getCookie("volumecookie");
 	audioslider.value=globalVolume;
 	audiopercent.innerHTML=Math.trunc(globalVolume*100)+"%";
+	myVideo.volume=globalVolume;
 }
 
 function initializeVisuals() {
@@ -4086,6 +4097,7 @@ function updateValue(value) {
     }
     document.cookie = `volumecookie=${globalVolume}; expires=Fri, 31 Dec 9999 23:59:59 GMT; path=/`;
     storeDataWithAPI("volumecookie",globalVolume);
+    myVideo.volume=globalVolume;
 }
 
 function extrasmenu(active){
@@ -4123,6 +4135,9 @@ function extrasmenu(active){
 		if (nighthighscore<4) {
 			extraslock.style.display="block";
 			extraslockmsg.style.display="block";
+		}else{
+			extraslock.style.display="none";
+			extraslockmsg.style.display="none";
 		}
 	}else{
 		extras.innerHTML="Extras";
@@ -4425,16 +4440,16 @@ function togglechallenge(tyo) {
 	}
 	switch (challenge) {
 	    case 0:
-	        continuemenu.setAttribute("onclick", "startnight(currentnight);");
+	        continuemenu.setAttribute("onclick", "startnight(currentnight,false);");
 	        break;
 	    case 1:
-	        continuemenu.setAttribute("onclick", "startnight(currentnightch1);");
+	        continuemenu.setAttribute("onclick", "startnight(currentnightch1,false);");
 	        break;
 	    case 2:
-	        continuemenu.setAttribute("onclick", "startnight(currentnightch2);");
+	        continuemenu.setAttribute("onclick", "startnight(currentnightch2,false);");
 	        break;
 	    case 3:
-	        continuemenu.setAttribute("onclick", "startnight(currentnightch3);");
+	        continuemenu.setAttribute("onclick", "startnight(currentnightch3,false);");
 	        break;
 	    default:
 	        break;
@@ -4647,7 +4662,7 @@ function getVideoFormat() {
 
 function loadVideoFully(event) {
     function onLoad(event) {
-        console.log('Video fully loaded.');
+        //console.log('Video fully loaded.');
         videolol=true;
     }
 
@@ -4801,6 +4816,7 @@ function loadNightData() {
                         audioslider.value = globalVolume;
                         audiopercent.innerHTML = Math.trunc(globalVolume * 100) + "%";
                         updateValue(globalVolume);
+                        myVideo.volume=globalVolume;
                     }
 
                     keysProcessed++;
