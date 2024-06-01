@@ -1,3 +1,42 @@
+function isElectron() {
+    const isElectron = typeof process !== 'undefined' && process.versions != null && process.versions.electron != null;
+    const userAgentContainsElectron = typeof navigator === 'object' && typeof navigator.userAgent === 'string' && navigator.userAgent.indexOf('Electron') >= 0;
+
+    return isElectron || userAgentContainsElectron;
+}
+
+//console.log(isElectron());
+
+function getCookie(name) {
+  const value = `; ${document.cookie}`;
+  const parts = value.split(`; ${name}=`);
+  if (parts.length === 2) return parts.pop().split(";").shift();
+  return null;
+}
+
+function saveData(key, value) {
+    if (isElectron()) {
+        localStorage.setItem(key, value);
+        //console.log("set "+key+" with "+value);
+    } else {
+        document.cookie = `${key}=${value}; expires=Fri, 31 Dec 9999 23:59:59 GMT; path=/;`;
+    }
+    if (key != "username" || key != "password") {
+        storeDataWithAPI(key,value);
+    }
+}
+
+function loadData(key) {
+    if (isElectron()) {
+        const datapog = localStorage.getItem(key);
+        //console.log("YEAHHH BITCH ITS WORKING WE LOADED "+key+" with "+datapog);
+        return datapog;
+    } else {
+        return getCookie(key);
+    }
+}
+
+
 var power = 99;
 var visualPower = document.getElementById("power");
 var door1 = document.getElementById("door1");
@@ -141,8 +180,9 @@ var screencover = document.getElementById("screencover");
 var loginpopup = document.getElementById("loginpopup");
 var loggedas = document.getElementById("loggedas");
 var formerr = document.getElementById("formerr");
-var formerr = document.getElementById("iceoverlay");
-var formerr = document.getElementById("iceoverlay2");
+var iceoverlay = document.getElementById("iceoverlay");
+var iceoverlay2 = document.getElementById("iceoverlay2");
+var warningcover = document.getElementById("warningcover");
 var officedistance = -25;
 var cameradistance = -25;
 var intervalId = null;
@@ -213,22 +253,16 @@ var username;
 var password;
 var videolol=false;
 
-function getCookie(name) {
-  const value = `; ${document.cookie}`;
-  const parts = value.split(`; ${name}=`);
-  if (parts.length === 2) return parts.pop().split(";").shift();
-}
-
-currentnight = getCookie("currentnight");
-nighthighscore = getCookie("nighthighscore");
-currentnightch1 = getCookie("currentnightch1");
-nighthighscorech1 = getCookie("nighthighscorech1");
-currentnightch2 = getCookie("currentnightch2");
-nighthighscorech2 = getCookie("nighthighscorech2");
-currentnightch3 = getCookie("currentnightch3");
-nighthighscorech3 = getCookie("nighthighscorech3");
-username = getCookie("gjusername");
-password = getCookie("gjpassword");
+currentnight = loadData("currentnight");
+nighthighscore = loadData("nighthighscore");
+currentnightch1 = loadData("currentnightch1");
+nighthighscorech1 = loadData("nighthighscorech1");
+currentnightch2 = loadData("currentnightch2");
+nighthighscorech2 = loadData("nighthighscorech2");
+currentnightch3 = loadData("currentnightch3");
+nighthighscorech3 = loadData("nighthighscorech3");
+username = loadData("gjusername");
+password = loadData("gjpassword");
 
 const variablesToCheck = [
     { variable: 'currentnight', defaultValue: 1 },
@@ -242,12 +276,12 @@ const variablesToCheck = [
 ];
 
 variablesToCheck.forEach(item => {
-    if (window[item.variable] === undefined || window[item.variable] == "undefined") {
+    if (window[item.variable] === undefined || window[item.variable] === "undefined" || window[item.variable] === null) {
         window[item.variable] = item.defaultValue;
     }
 });
 
-if (username !== undefined && password !== undefined) {
+if (username !== undefined && password !== undefined && username !== null && password !== null && username !== "undefined" && password !== "undefined") {
 	//console.log("kurwa");
 	document.getElementById("username").value=username;
 	document.getElementById("password").value=password;
@@ -426,7 +460,6 @@ function preload() {
 		["img/camera/radarmilk.png", "image"],
 		["img/menu/lock.png", "image"],
 		["img/camera/shockbtn.png", "image"],
-		["img/camera/shockbtnon.png", "image"],
 		["img/camera/ice.png", "image"],
 		["sfx/BallastHumMedium2.wav", "audio"],
 		["sfx/MiniDV_Tape_Eject_1.wav", "audio"],
@@ -738,7 +771,8 @@ function tick(){
 			cameramovedelay--;
 		}
 	}
-	if (currenttime<4800) {
+	//if (currenttime<10) {
+	if (currenttime<4800) {	
 		timecount();
 	}else{
 		clearInterval(tickinterval);
@@ -764,9 +798,8 @@ function tick(){
     		        break;
     		}
     		
-    		if (getCookie(cookieName) !== undefined && getCookie(cookieName) < miliseconds || getCookie(cookieName) === undefined) {
-    		    document.cookie = cookieName + "=" + miliseconds + "; expires=Fri, 31 Dec 9999 23:59:59 GMT; path=/";
-    		    storeDataWithAPI(cookieName,miliseconds);
+    		if (loadData(cookieName) !== undefined && loadData(cookieName) !== null && loadData(cookieName) !== "undefined" && loadData(cookieName) < miliseconds || loadData(cookieName) === undefined || loadData(cookieName) === null || loadData(cookieName) === "undefined") {
+                saveData(cookieName,miliseconds);
     		}
 		}
 
@@ -1329,8 +1362,8 @@ function selectmenu(menutype){
             continuemirror.style.display="none";
             if (challenge==0) {
             	continuenight.innerHTML="Night " + currentnight;
-            	if (nighthighscore>=3 && getCookie("timernight"+currentnight) !== undefined && currentnight!=3 && currentnight!=2 && currentnight!=1) {
-            	    var miliseconds = getCookie("timernight"+currentnight);
+            	if (nighthighscore>=3 && loadData("timernight"+currentnight) !== undefined && loadData("timernight"+currentnight) !== null && loadData("timernight"+currentnight) !== "undefined" && currentnight!=3 && currentnight!=2 && currentnight!=1) {
+            	    var miliseconds = loadData("timernight"+currentnight);
             	    var seconds = Math.floor((miliseconds / 10) % 60);
             	    var minutes = Math.floor(miliseconds / 600);
 	
@@ -1343,18 +1376,18 @@ function selectmenu(menutype){
             	    continuetime.style.display="block";
             	    cookieNameMirror = "cookieMirror" + currentnight;
 					cookieNameFlash = "cookieFlash" + currentnight;
-            	    if (getCookie(cookieNameFlash) !== undefined && getCookie(cookieNameMirror) !== undefined) {
+            	    if (loadData(cookieNameFlash) !== undefined && loadData(cookieNameFlash) !== null && loadData(cookieNameFlash) !== "undefined" && loadData(cookieNameMirror) !== undefined && loadData(cookieNameMirror) !== null && loadData(cookieNameMirror) !== "undefined") {
             	    	continueflash.style.left="20%";
             	    	continueflash.style.display="block";
             	    	continuemirror.style.left="18%";
             	    	continuemirror.style.display="block";
             	    }else{
-            	    	if (getCookie(cookieNameFlash) !== undefined) {
+            	    	if (loadData(cookieNameFlash) !== undefined && loadData(cookieNameFlash) !== null && loadData(cookieNameFlash) !== "undefined") {
             	    		continueflash.style.left="18%";
             	    		continueflash.style.display="block";
             	    		continuemirror.style.display="none";
             	    	}else{
-            	    		if (getCookie(cookieNameMirror) !== undefined) {
+            	    		if (loadData(cookieNameMirror) !== undefined && loadData(cookieNameMirror) !== null && loadData(cookieNameMirror) !== "undefined") {
             	    			continuemirror.style.left="18%";
             	    			continuemirror.style.display="block";
             	    			continueflash.style.display="none";
@@ -1365,8 +1398,8 @@ function selectmenu(menutype){
             }else{
             	if (challenge==1) {
             		continuenight.innerHTML="Night " + currentnightch1;
-            		if (getCookie("ch1timernight"+currentnightch1) !== undefined) {
-            		    var miliseconds = getCookie("ch1timernight"+currentnightch1);
+            		if (loadData("ch1timernight"+currentnightch1) !== undefined && loadData("ch1timernight"+currentnightch1) !== null && loadData("ch1timernight"+currentnightch1) !== "undefined") {
+            		    var miliseconds = loadData("ch1timernight"+currentnightch1);
             		    var seconds = Math.floor((miliseconds / 10) % 60);
             		    var minutes = Math.floor(miliseconds / 600);
 		
@@ -1379,18 +1412,18 @@ function selectmenu(menutype){
             		    continuetime.style.display="block";
             		    cookieNameMirror = "ch1cookieMirror" + currentnightch1;
 						cookieNameFlash = "ch1cookieFlash" + currentnightch1;
-            		    if (getCookie(cookieNameFlash) !== undefined && getCookie(cookieNameMirror) !== undefined) {
+            		    if (loadData(cookieNameFlash) !== undefined && loadData(cookieNameFlash) !== null && loadData(cookieNameFlash) !== "undefined" && loadData(cookieNameMirror) !== undefined && loadData(cookieNameMirror) !== null && loadData(cookieNameMirror) !== "undefined") {
             		    	continueflash.style.left="20%";
             		    	continueflash.style.display="block";
             		    	continuemirror.style.left="18%";
             		    	continuemirror.style.display="block";
             		    }else{
-            		    	if (getCookie(cookieNameFlash) !== undefined) {
+            		    	if (loadData(cookieNameFlash) !== undefined && loadData(cookieNameFlash) !== null && loadData(cookieNameFlash) !== "undefined") {
             		    		continueflash.style.left="18%";
             		    		continueflash.style.display="block";
             		    		continuemirror.style.display="none";
             		    	}else{
-            		    		if (getCookie(cookieNameMirror) !== undefined) {
+            		    		if (loadData(cookieNameMirror) !== undefined && loadData(cookieNameMirror) !== null && loadData(cookieNameMirror) !== "undefined") {
             		    			continuemirror.style.left="18%";
             		    			continuemirror.style.display="block";
             		    			continueflash.style.display="none";
@@ -1401,8 +1434,8 @@ function selectmenu(menutype){
             	}else{
             		if (challenge==2) {
             			continuenight.innerHTML="Night " + currentnightch2;
-            			if (getCookie("ch2timernight"+currentnightch2) !== undefined) {
-            			    var miliseconds = getCookie("ch2timernight"+currentnightch2);
+            			if (loadData("ch2timernight"+currentnightch2) !== undefined && loadData("ch2timernight"+currentnightch2) !== null && loadData("ch2timernight"+currentnightch2) !== "undefined") {
+            			    var miliseconds = loadData("ch2timernight"+currentnightch2);
             			    var seconds = Math.floor((miliseconds / 10) % 60);
             			    var minutes = Math.floor(miliseconds / 600);
 			
@@ -1415,30 +1448,30 @@ function selectmenu(menutype){
             			    continuetime.style.display="block";
             			    cookieNameMirror = "ch2cookieMirror" + currentnightch2;
 							cookieNameFlash = "ch2cookieFlash" + currentnightch2;
-            			    if (getCookie(cookieNameFlash) !== undefined && getCookie(cookieNameMirror) !== undefined) {
-            			    	continueflash.style.left="20%";
-            			    	continueflash.style.display="block";
-            			    	continuemirror.style.left="18%";
-            			    	continuemirror.style.display="block";
-            			    }else{
-            			    	if (getCookie(cookieNameFlash) !== undefined) {
-            			    		continueflash.style.left="18%";
-            			    		continueflash.style.display="block";
-            			    		continuemirror.style.display="none";
-            			    	}else{
-            			    		if (getCookie(cookieNameMirror) !== undefined) {
-            			    			continuemirror.style.left="18%";
-            			    			continuemirror.style.display="block";
-            			    			continueflash.style.display="none";
-            			    		}
-            			    	}
-            			    }
+            			    if (loadData(cookieNameFlash) !== undefined && loadData(cookieNameFlash) !== null && loadData(cookieNameFlash) !== "undefined" && loadData(cookieNameMirror) !== undefined && loadData(cookieNameMirror) !== null && loadData(cookieNameMirror) !== "undefined") {
+                                continueflash.style.left="20%";
+                                continueflash.style.display="block";
+                                continuemirror.style.left="18%";
+                                continuemirror.style.display="block";
+                            }else{
+                                if (loadData(cookieNameFlash) !== undefined && loadData(cookieNameFlash) !== null && loadData(cookieNameFlash) !== "undefined") {
+                                    continueflash.style.left="18%";
+                                    continueflash.style.display="block";
+                                    continuemirror.style.display="none";
+                                }else{
+                                    if (loadData(cookieNameMirror) !== undefined && loadData(cookieNameMirror) !== null && loadData(cookieNameMirror) !== "undefined") {
+                                        continuemirror.style.left="18%";
+                                        continuemirror.style.display="block";
+                                        continueflash.style.display="none";
+                                    }
+                                }
+                            }
             			}
             		}else{
             			if (challenge==3) {
             				continuenight.innerHTML="Night " + currentnightch3;
-            				if (getCookie("ch3timernight"+currentnightch3) !== undefined) {
-            				    var miliseconds = getCookie("ch3timernight"+currentnightch3);
+            				if (loadData("ch3timernight"+currentnightch3) !== undefined && loadData("ch3timernight"+currentnightch3) !== null && loadData("ch3timernight"+currentnightch3) !== "undefined") {
+            				    var miliseconds = loadData("ch3timernight"+currentnightch3);
             				    var seconds = Math.floor((miliseconds / 10) % 60);
             				    var minutes = Math.floor(miliseconds / 600);
 				
@@ -1451,24 +1484,24 @@ function selectmenu(menutype){
             				    continuetime.style.display="block";
             				    cookieNameMirror = "ch3cookieMirror" + currentnightch3;
 								cookieNameFlash = "ch3cookieFlash" + currentnightch3;
-            				    if (getCookie(cookieNameFlash) !== undefined && getCookie(cookieNameMirror) !== undefined) {
-            				    	continueflash.style.left="20%";
-            				    	continueflash.style.display="block";
-            				    	continuemirror.style.left="18%";
-            				    	continuemirror.style.display="block";
-            				    }else{
-            				    	if (getCookie(cookieNameFlash) !== undefined) {
-            				    		continueflash.style.left="18%";
-            				    		continueflash.style.display="block";
-            				    		continuemirror.style.display="none";
-            				    	}else{
-            				    		if (getCookie(cookieNameMirror) !== undefined) {
-            				    			continuemirror.style.left="18%";
-            				    			continuemirror.style.display="block";
-            				    			continueflash.style.display="none";
-            				    		}
-            				    	}
-            				    }
+            				    if (loadData(cookieNameFlash) !== undefined && loadData(cookieNameFlash) !== null && loadData(cookieNameFlash) !== "undefined" && loadData(cookieNameMirror) !== undefined && loadData(cookieNameMirror) !== null && loadData(cookieNameMirror) !== "undefined") {
+                                    continueflash.style.left="20%";
+                                    continueflash.style.display="block";
+                                    continuemirror.style.left="18%";
+                                    continuemirror.style.display="block";
+                                }else{
+                                    if (loadData(cookieNameFlash) !== undefined && loadData(cookieNameFlash) !== null && loadData(cookieNameFlash) !== "undefined") {
+                                        continueflash.style.left="18%";
+                                        continueflash.style.display="block";
+                                        continuemirror.style.display="none";
+                                    }else{
+                                        if (loadData(cookieNameMirror) !== undefined && loadData(cookieNameMirror) !== null && loadData(cookieNameMirror) !== "undefined") {
+                                            continuemirror.style.left="18%";
+                                            continuemirror.style.display="block";
+                                            continueflash.style.display="none";
+                                        }
+                                    }
+                                }
             				}
             			}
             		}
@@ -1624,6 +1657,8 @@ function startnight(night,firstnight) {
 function fadewarning(timerout){
 	warning.removeAttribute("onclick");
 	warning.style.opacity="0%";
+    warningcover.removeAttribute("onclick");
+    warningcover.style.opacity="0%";
 	for (var i = 0; i < timeouts.length; i++) {
         clearTimeout(timeouts[i]);
     }
@@ -1646,6 +1681,7 @@ function fadewarning(timerout){
 		}
 		menu.style.display="block";
 		warning.style.display="none";
+        warningcover.style.display="none";
 		timescore.style.display = "none";
 		timescore.style.opacity = "100%";
 		switch (challenge) {
@@ -2170,72 +2206,56 @@ function dayend(){
 						nighthighscore=currentnight;
 					}
 					if (flashlightcheckbox.checked) {
-						document.cookie = "cookieFlash" + currentnight + "=true; expires=Fri, 31 Dec 9999 23:59:59 GMT; path=/";
-						storeDataWithAPI("cookieFlash" + currentnight,currentnight);
+                        saveData("cookieFlash" + currentnight,currentnight);
 					}
 					if (mirrorcheckbox.checked) {
-						document.cookie = "cookieMirror" + currentnight + "=true; expires=Fri, 31 Dec 9999 23:59:59 GMT; path=/";
-						storeDataWithAPI("cookieMirror" + currentnight,currentnight);
+                        saveData("cookieMirror" + currentnight,currentnight);
 					}
 					currentnight++;
-					document.cookie = `currentnight=${currentnight}; expires=Fri, 31 Dec 9999 23:59:59 GMT; path=/`;
-					document.cookie = `nighthighscore=${nighthighscore}; expires=Fri, 31 Dec 9999 23:59:59 GMT; path=/`;
-					storeDataWithAPI("currentnight",currentnight);
-					storeDataWithAPI("nighthighscore",nighthighscore);
+                    saveData("currentnight",currentnight);
+                    saveData("nighthighscore",nighthighscore);
 					break;
 				case 1:
 					if (currentnightch1>nighthighscorech1) {
 						nighthighscorech1=currentnightch1;
 					}
 					if (flashlightcheckbox.checked) {
-						document.cookie = "ch1cookieFlash" + currentnightch1 + "=true; expires=Fri, 31 Dec 9999 23:59:59 GMT; path=/";
-						storeDataWithAPI("ch1cookieFlash" + currentnightch1,currentnightch1);
+                        saveData("ch1cookieFlash" + currentnightch1,currentnightch1);
 					}
 					if (mirrorcheckbox.checked) {
-						document.cookie = "ch1cookieMirror" + currentnightch1 + "=true; expires=Fri, 31 Dec 9999 23:59:59 GMT; path=/";
-						storeDataWithAPI("ch1cookieMirror" + currentnightch1,currentnightch1);
+                        saveData("ch1cookieMirror" + currentnightch1,currentnightch1);
 					}
 					currentnightch1++;
-					document.cookie = `currentnightch1=${currentnightch1}; expires=Fri, 31 Dec 9999 23:59:59 GMT; path=/`;
-					document.cookie = `nighthighscorech1=${nighthighscorech1}; expires=Fri, 31 Dec 9999 23:59:59 GMT; path=/`;
-					storeDataWithAPI("currentnightch1",currentnightch1);
-					storeDataWithAPI("nighthighscorech1",nighthighscorech1);
+                    saveData("currentnightch1",currentnightch1);
+                    saveData("nighthighscorech1",nighthighscorech1);
 					break;
 				case 2:
 					if (currentnightch2>nighthighscorech2) {
 						nighthighscorech2=currentnightch2;
 					}
 					if (flashlightcheckbox.checked) {
-						document.cookie = "ch2cookieFlash" + currentnightch2 + "=true; expires=Fri, 31 Dec 9999 23:59:59 GMT; path=/";
-						storeDataWithAPI("ch2cookieFlash" + currentnightch2,currentnightch2);
+                        saveData("ch2cookieFlash" + currentnightch2,currentnightch2);
 					}
 					if (mirrorcheckbox.checked) {
-						document.cookie = "ch2cookieMirror" + currentnightch2 + "=true; expires=Fri, 31 Dec 9999 23:59:59 GMT; path=/";
-						storeDataWithAPI("ch2cookieMirror" + currentnightch2,currentnightch2);
+                        saveData("ch2cookieMirror" + currentnightch2,currentnightch2);
 					}
 					currentnightch2++;
-					document.cookie = `currentnightch2=${currentnightch2}; expires=Fri, 31 Dec 9999 23:59:59 GMT; path=/`;
-					document.cookie = `nighthighscorech2=${nighthighscorech2}; expires=Fri, 31 Dec 9999 23:59:59 GMT; path=/`;
-					storeDataWithAPI("currentnightch2",currentnightch2);
-					storeDataWithAPI("nighthighscorech2",nighthighscorech2);
+                    saveData("currentnightch2",currentnightch2);
+                    saveData("nighthighscorech2",nighthighscorech2);
 					break;
 				case 3:
 					if (currentnightch3>nighthighscorech3) {
 						nighthighscorech3=currentnightch3;
 					}
 					if (flashlightcheckbox.checked) {
-						document.cookie = "ch3cookieFlash" + currentnightch3 + "=true; expires=Fri, 31 Dec 9999 23:59:59 GMT; path=/";
-						storeDataWithAPI("ch3cookieFlash" + currentnightch3,currentnightch3);
+                        saveData("ch3cookieFlash" + currentnightch3,currentnightch3);
 					}
 					if (mirrorcheckbox.checked) {
-						document.cookie = "ch3cookieMirror" + currentnightch3 + "=true; expires=Fri, 31 Dec 9999 23:59:59 GMT; path=/";
-						storeDataWithAPI("ch3cookieMirror" + currentnightch3,currentnightch3);
+                        saveData("ch3cookieMirror" + currentnightch3,currentnightch3);
 					}
 					currentnightch3++;
-					document.cookie = `currentnightch3=${currentnightch3}; expires=Fri, 31 Dec 9999 23:59:59 GMT; path=/`;
-					document.cookie = `nighthighscorech3=${nighthighscorech3}; expires=Fri, 31 Dec 9999 23:59:59 GMT; path=/`;
-					storeDataWithAPI("currentnightch3",currentnightch3);
-					storeDataWithAPI("nighthighscorech3",nighthighscorech3);
+                    saveData("currentnightch3",currentnightch3);
+                    saveData("nighthighscorech3",nighthighscorech3);
 					break;
 			}
 		}
@@ -2266,12 +2286,13 @@ let analyserNode;
 let playingSources = [];
 let globalVolume = 0.5;
 
-if (getCookie("volumecookie") !== undefined) {
-	globalVolume=getCookie("volumecookie");
-	audioslider.value=globalVolume;
-	audiopercent.innerHTML=Math.trunc(globalVolume*100)+"%";
-	myVideo.volume=globalVolume;
+if (loadData("volumecookie") !== null && loadData("volumecookie") !== undefined && loadData("volumecookie") !== "undefined") {
+    globalVolume = loadData("volumecookie");
+    audioslider.value = globalVolume;
+    audiopercent.innerHTML = Math.trunc(globalVolume * 100) + "%";
+    myVideo.volume = globalVolume;
 }
+
 
 function initializeVisuals() {
   if (!audioContext) {
@@ -3497,8 +3518,8 @@ function increasenight(side){
 	        break;
 	}
 	if (challenge==0) {
-            	if (nighthighscore>=3 && getCookie("timernight"+currentnight) !== undefined && currentnight!=3 && currentnight!=2 && currentnight!=1) {
-            	    var miliseconds = getCookie("timernight"+currentnight);
+            	if (nighthighscore>=3 && loadData("timernight"+currentnight) !== undefined && loadData("timernight"+currentnight) !== null && loadData("timernight"+currentnight) !== "undefined" && currentnight!=3 && currentnight!=2 && currentnight!=1) {
+            	    var miliseconds = loadData("timernight"+currentnight);
             	    var seconds = Math.floor((miliseconds / 10) % 60);
             	    var minutes = Math.floor(miliseconds / 600);
 	
@@ -3511,29 +3532,29 @@ function increasenight(side){
             	    continuetime.style.display="block";
             	    cookieNameMirror = "cookieMirror" + currentnight;
 					cookieNameFlash = "cookieFlash" + currentnight;
-            	    if (getCookie(cookieNameFlash) !== undefined && getCookie(cookieNameMirror) !== undefined) {
-            	    	continueflash.style.left="20%";
-            	    	continueflash.style.display="block";
-            	    	continuemirror.style.left="18%";
-            	    	continuemirror.style.display="block";
-            	    }else{
-            	    	if (getCookie(cookieNameFlash) !== undefined) {
-            	    		continueflash.style.left="18%";
-            	    		continueflash.style.display="block";
-            	    		continuemirror.style.display="none";
-            	    	}else{
-            	    		if (getCookie(cookieNameMirror) !== undefined) {
-            	    			continuemirror.style.left="18%";
-            	    			continuemirror.style.display="block";
-            	    			continueflash.style.display="none";
-            	    		}
-            	    	}
-            	    }
+            	    if (loadData(cookieNameFlash) !== undefined && loadData(cookieNameFlash) !== null && loadData(cookieNameFlash) !== "undefined" && loadData(cookieNameMirror) !== undefined && loadData(cookieNameMirror) !== null && loadData(cookieNameMirror) !== "undefined") {
+                        continueflash.style.left="20%";
+                        continueflash.style.display="block";
+                        continuemirror.style.left="18%";
+                        continuemirror.style.display="block";
+                    }else{
+                        if (loadData(cookieNameFlash) !== undefined && loadData(cookieNameFlash) !== null && loadData(cookieNameFlash) !== "undefined") {
+                            continueflash.style.left="18%";
+                            continueflash.style.display="block";
+                            continuemirror.style.display="none";
+                        }else{
+                            if (loadData(cookieNameMirror) !== undefined && loadData(cookieNameMirror) !== null && loadData(cookieNameMirror) !== "undefined") {
+                                continuemirror.style.left="18%";
+                                continuemirror.style.display="block";
+                                continueflash.style.display="none";
+                            }
+                        }
+                    }
             	}
             }else{
             	if (challenge==1) {
-            		if (getCookie("ch1timernight"+currentnightch1) !== undefined) {
-            		    var miliseconds = getCookie("ch1timernight"+currentnightch1);
+            		if (loadData("ch1timernight"+currentnightch1) !== undefined && loadData("ch1timernight"+currentnightch1) !== null && loadData("ch1timernight"+currentnightch1) !== "undefined") {
+            		    var miliseconds = loadData("ch1timernight"+currentnightch1);
             		    var seconds = Math.floor((miliseconds / 10) % 60);
             		    var minutes = Math.floor(miliseconds / 600);
 		
@@ -3546,29 +3567,29 @@ function increasenight(side){
             		    continuetime.style.display="block";
             		    cookieNameMirror = "ch1cookieMirror" + currentnightch1;
 						cookieNameFlash = "ch1cookieFlash" + currentnightch1;
-            		    if (getCookie(cookieNameFlash) !== undefined && getCookie(cookieNameMirror) !== undefined) {
-            		    	continueflash.style.left="20%";
-            		    	continueflash.style.display="block";
-            		    	continuemirror.style.left="18%";
-            		    	continuemirror.style.display="block";
-            		    }else{
-            		    	if (getCookie(cookieNameFlash) !== undefined) {
-            		    		continueflash.style.left="18%";
-            		    		continueflash.style.display="block";
-            		    		continuemirror.style.display="none";
-            		    	}else{
-            		    		if (getCookie(cookieNameMirror) !== undefined) {
-            		    			continuemirror.style.left="18%";
-            		    			continuemirror.style.display="block";
-            		    			continueflash.style.display="none";
-            		    		}
-            		    	}
-            		    }
+            		    if (loadData(cookieNameFlash) !== undefined && loadData(cookieNameFlash) !== null && loadData(cookieNameFlash) !== "undefined" && loadData(cookieNameMirror) !== undefined && loadData(cookieNameMirror) !== null && loadData(cookieNameMirror) !== "undefined") {
+                            continueflash.style.left="20%";
+                            continueflash.style.display="block";
+                            continuemirror.style.left="18%";
+                            continuemirror.style.display="block";
+                        }else{
+                            if (loadData(cookieNameFlash) !== undefined && loadData(cookieNameFlash) !== null && loadData(cookieNameFlash) !== "undefined") {
+                                continueflash.style.left="18%";
+                                continueflash.style.display="block";
+                                continuemirror.style.display="none";
+                            }else{
+                                if (loadData(cookieNameMirror) !== undefined && loadData(cookieNameMirror) !== null && loadData(cookieNameMirror) !== "undefined") {
+                                    continuemirror.style.left="18%";
+                                    continuemirror.style.display="block";
+                                    continueflash.style.display="none";
+                                }
+                            }
+                        }
             		}
             	}else{
             		if (challenge==2) {
-            			if (getCookie("ch2timernight"+currentnightch2) !== undefined) {
-            			    var miliseconds = getCookie("ch2timernight"+currentnightch2);
+            			if (loadData("ch2timernight"+currentnightch2) !== undefined && loadData("ch2timernight"+currentnightch2) !== null && loadData("ch2timernight"+currentnightch2) !== "undefined") {
+            			    var miliseconds = loadData("ch2timernight"+currentnightch2);
             			    var seconds = Math.floor((miliseconds / 10) % 60);
             			    var minutes = Math.floor(miliseconds / 600);
 			
@@ -3581,29 +3602,29 @@ function increasenight(side){
             			    continuetime.style.display="block";
             			    cookieNameMirror = "ch2cookieMirror" + currentnightch2;
 							cookieNameFlash = "ch2cookieFlash" + currentnightch2;
-            			    if (getCookie(cookieNameFlash) !== undefined && getCookie(cookieNameMirror) !== undefined) {
-            			    	continueflash.style.left="20%";
-            			    	continueflash.style.display="block";
-            			    	continuemirror.style.left="18%";
-            			    	continuemirror.style.display="block";
-            			    }else{
-            			    	if (getCookie(cookieNameFlash) !== undefined) {
-            			    		continueflash.style.left="18%";
-            			    		continueflash.style.display="block";
-            			    		continuemirror.style.display="none";
-            			    	}else{
-            			    		if (getCookie(cookieNameMirror) !== undefined) {
-            			    			continuemirror.style.left="18%";
-            			    			continuemirror.style.display="block";
-            			    			continueflash.style.display="none";
-            			    		}
-            			    	}
-            			    }
+            			    if (loadData(cookieNameFlash) !== undefined && loadData(cookieNameFlash) !== null && loadData(cookieNameFlash) !== "undefined" && loadData(cookieNameMirror) !== undefined && loadData(cookieNameMirror) !== null && loadData(cookieNameMirror) !== "undefined") {
+                                continueflash.style.left="20%";
+                                continueflash.style.display="block";
+                                continuemirror.style.left="18%";
+                                continuemirror.style.display="block";
+                            }else{
+                                if (loadData(cookieNameFlash) !== undefined && loadData(cookieNameFlash) !== null && loadData(cookieNameFlash) !== "undefined") {
+                                    continueflash.style.left="18%";
+                                    continueflash.style.display="block";
+                                    continuemirror.style.display="none";
+                                }else{
+                                    if (loadData(cookieNameMirror) !== undefined && loadData(cookieNameMirror) !== null && loadData(cookieNameMirror) !== "undefined") {
+                                        continuemirror.style.left="18%";
+                                        continuemirror.style.display="block";
+                                        continueflash.style.display="none";
+                                    }
+                                }
+                            }
             			}
             		}else{
             			if (challenge==3) {
-            				if (getCookie("ch3timernight"+currentnightch3) !== undefined) {
-            				    var miliseconds = getCookie("ch3timernight"+currentnightch3);
+            				if (loadData("ch3timernight"+currentnightch3) !== undefined && loadData("ch3timernight"+currentnightch3) !== null && loadData("ch3timernight"+currentnightch3) !== "undefined") {
+            				    var miliseconds = loadData("ch3timernight"+currentnightch3);
             				    var seconds = Math.floor((miliseconds / 10) % 60);
             				    var minutes = Math.floor(miliseconds / 600);
 				
@@ -3616,24 +3637,24 @@ function increasenight(side){
             				    continuetime.style.display="block";
             				    cookieNameMirror = "ch3cookieMirror" + currentnightch3;
 								cookieNameFlash = "ch3cookieFlash" + currentnightch3;
-            				    if (getCookie(cookieNameFlash) !== undefined && getCookie(cookieNameMirror) !== undefined) {
-            				    	continueflash.style.left="20%";
-            				    	continueflash.style.display="block";
-            				    	continuemirror.style.left="18%";
-            				    	continuemirror.style.display="block";
-            				    }else{
-            				    	if (getCookie(cookieNameFlash) !== undefined) {
-            				    		continueflash.style.left="18%";
-            				    		continueflash.style.display="block";
-            				    		continuemirror.style.display="none";
-            				    	}else{
-            				    		if (getCookie(cookieNameMirror) !== undefined) {
-            				    			continuemirror.style.left="18%";
-            				    			continuemirror.style.display="block";
-            				    			continueflash.style.display="none";
-            				    		}
-            				    	}
-            				    }
+            				    if (loadData(cookieNameFlash) !== undefined && loadData(cookieNameFlash) !== null && loadData(cookieNameFlash) !== "undefined" && loadData(cookieNameMirror) !== undefined && loadData(cookieNameMirror) !== null && loadData(cookieNameMirror) !== "undefined") {
+                                    continueflash.style.left="20%";
+                                    continueflash.style.display="block";
+                                    continuemirror.style.left="18%";
+                                    continuemirror.style.display="block";
+                                }else{
+                                    if (loadData(cookieNameFlash) !== undefined && loadData(cookieNameFlash) !== null && loadData(cookieNameFlash) !== "undefined") {
+                                        continueflash.style.left="18%";
+                                        continueflash.style.display="block";
+                                        continuemirror.style.display="none";
+                                    }else{
+                                        if (loadData(cookieNameMirror) !== undefined && loadData(cookieNameMirror) !== null && loadData(cookieNameMirror) !== "undefined") {
+                                            continuemirror.style.left="18%";
+                                            continuemirror.style.display="block";
+                                            continueflash.style.display="none";
+                                        }
+                                    }
+                                }
             				}
             			}
             		}
@@ -3719,8 +3740,8 @@ function showtimerdeath(timerout){
 		switch (challenge) {
 		    case 0:
 		        cookieName = "timernight" + currentnight;
-				if (getCookie("timernight"+currentnight) !== undefined) {
-					var tempcookie = getCookie("timernight"+currentnight);
+				if (loadData("timernight"+currentnight) !== undefined && loadData("timernight"+currentnight) !== null && loadData("timernight"+currentnight) !== "undefined") {
+					var tempcookie = loadData("timernight"+currentnight);
 					var seconds = Math.floor((tempcookie / 10) % 60);
     				var minutes = Math.floor(tempcookie / 600);
 				
@@ -3730,7 +3751,7 @@ function showtimerdeath(timerout){
     				}
     				prevtime.innerHTML = minutes + ":" + (seconds < 10 ? "0" : "") + seconds + ":" + (tempcookie % 10);
     				prevtime.style.display="block";
-    				if (getCookie("timernight"+currentnight)<miliseconds) {
+    				if (loadData("timernight"+currentnight)<miliseconds) {
     					crnttimedesc.innerHTML="You got a new best time of:";
     					prevtimedesc.innerHTML="Your previous time was:";
     					menucharacter2.src="img/menu/boykisszaza.gif";
@@ -3747,7 +3768,7 @@ function showtimerdeath(timerout){
     				}
 					prevtimedesc.style.display="block";
 				}
-				if (getCookie("timernight"+currentnight) === undefined) {
+				if (loadData("timernight"+currentnight) === undefined || loadData("timernight"+currentnight) === null || loadData("timernight"+currentnight) === "undefined") {
 					menucharacter2.src="img/menu/boykissthigh.gif";
 					menucharacter2.style.top="24%";
     				menucharacter2.style.left="0%";
@@ -3755,15 +3776,14 @@ function showtimerdeath(timerout){
 					prevtime.style.display="none";
 					prevtimedesc.style.display="none";
 				}
-				if (getCookie("timernight"+currentnight) !== undefined && getCookie("timernight"+currentnight)<miliseconds || getCookie("timernight"+currentnight) === undefined) {
-					document.cookie = cookieName + "=" + miliseconds + "; expires=Fri, 31 Dec 9999 23:59:59 GMT; path=/";
-					storeDataWithAPI(cookieName,miliseconds);
+				if (loadData("timernight"+currentnight) !== undefined && loadData("timernight"+currentnight) !== null && loadData("timernight"+currentnight) !== "undefined" && loadData("timernight"+currentnight)<miliseconds || loadData("timernight"+currentnight) === undefined || loadData("timernight"+currentnight) === null || loadData("timernight"+currentnight) === "undefined") {
+					saveData(cookieName,miliseconds);
 				}
 		        break;
 		    case 1:
 		        cookieName = "ch1timernight" + currentnightch1;
-				if (getCookie("ch1timernight"+currentnightch1) !== undefined) {
-					var tempcookie = getCookie("ch1timernight"+currentnightch1);
+				if (loadData("ch1timernight"+currentnightch1) !== undefined && loadData("ch1timernight"+currentnightch1) !== null && loadData("ch1timernight"+currentnightch1) !== "undefined") {
+					var tempcookie = loadData("ch1timernight"+currentnightch1);
 					var seconds = Math.floor((tempcookie / 10) % 60);
     				var minutes = Math.floor(tempcookie / 600);
 				
@@ -3773,7 +3793,7 @@ function showtimerdeath(timerout){
     				}
     				prevtime.innerHTML = minutes + ":" + (seconds < 10 ? "0" : "") + seconds + ":" + (tempcookie % 10);
     				prevtime.style.display="block";
-    				if (getCookie("ch1timernight"+currentnightch1)<miliseconds) {
+    				if (loadData("ch1timernight"+currentnightch1)<miliseconds) {
     					crnttimedesc.innerHTML="You got a new best time of:";
     					prevtimedesc.innerHTML="Your previous time was:";
     					menucharacter2.src="img/menu/boykisszaza.gif";
@@ -3790,7 +3810,7 @@ function showtimerdeath(timerout){
     				}
 					prevtimedesc.style.display="block";
 				}
-				if (getCookie("ch1timernight"+currentnightch1) === undefined) {
+				if (loadData("ch1timernight"+currentnightch1) === undefined || loadData("ch1timernight"+currentnightch1) === null || loadData("ch1timernight"+currentnightch1) === "undefined") {
 					menucharacter2.src="img/menu/boykissthigh.gif";
 					menucharacter2.style.top="24%";
     				menucharacter2.style.left="0%";
@@ -3798,15 +3818,14 @@ function showtimerdeath(timerout){
 					prevtime.style.display="none";
 					prevtimedesc.style.display="none";
 				}
-				if (getCookie("ch1timernight"+currentnightch1) !== undefined && getCookie("ch1timernight"+currentnightch1)<miliseconds || getCookie("ch1timernight"+currentnightch1) === undefined) {
-					document.cookie = cookieName + "=" + miliseconds + "; expires=Fri, 31 Dec 9999 23:59:59 GMT; path=/";
-					storeDataWithAPI(cookieName,miliseconds);
+				if (loadData("ch1timernight"+currentnightch1) !== undefined && loadData("ch1timernight"+currentnightch1)<miliseconds || loadData("ch1timernight"+currentnightch1) === undefined) {
+					saveData(cookieName,miliseconds);
 				}
 		        break;
 		    case 2:
 		        cookieName = "ch2timernight" + currentnightch2;
-				if (getCookie("ch2timernight"+currentnightch2) !== undefined) {
-					var tempcookie = getCookie("ch2timernight"+currentnightch2);
+				if (loadData("ch2timernight"+currentnightch2) !== undefined && loadData("ch2timernight"+currentnightch2) !== null && loadData("ch2timernight"+currentnightch2) !== "undefined") {
+					var tempcookie = loadData("ch2timernight"+currentnightch2);
 					var seconds = Math.floor((tempcookie / 10) % 60);
     				var minutes = Math.floor(tempcookie / 600);
 				
@@ -3816,7 +3835,7 @@ function showtimerdeath(timerout){
     				}
     				prevtime.innerHTML = minutes + ":" + (seconds < 10 ? "0" : "") + seconds + ":" + (tempcookie % 10);
     				prevtime.style.display="block";
-    				if (getCookie("ch2timernight"+currentnightch2)<miliseconds) {
+    				if (loadData("ch2timernight"+currentnightch2)<miliseconds) {
     					crnttimedesc.innerHTML="You got a new best time of:";
     					prevtimedesc.innerHTML="Your previous time was:";
     					menucharacter2.src="img/menu/boykisszaza.gif";
@@ -3833,7 +3852,7 @@ function showtimerdeath(timerout){
     				}
 					prevtimedesc.style.display="block";
 				}
-				if (getCookie("ch2timernight"+currentnightch2) === undefined) {
+				if (loadData("ch2timernight"+currentnightch2) === undefined || loadData("ch2timernight"+currentnightch2) === null || loadData("ch2timernight"+currentnightch2) === "undefined") {
 					menucharacter2.src="img/menu/boykissthigh.gif";
 					menucharacter2.style.top="24%";
     				menucharacter2.style.left="0%";
@@ -3841,15 +3860,14 @@ function showtimerdeath(timerout){
 					prevtime.style.display="none";
 					prevtimedesc.style.display="none";
 				}
-				if (getCookie("ch2timernight"+currentnightch2) !== undefined && getCookie("ch2timernight"+currentnightch2)<miliseconds || getCookie("ch2timernight"+currentnightch2) === undefined) {
-					document.cookie = cookieName + "=" + miliseconds + "; expires=Fri, 31 Dec 9999 23:59:59 GMT; path=/";
-					storeDataWithAPI(cookieName,miliseconds);
+				if (loadData("ch2timernight"+currentnightch2) !== undefined && loadData("ch2timernight"+currentnightch2) !== null && loadData("ch2timernight"+currentnightch2) !== "undefined" && loadData("ch2timernight"+currentnightch2)<miliseconds || loadData("ch2timernight"+currentnightch2) === undefined || loadData("ch2timernight"+currentnightch2) === null || loadData("ch2timernight"+currentnightch2) === "undefined") {
+					saveData(cookieName,miliseconds);
 				}
 		        break;
 		    case 3:
 		        cookieName = "ch3timernight" + currentnightch3;
-				if (getCookie("ch3timernight"+currentnightch3) !== undefined) {
-					var tempcookie = getCookie("ch3timernight"+currentnightch3);
+				if (loadData("ch3timernight"+currentnightch3) !== undefined && loadData("ch3timernight"+currentnightch3) !== null && loadData("ch3timernight"+currentnightch3) !== "undefined") {
+					var tempcookie = loadData("ch3timernight"+currentnightch3);
 					var seconds = Math.floor((tempcookie / 10) % 60);
     				var minutes = Math.floor(tempcookie / 600);
 				
@@ -3859,7 +3877,7 @@ function showtimerdeath(timerout){
     				}
     				prevtime.innerHTML = minutes + ":" + (seconds < 10 ? "0" : "") + seconds + ":" + (tempcookie % 10);
     				prevtime.style.display="block";
-    				if (getCookie("ch3timernight"+currentnightch3)<miliseconds) {
+    				if (loadData("ch3timernight"+currentnightch3)<miliseconds) {
     					crnttimedesc.innerHTML="You got a new best time of:";
     					prevtimedesc.innerHTML="Your previous time was:";
     					menucharacter2.src="img/menu/boykisszaza.gif";
@@ -3876,7 +3894,7 @@ function showtimerdeath(timerout){
     				}
 					prevtimedesc.style.display="block";
 				}
-				if (getCookie("ch3timernight"+currentnightch3) === undefined) {
+				if (loadData("ch3timernight"+currentnightch3) === undefined || loadData("ch3timernight"+currentnightch3) === null || loadData("ch3timernight"+currentnightch3) === "undefined") {
 					menucharacter2.src="img/menu/boykissthigh.gif";
 					menucharacter2.style.top="24%";
     				menucharacter2.style.left="0%";
@@ -3884,9 +3902,8 @@ function showtimerdeath(timerout){
 					prevtime.style.display="none";
 					prevtimedesc.style.display="none";
 				}
-				if (getCookie("ch3timernight"+currentnightch3) !== undefined && getCookie("ch3timernight"+currentnightch3)<miliseconds || getCookie("ch3timernight"+currentnightch3) === undefined) {
-					document.cookie = cookieName + "=" + miliseconds + "; expires=Fri, 31 Dec 9999 23:59:59 GMT; path=/";
-					storeDataWithAPI(cookieName,miliseconds);
+				if (loadData("ch3timernight"+currentnightch3) !== undefined && loadData("ch3timernight"+currentnightch3) !== null && loadData("ch3timernight"+currentnightch3) !== "undefined" && loadData("ch3timernight"+currentnightch3)<miliseconds || loadData("ch3timernight"+currentnightch3) === undefined || loadData("ch3timernight"+currentnightch3) === null || loadData("ch3timernight"+currentnightch3) === "undefined") {
+					saveData(cookieName,miliseconds);
 				}
 		        break;
 		    default:
@@ -4096,8 +4113,7 @@ function updateValue(value) {
     	changeVolume("darkness_music",0.00001);
     	changeVolume("static",0.00001);
     }
-    document.cookie = `volumecookie=${globalVolume}; expires=Fri, 31 Dec 9999 23:59:59 GMT; path=/`;
-    storeDataWithAPI("volumecookie",globalVolume);
+    saveData("volumecookie",globalVolume);
     myVideo.volume=globalVolume;
 }
 
@@ -4702,8 +4718,8 @@ function handleSubmit() {
         loggedas.innerHTML="Logged in as '"+username+"'";
         gamejoltbtntxt.setAttribute("onclick", "logoutmoment();");
         gamejoltbtn.setAttribute("onclick", "logoutmoment();");
-        document.cookie = "gjusername=" + username + "; expires=Fri, 31 Dec 9999 23:59:59 GMT; path=/";
-        document.cookie = "gjpassword=" + password + "; expires=Fri, 31 Dec 9999 23:59:59 GMT; path=/";
+        saveData("gjusername",username);
+        saveData("gjpassword",password);
         GJAPI.DataStoreFetch(GJAPI.DATA_STORE_USER, "nighthighscore", function(pResponse) {
         		//console.log(pResponse.data);
 		        if (pResponse.data != "No item with that key could be found.") {
@@ -4724,11 +4740,8 @@ function handleSubmit() {
       	loggedas.innerHTML="Not logged in!";
       	gamejoltbtntxt.setAttribute("onclick", "gamejoltbtntoggle(true);");
         gamejoltbtn.setAttribute("onclick", "gamejoltbtntoggle(true);");
-        document.cookie = "gjusername=undefined; expires=Fri, 31 Dec 9999 23:59:59 GMT; path=/";
-		document.cookie = "gjusername=; expires=Thu, 01 Jan 1970 00:00:00 GMT; path=/";
-		document.cookie = "gjpassword=undefined; expires=Fri, 31 Dec 9999 23:59:59 GMT; path=/";
-		document.cookie = "gjpassword=; expires=Thu, 01 Jan 1970 00:00:00 GMT; path=/";
-
+        saveData("gjusername",undefined);
+        saveData("gjpassword",undefined);
       }
     });
 
@@ -4742,53 +4755,89 @@ function logoutmoment(){
     loggedas.innerHTML="Not logged in!";
     gamejoltbtntxt.setAttribute("onclick", "gamejoltbtntoggle(true);");
     gamejoltbtn.setAttribute("onclick", "gamejoltbtntoggle(true);");
-    document.cookie = "gjusername=undefined; expires=Fri, 31 Dec 9999 23:59:59 GMT; path=/";
-	document.cookie = "gjusername=; expires=Thu, 01 Jan 1970 00:00:00 GMT; path=/";
-	document.cookie = "gjpassword=undefined; expires=Fri, 31 Dec 9999 23:59:59 GMT; path=/";
-	document.cookie = "gjpassword=; expires=Thu, 01 Jan 1970 00:00:00 GMT; path=/";
+    saveData("gjusername",undefined);
+    saveData("gjpassword",undefined);
 	deleteUserData();
 }
 
 function storeNightData() {
-    // Get all cookies
-    const cookies = document.cookie.split(';').map(cookie => cookie.trim());
-
-    // Filter out cookies you don't want to store
-    const filteredCookies = cookies.filter(cookie => {
-        const [name] = cookie.split('=');
-        return name !== 'gjusername' && name !== 'gjpassword';
-    });
-
-    // Construct nightData object and keys array from filtered cookies
-    const nightData = {};
-    const keys = [];
-    filteredCookies.forEach(cookie => {
-        const [name, value] = cookie.split('=');
-        nightData[name] = value;
-        keys.push(name);
-    });
-
-    keys.forEach(key => {
-        GJAPI.DataStoreFetch(GJAPI.DATA_STORE_USER, key, function(pFetchResponse) {
-            if (pFetchResponse.data != "No item with that key could be found.") {
-                GJAPI.DataStoreSet(GJAPI.DATA_STORE_USER, key, nightData[key], function(pSetResponse) {
-                    if (pSetResponse.success === "true") {
-                        //console.log(`Successfully updated ${key} to ${nightData[key]}`);
-                    } else {
-                        //console.error(`Failed to update ${key}: ${pSetResponse.message}`);
-                    }
-                });
-            } else {
-                GJAPI.DataStoreSet(GJAPI.DATA_STORE_USER, key, nightData[key], function(pSetResponse) {
-                    if (pSetResponse.success === "true") {
-                        //console.log(`Successfully set ${key} to ${nightData[key]}`);
-                    } else {
-                        //console.error(`Failed to set ${key}: ${pSetResponse.message}`);
-                    }
-                });
+    if (isElectron()) {
+        // Get all data from localStorage
+        const localStorageData = {};
+        for (let i = 0; i < localStorage.length; i++) {
+            const key = localStorage.key(i);
+            if (key !== 'gjusername' && key !== 'gjpassword') {
+                localStorageData[key] = localStorage.getItem(key);
             }
+        }
+
+        // Use localStorageData as needed within Electron
+        const nightData = localStorageData;
+        const keys = Object.keys(localStorageData);
+
+        keys.forEach(key => {
+            GJAPI.DataStoreFetch(GJAPI.DATA_STORE_USER, key, function(pFetchResponse) {
+                if (pFetchResponse.data != "No item with that key could be found.") {
+                    GJAPI.DataStoreSet(GJAPI.DATA_STORE_USER, key, nightData[key], function(pSetResponse) {
+                        if (pSetResponse.success === "true") {
+                            //console.log(`Successfully updated ${key} to ${nightData[key]}`);
+                        } else {
+                            //console.error(`Failed to update ${key}: ${pSetResponse.message}`);
+                        }
+                    });
+                } else {
+                    GJAPI.DataStoreSet(GJAPI.DATA_STORE_USER, key, nightData[key], function(pSetResponse) {
+                        if (pSetResponse.success === "true") {
+                            //console.log(`Successfully set ${key} to ${nightData[key]}`);
+                        } else {
+                            //console.error(`Failed to set ${key}: ${pSetResponse.message}`);
+                        }
+                    });
+                }
+            });
         });
-    });
+    }else{
+        // Get all cookies
+        const cookies = document.cookie.split(';').map(cookie => cookie.trim());
+    
+        // Filter out cookies you don't want to store
+        const filteredCookies = cookies.filter(cookie => {
+            const [name] = cookie.split('=');
+            return name !== 'gjusername' && name !== 'gjpassword';
+        });
+    
+
+        // Construct nightData object and keys array from filtered cookies
+        const nightData = {};
+        const keys = [];
+        filteredCookies.forEach(cookie => {
+            const [name, value] = cookie.split('=');
+            nightData[name] = value;
+            keys.push(name);
+        });
+    
+        keys.forEach(key => {
+            GJAPI.DataStoreFetch(GJAPI.DATA_STORE_USER, key, function(pFetchResponse) {
+                if (pFetchResponse.data != "No item with that key could be found.") {
+                    GJAPI.DataStoreSet(GJAPI.DATA_STORE_USER, key, nightData[key], function(pSetResponse) {
+                        if (pSetResponse.success === "true") {
+                            //console.log(`Successfully updated ${key} to ${nightData[key]}`);
+                        } else {
+                            //console.error(`Failed to update ${key}: ${pSetResponse.message}`);
+                        }
+                    });
+                } else {
+                    GJAPI.DataStoreSet(GJAPI.DATA_STORE_USER, key, nightData[key], function(pSetResponse) {
+                        if (pSetResponse.success === "true") {
+                            //console.log(`Successfully set ${key} to ${nightData[key]}`);
+                        } else {
+                            //console.error(`Failed to set ${key}: ${pSetResponse.message}`);
+                        }
+                    });
+                }
+            });
+        });
+    }
 }
 
 
@@ -4810,10 +4859,15 @@ function loadNightData() {
                     //console.log(`Successfully fetched and set ${key} to ${pFetchResponse.data}`);
 
                     // Save the variable as a cookie
-                    document.cookie = key + "=" + pFetchResponse.data + "; expires=Fri, 31 Dec 9999 23:59:59 GMT; path=/";
+                    if (isElectron()) {
+                        localStorage.setItem(key, pFetchResponse.data);
+                    }else{
+                        document.cookie = key + "=" + pFetchResponse.data + "; expires=Fri, 31 Dec 9999 23:59:59 GMT; path=/";
+                    }
+                    
                     //console.log(`Saved ${key} as a cookie`);
                     if (key == "volumecookie") {
-                        globalVolume = getCookie("volumecookie");
+                        globalVolume = loadData("volumecookie");
                         audioslider.value = globalVolume;
                         audiopercent.innerHTML = Math.trunc(globalVolume * 100) + "%";
                         updateValue(globalVolume);
@@ -4918,20 +4972,41 @@ function deleteUserData() {
             });
         });
     });
+    if (isElectron()){
+        // Get all keys in localStorage
+        var localStorageKeys = Object.keys(localStorage);
+        
+        // Iterate through each key in localStorage
+        for (var i = 0; i < localStorageKeys.length; i++) {
+            var key = localStorageKeys[i];
+            // If the key is not "gjusername" or "gjpassword"
+            if (key !== "gjusername" && key !== "gjpassword") {
+                // Remove the item from localStorage
+                localStorage.removeItem(key);
+        
+                // Unset any JavaScript variable with the same name
+                if (typeof window[key] !== 'undefined') {
+                    delete window[key];
+                }
+            }
+        }
 
-    var cookiestemp = document.cookie.split("; ");
-    for (var i = 0; i < cookiestemp.length; i++) {
-        var cookieName = cookiestemp[i].split("=")[0];
-        if (cookieName !== "gjusername" && cookieName !== "gjpassword") {
-            // Delete the cookie
-            document.cookie = cookieName + "=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
-
-            // Unset any JavaScript variable with the same name
-            if (typeof window[cookieName] !== 'undefined') {
-                delete window[cookieName];
+    }else{
+        var cookiestemp = document.cookie.split("; ");
+        for (var i = 0; i < cookiestemp.length; i++) {
+            var cookieName = cookiestemp[i].split("=")[0];
+            if (cookieName !== "gjusername" && cookieName !== "gjpassword") {
+                // Delete the cookie
+                document.cookie = cookieName + "=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+    
+                // Unset any JavaScript variable with the same name
+                if (typeof window[cookieName] !== 'undefined') {
+                    delete window[cookieName];
+                }
             }
         }
     }
+    
 }
 
 function storeDataWithAPI(variableName, variableValue) {

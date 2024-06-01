@@ -328,7 +328,7 @@ body {
 #static,#brokenoverlay,#iceoverlay,#iceoverlay2{
     z-index: 4;
     opacity: 70%;
-    width: 91.5%;
+    width: 91.48882675%;
     height: 84.5%;
     top: 8%;
 }
@@ -345,7 +345,7 @@ body {
 }
 
 #iceoverlay2{
-    left: 95.5%;
+    left: 95.486278%;
     animation: slide2 50s linear infinite;
 }
 
@@ -1647,7 +1647,7 @@ body {
     top: 63%;
 }
 
-#screencover{
+#screencover,#warningcover{
     position: absolute;
     top: 0;
     left: 0;
@@ -1657,6 +1657,11 @@ body {
     opacity: 50%;
     display: none;
     z-index: 2;
+}
+
+#warningcover{
+    display: block;
+    background-color: transparent;
 }
 
 #loginpopup{
