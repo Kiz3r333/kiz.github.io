@@ -512,7 +512,9 @@ function preload() {
 		["sfx/mlkerror.wav", "audio"],
 		["sfx/shock.wav", "audio"],
 		["sfx/shockfail.wav", "audio"],
-		["sfx/PartyFavorraspyPart_AC01__3.wav", "audio"]
+		["sfx/PartyFavorraspyPart_AC01__3.wav", "audio"],
+        ["sfx/camerabeepshrt.wav", "audio"],
+        ["sfx/camerabeep.wav", "audio"]
     ];
 
     preloadMediaList(mediaList, function () {
@@ -1063,6 +1065,10 @@ function outofpower(){
 	deathdelay=false;
 	rightlight.src="img/buttons/rightlight.png";
 	leftlight.src="img/buttons/Leftlight.png";
+    leftlight.style.filter ="brightness(5%)";
+    rightlight.style.filter ="brightness(5%)";
+    leftbutton.style.filter ="brightness(5%)";
+    rightbutton.style.filter ="brightness(5%)";
 	officelights1.style.display="none";
 	officelights2.style.display="none";
 	camerassets.style.display="none";
@@ -1362,7 +1368,7 @@ function selectmenu(menutype){
             continuemirror.style.display="none";
             if (challenge==0) {
             	continuenight.innerHTML="Night " + currentnight;
-            	if (nighthighscore>=3 && loadData("timernight"+currentnight) !== undefined && loadData("timernight"+currentnight) !== null && loadData("timernight"+currentnight) !== "undefined" && currentnight!=3 && currentnight!=2 && currentnight!=1) {
+            	if (nighthighscore>=3 && loadData("timernight"+currentnight) !== undefined && loadData("timernight"+currentnight) !== null && loadData("timernight"+currentnight) !== "undefined") {
             	    var miliseconds = loadData("timernight"+currentnight);
             	    var seconds = Math.floor((miliseconds / 10) % 60);
             	    var minutes = Math.floor(miliseconds / 600);
@@ -1373,27 +1379,42 @@ function selectmenu(menutype){
             	    }
 	
             	    continuetime.innerHTML = minutes + ":" + (seconds < 10 ? "0" : "") + seconds + ":" + (miliseconds % 10);
-            	    continuetime.style.display="block";
+                    if (currentnight!=3 && currentnight!=2 && currentnight!=1) {
+                        continuetime.style.display="block";
+                    }
             	    cookieNameMirror = "cookieMirror" + currentnight;
 					cookieNameFlash = "cookieFlash" + currentnight;
             	    if (loadData(cookieNameFlash) !== undefined && loadData(cookieNameFlash) !== null && loadData(cookieNameFlash) !== "undefined" && loadData(cookieNameMirror) !== undefined && loadData(cookieNameMirror) !== null && loadData(cookieNameMirror) !== "undefined") {
-            	    	continueflash.style.left="20%";
-            	    	continueflash.style.display="block";
-            	    	continuemirror.style.left="18%";
-            	    	continuemirror.style.display="block";
-            	    }else{
-            	    	if (loadData(cookieNameFlash) !== undefined && loadData(cookieNameFlash) !== null && loadData(cookieNameFlash) !== "undefined") {
-            	    		continueflash.style.left="18%";
-            	    		continueflash.style.display="block";
-            	    		continuemirror.style.display="none";
-            	    	}else{
-            	    		if (loadData(cookieNameMirror) !== undefined && loadData(cookieNameMirror) !== null && loadData(cookieNameMirror) !== "undefined") {
-            	    			continuemirror.style.left="18%";
-            	    			continuemirror.style.display="block";
-            	    			continueflash.style.display="none";
-            	    		}
-            	    	}
-            	    }
+                        if (currentnight!=3 && currentnight!=2 && currentnight!=1) {
+                            continueflash.style.left="20%";
+                            continuemirror.style.left="18%";
+                        }else{
+                            continueflash.style.left="15%";
+                            continuemirror.style.left="13%";
+                        }
+                        continueflash.style.display="block";
+                        continuemirror.style.display="block";
+                    }else{
+                        if (loadData(cookieNameFlash) !== undefined && loadData(cookieNameFlash) !== null && loadData(cookieNameFlash) !== "undefined") {
+                            if (currentnight!=3 && currentnight!=2 && currentnight!=1) {
+                                continueflash.style.left="18%";
+                            }else{
+                                continueflash.style.left="13%";
+                            }
+                            continueflash.style.display="block";
+                            continuemirror.style.display="none";
+                        }else{
+                            if (loadData(cookieNameMirror) !== undefined && loadData(cookieNameMirror) !== null && loadData(cookieNameMirror) !== "undefined") {
+                                if (currentnight!=3 && currentnight!=2 && currentnight!=1) {
+                                    continuemirror.style.left="18%";
+                                }else{
+                                    continuemirror.style.left="13%";
+                                }
+                                continuemirror.style.display="block";
+                                continueflash.style.display="none";
+                            }
+                        }
+                    }
             	}
             }else{
             	if (challenge==1) {
@@ -1917,13 +1938,13 @@ function daystart(night){
 				power = 60-currentnightch2*5;
 			}else{
 				if (challenge==2) {
-					power = 40-currentnightch2;
+					power = 44-currentnightch2;
 				}else{
 					if (challenge==3 && currentnightch3<=4) {
 						power = 60-currentnightch3*5;
 					}else{
 						if (challenge==3) {
-							power = 40-currentnightch3;
+							power = 44-currentnightch3;
 						}
 					}
 				}
@@ -2052,6 +2073,10 @@ function daystart(night){
 		cam.src="img/camera/CAM"+currentcam.toUpperCase()+".png";
 		leftlight.src="img/buttons/Leftlight.png";
 		rightlight.src="img/buttons/rightlight.png";
+        leftlight.style.filter ="brightness(1)";
+        rightlight.style.filter ="brightness(1)";
+        leftbutton.style.filter ="brightness(1)";
+        rightbutton.style.filter ="brightness(1)";
 		character3.src="img/camera/box_frame_1.png";
 		game.style.pointerEvents= "auto";
 		clearTimeout(timeoutID);
@@ -2416,6 +2441,33 @@ function updateUsage(){
 			usage4.style.display="block";
 			break;
 	}
+    if (450<=camtime && 600>camtime) {
+        usage3.style.display="block";
+        usage1.style.animation = "blink 0.3s infinite";
+        usage2.style.animation = "blink 0.3s infinite";
+        usage3.style.animation = "blink 0.3s infinite";
+        usage4.style.animation = "blink 0.3s infinite";
+        if (camtime % 5 === 0) {
+            playSound("camerabeepshrt", false);
+        }
+    }else{
+        if (600<=camtime) {
+            usage3.style.display="block";
+            usage4.style.display="block";
+            usage1.style.animation = "blink 0.1s infinite";
+            usage2.style.animation = "blink 0.1s infinite";
+            usage3.style.animation = "blink 0.1s infinite";
+            usage4.style.animation = "blink 0.1s infinite";
+            if (camtime % 2 === 0) {
+                playSound("camerabeep", false);
+            }
+        }else{
+            usage1.style.animation = "none";
+            usage2.style.animation = "none";
+            usage3.style.animation = "none";
+            usage4.style.animation = "none";
+        }
+    }
 }
 
 function windKiz(){
@@ -2685,6 +2737,7 @@ function lightBrk(side){
 			lampleft.style.top="94%";
 		}, 1000);
 		setTimeout(() => {
+            leftlight.src="img/buttons/Leftlight.png";
 			officelights1.style.display="none";
 			ryanoffice.style.visibility="none";
 			playSound("break",false);
@@ -2703,6 +2756,7 @@ function lightBrk(side){
 			lampright.style.top="94%";
 		}, 1000);
 		setTimeout(() => {
+            rightlight.src="img/buttons/rightlight.png";
 			officelights2.style.display="none";
 			joeyoffice.style.visibility="none";
 			playSound("break",false);
@@ -2804,6 +2858,8 @@ function kizzydeath(){
 		camerassets.style.display="none";
 		slug.style.display="none";
 		cam.style.visibility="hidden";
+        led.style.backgroundColor="transparent";
+        led.style.animation="ledglowtransparent 1s ease-in-out infinite alternate";
 		character1.style.visibility="hidden";
 		character2.style.visibility="hidden";
 		character3.style.visibility="hidden";
@@ -2822,7 +2878,7 @@ function kizzydeath(){
   		  lines[i].style.visibility="hidden";
   		}
 		cameratrigger.style.display="none";
-		camerabutton.style.display="none";
+		camerabutton.style.display="block";
 		if (camera.checked) {
 			playSound("put down",false);
 			camerabg.src="img/monitorclose.gif";
@@ -3444,12 +3500,9 @@ function upTimer() {
     	switch (true){
 			case (450<=camtime && 600>camtime):
 				cameraConsumption=cameraConsumption+0.002;
-				usage3.style.display="block";
 				break;
 			case (600<=camtime):
 				cameraConsumption=cameraConsumption+0.01;
-				usage3.style.display="block";
-				usage4.style.display="block";
 				break;
 		}
     }else{
@@ -3518,7 +3571,7 @@ function increasenight(side){
 	        break;
 	}
 	if (challenge==0) {
-            	if (nighthighscore>=3 && loadData("timernight"+currentnight) !== undefined && loadData("timernight"+currentnight) !== null && loadData("timernight"+currentnight) !== "undefined" && currentnight!=3 && currentnight!=2 && currentnight!=1) {
+            	if (nighthighscore>=3 && loadData("timernight"+currentnight) !== undefined && loadData("timernight"+currentnight) !== null && loadData("timernight"+currentnight) !== "undefined") {
             	    var miliseconds = loadData("timernight"+currentnight);
             	    var seconds = Math.floor((miliseconds / 10) % 60);
             	    var minutes = Math.floor(miliseconds / 600);
@@ -3529,22 +3582,37 @@ function increasenight(side){
             	    }
 	
             	    continuetime.innerHTML = minutes + ":" + (seconds < 10 ? "0" : "") + seconds + ":" + (miliseconds % 10);
-            	    continuetime.style.display="block";
+            	    if (currentnight!=3 && currentnight!=2 && currentnight!=1) {
+                        continuetime.style.display="block";
+                    }
             	    cookieNameMirror = "cookieMirror" + currentnight;
 					cookieNameFlash = "cookieFlash" + currentnight;
             	    if (loadData(cookieNameFlash) !== undefined && loadData(cookieNameFlash) !== null && loadData(cookieNameFlash) !== "undefined" && loadData(cookieNameMirror) !== undefined && loadData(cookieNameMirror) !== null && loadData(cookieNameMirror) !== "undefined") {
-                        continueflash.style.left="20%";
+                        if (currentnight!=3 && currentnight!=2 && currentnight!=1) {
+                            continueflash.style.left="20%";
+                            continuemirror.style.left="18%";
+                        }else{
+                            continueflash.style.left="15%";
+                            continuemirror.style.left="13%";
+                        }
                         continueflash.style.display="block";
-                        continuemirror.style.left="18%";
                         continuemirror.style.display="block";
                     }else{
                         if (loadData(cookieNameFlash) !== undefined && loadData(cookieNameFlash) !== null && loadData(cookieNameFlash) !== "undefined") {
-                            continueflash.style.left="18%";
+                            if (currentnight!=3 && currentnight!=2 && currentnight!=1) {
+                                continueflash.style.left="18%";
+                            }else{
+                                continueflash.style.left="13%";
+                            }
                             continueflash.style.display="block";
                             continuemirror.style.display="none";
                         }else{
                             if (loadData(cookieNameMirror) !== undefined && loadData(cookieNameMirror) !== null && loadData(cookieNameMirror) !== "undefined") {
-                                continuemirror.style.left="18%";
+                                if (currentnight!=3 && currentnight!=2 && currentnight!=1) {
+                                    continuemirror.style.left="18%";
+                                }else{
+                                    continuemirror.style.left="13%";
+                                }
                                 continuemirror.style.display="block";
                                 continueflash.style.display="none";
                             }
@@ -3736,6 +3804,9 @@ function kizvisual() {
 }
 
 function showtimerdeath(timerout){
+    for (var i = 0; i < timeouts.length; i++) {
+        clearTimeout(timeouts[i]);
+    }
 	setTimeout(() => {
 		switch (challenge) {
 		    case 0:
@@ -3943,6 +4014,10 @@ document.addEventListener('keydown', function(event) {
             }
         }, 5000);
     }
+    if (event.key === 'F11' && isElectron() || event.key === 'F' && !isTextInput(event.target) || event.key === 'f' && !isTextInput(event.target)) {
+        // Call your function sendMessageToParent() when either "F11" or "F" is pressed
+        sendMessageToParent();
+    }
 });
 
 document.addEventListener('keyup', function(event) {
@@ -3955,6 +4030,10 @@ document.addEventListener('keyup', function(event) {
         clearTimeout(deleteHoldTimer);
     }
 });
+
+function isTextInput(element) {
+    return (element.tagName === 'INPUT' && (element.type === 'text' || element.type === 'password'));
+}
 
 
 function restartNight(){
@@ -4699,7 +4778,6 @@ function loadVideoFully(event) {
 document.addEventListener('DOMContentLoaded', function () {
     loadVideoFully();
 });
-
 
 console.log("ඞ");
 
