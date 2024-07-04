@@ -92,6 +92,14 @@ img {
     display: none;
 }
 
+#huskpng{
+    position: absolute;
+    width: 25%;
+    left: 55%;
+    top: 10%;
+    display: none;
+}
+
 #camerabg{
     position: absolute;
     width: 100%;

@@ -426,7 +426,7 @@ function hallangeldust() {
 var death=false;
 
 function jumpscareangle(){
-    if (deaht==false) {
+    if (death==false) {
         death=true;
         stopSound();
         clearTimeout(timerinterval);
