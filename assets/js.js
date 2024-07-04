@@ -132,7 +132,7 @@ function commuteal(){
         case 4:
             alastorpng.style.display="none";
             radio.removeAttribute("onclick");
-            if (cameraup==true) {
+            if (cameraup==true && death==false) {
                 flipcamera();
                 playSound("alastorfuck",false);
             }
@@ -410,8 +410,12 @@ function hallangeldust() {
     }
 }
 
+var death=false;
+
 function jumpscareangle(){
+    death=true;
     stopSound();
+    clearTimeout(timerinterval);
     playSound("angeljumpscare",false);
     deathoverlay.style.display="block";
     setTimeout(() => {
@@ -439,10 +443,13 @@ function upTimer() {
     exacttime.innerHTML = minutes + ":" + (seconds < 10 ? "0" : "") + seconds + ":" + (miliseconds % 10);
 }
 
+
+
 let audioContext;
 let analyserNode;
 let playingSources = [];
 let globalVolume = 0.5;
+const MAX_AUDIO_ELEMENTS = 10;
 
 function initializeVisuals() {
   if (!audioContext) {
@@ -455,6 +462,11 @@ function initializeVisuals() {
 function playSound(soundUrl, loop) {
   if (!audioContext || !analyserNode) {
     initializeVisuals();
+  }
+
+  if (playingSources.length >= MAX_AUDIO_ELEMENTS) {
+    console.warn("Maximum number of audio elements reached");
+    return;
   }
 
   const audioElement = new Audio();
@@ -481,12 +493,6 @@ function playSound(soundUrl, loop) {
       audioElement.pause();
       playingSources.splice(index, 1);
     }
-
-    if (endedSrc === '1VO.wav' || endedSrc === '2VO.wav' || endedSrc === '3VO.wav' || 
-      endedSrc === '4VO.wav' || endedSrc === '5VO.wav' || endedSrc === '6VO.wav' || 
-      endedSrc === '7VO.wav' || endedSrc === '8VO.wav') {
-        mutecall.style.display="none";
-    }
   });
 
   audioElement.volume = globalVolume;
@@ -494,7 +500,6 @@ function playSound(soundUrl, loop) {
 
   playingSources.push({ source, audioElement });
 }
-
 
 function stopSound() {
   for (const { source, audioElement } of playingSources) {
@@ -539,6 +544,7 @@ function setGlobalVolume(volume) {
     audioElement.volume = volume;
   }
 }
+
 
 function startgame(){
     alastorradio();
