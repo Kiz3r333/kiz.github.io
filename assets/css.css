@@ -235,3 +235,8 @@ img {
     width: 57%;
     display: none;
 }
+
+#exacttime{
+    position: absolute;
+    z-index: 999;
+}

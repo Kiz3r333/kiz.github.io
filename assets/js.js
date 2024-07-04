@@ -49,6 +49,7 @@ var huskplushhall = document.getElementById("huskplushhall");
 var angeldusthall = document.getElementById("angeldusthall");
 var deathoverlay = document.getElementById("deathoverlay");
 var angeljumpscare = document.getElementById("angeljumpscare");
+var exacttime = document.getElementById("exacttime");
 
 function changerooms(whatroom){
     mainhall.style.display="none";
@@ -401,7 +402,7 @@ function hallangeldust() {
         huskplush.style.display="block";
         huskplushtrigger.style.display="block";
         angeldustcamera=1;
-        angelrandomtimeboost=angelrandomtimeboost+500;
+        angelrandomtimeboost=angelrandomtimeboost+25;
         angeldustwalk();
         spawnhuskydoll();
     }else{
@@ -421,6 +422,22 @@ function jumpscareangle(){
 
 
 
+var miliseconds = 0;
+var timerinterval = null;
+
+function upTimer() {
+    ++miliseconds;
+    
+    var seconds = Math.floor((miliseconds / 10) % 60);
+    var minutes = Math.floor(miliseconds / 600);
+
+    if (minutes >= 1) {
+        seconds = Math.floor((miliseconds / 10) % 60);
+        minutes = Math.floor((miliseconds / 600) % 60);
+    }
+
+    exacttime.innerHTML = minutes + ":" + (seconds < 10 ? "0" : "") + seconds + ":" + (miliseconds % 10);
+}
 
 let audioContext;
 let analyserNode;
@@ -531,6 +548,7 @@ function startgame(){
     spawnhuskydoll();
     playSound("stayedgone",true);
     changeVolume("stayedgone", 0.0001);
+    timerinterval = setInterval(upTimer, 100);
 }
 
 console.log("kurwa");
