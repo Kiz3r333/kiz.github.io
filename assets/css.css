@@ -35,6 +35,15 @@ body {
     background-color: transparent;
 }
 
+#huskerroomtrigger{
+    position: absolute;
+    width: 8%;
+    height: 92%;
+    left: -2%;
+    top: 8%;
+    background-color: transparent;
+}
+
 #alastorroom{
     display: none;
 }
@@ -91,7 +100,7 @@ img {
     left: 0;
     pointer-events: none;
     visibility: hidden;
-    z-index: 2;
+    z-index: 5;
 }
 
 #cameratrigger{
@@ -117,7 +126,7 @@ img {
 
 #map{
     position: absolute;
-    z-index: 2;
+    z-index: 3;
     width: 21%;
     top: 48%;
     left: 70%;
@@ -181,6 +190,14 @@ img {
     width: 13.5%;
 }
 
+#niftycam{
+    position: absolute;
+    top: 27%;
+    left: 5%;
+    z-index: 2;
+    width: 13.5%;
+}
+
 #huskplush{
     position: absolute;
     top: 27%;
@@ -214,6 +231,15 @@ img {
     left: 40%;
     z-index: 1;
     width: 17.5%;
+    display: none;
+}
+
+#niftyhall{
+    position: absolute;
+    top: 58%;
+    left: 52%;
+    z-index: 1;
+    width: 12.5%;
     display: none;
 }
 

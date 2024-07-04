@@ -50,6 +50,9 @@ var angeldusthall = document.getElementById("angeldusthall");
 var deathoverlay = document.getElementById("deathoverlay");
 var angeljumpscare = document.getElementById("angeljumpscare");
 var exacttime = document.getElementById("exacttime");
+var huskerroom = document.getElementById("huskerroom");
+var niftycam = document.getElementById("niftycam");
+var niftyhall = document.getElementById("niftyhall");
 
 function changerooms(whatroom){
     mainhall.style.display="none";
@@ -180,12 +183,17 @@ function flipcamera(){
                     }else{
                         angedustcam.style.visibility="hidden";
                     }
-                    if (currentcam==huskyroom) {
+                    if (currentcam==huskyroom && doyouhavehusky==false) {
                         huskplush.style.visibility="visible";
                         huskplushtrigger.style.display="block";
                     }else{
                         huskplush.style.visibility="hidden";
                         huskplushtrigger.style.display="none";
+                    }
+                    if (currentcam==niftycamera) {
+                        niftycam.style.display="block";
+                    }else{
+                        niftycam.style.display="none";
                     }
                 }, "220");
             }else{
@@ -220,7 +228,12 @@ function changecam(camnmb){
     }else{
         angedustcam.style.visibility="hidden";
     }
-    if (currentcam==huskyroom) {
+    if (camnmb==niftycamera) {
+        niftycam.style.display="block";
+    }else{
+        niftycam.style.display="none";
+    }
+    if (currentcam==huskyroom && doyouhavehusky==false) {
         huskplush.style.visibility="visible";
         huskplushtrigger.style.display="block";
     }else{
@@ -413,18 +426,17 @@ function hallangeldust() {
 var death=false;
 
 function jumpscareangle(){
-    death=true;
-    stopSound();
-    clearTimeout(timerinterval);
-    playSound("angeljumpscare",false);
-    deathoverlay.style.display="block";
-    setTimeout(() => {
-        angeljumpscare.style.display="block";
-    }, 1000);
+    if (deaht==false) {
+        death=true;
+        stopSound();
+        clearTimeout(timerinterval);
+        playSound("angeljumpscare",false);
+        deathoverlay.style.display="block";
+        setTimeout(() => {
+            angeljumpscare.style.display="block";
+        }, 1000);
+    }
 }
-
-
-
 
 var miliseconds = 0;
 var timerinterval = null;
@@ -443,6 +455,154 @@ function upTimer() {
     exacttime.innerHTML = minutes + ":" + (seconds < 10 ? "0" : "") + seconds + ":" + (miliseconds % 10);
 }
 
+var niftycamera=1;
+var niftyrandomtime = getRandomSeconds(4000,20000);
+var niftyrandomtimeboost=0;
+
+
+function niftywalk(){
+    niftycam.style.display="none";
+    if (currentcam==niftycamera && cameraup==true) {
+        niftycam.style.display="block";
+        changecam(currentcam);
+    }else{
+        if (niftycamera-1==currentcam && cameraup==true) {
+            niftycam.style.display="none";
+            changecam(currentcam);
+        }
+    }
+    switch(niftycamera){
+        case 1:
+            niftycam.src="img/nifty1.gif";
+            niftycam.style.top="33%";
+            niftycam.style.left="31%";
+            niftycam.style.width="13.5%";
+            break;
+        case 2:
+            niftycam.src="img/nifty2.png";
+            niftycam.style.top="72.7%";
+            niftycam.style.left="5%";
+            niftycam.style.width="13.5%";
+            break;
+        case 3:
+            niftycam.src="img/nifty3.webp";
+            niftycam.style.top="52%";
+            niftycam.style.left="33%";
+            niftycam.style.width="13.5%";
+            break;
+        case 4:
+            niftycam.src="img/nifty4.png";
+            niftycam.style.top="53%";
+            niftycam.style.left="5%";
+            niftycam.style.width="13.5%";
+            break;
+        case 5:
+            niftycam.src="img/nifty5.png";
+            niftycam.style.top="49%";
+            niftycam.style.left="66%";
+            niftycam.style.width="31.5%";
+            break;
+        case 6:
+            niftycam.style.display="none";
+            niftyhall.style.display="block";
+            if (room==0 && cameraup==false) {
+                playSound("niftyhall",false);
+            }
+            waitinnifty = setTimeout(() => {
+                jumpscarenifty();
+            }, 20000);
+            break;
+    }
+    setTimeout(() => {
+        if (niftycamera<=5) {
+            niftycamera++;
+            niftyrandomtime = getRandomSeconds(4000,20000);
+            niftyrandomtime=niftyrandomtime-niftyrandomtimeboost;
+            console.log(niftyrandomtimeboost);
+            niftywalk();
+        }
+        
+    }, niftyrandomtime);
+}
+
+function clickingniftycam() {
+    if (niftycamera>1) {
+        niftycamera--;
+        playSound("clicknifty",false);
+        niftyrandomtimeboost=niftyrandomtimeboost+50;
+        niftycam.style.display="none";
+        changecam(currentcam);
+        switch(niftycamera){
+            case 1:
+                niftycam.src="img/nifty1.gif";
+                niftycam.style.top="33%";
+                niftycam.style.left="31%";
+                niftycam.style.width="13.5%";
+                break;
+            case 2:
+                niftycam.src="img/nifty2.png";
+                niftycam.style.top="72.7%";
+                niftycam.style.left="5%";
+                niftycam.style.width="13.5%";
+                break;
+            case 3:
+                niftycam.src="img/nifty3.webp";
+                niftycam.style.top="52%";
+                niftycam.style.left="33%";
+                niftycam.style.width="13.5%";
+                break;
+            case 4:
+                niftycam.src="img/nifty4.png";
+                niftycam.style.top="53%";
+                niftycam.style.left="5%";
+                niftycam.style.width="13.5%";
+                break;
+            case 5:
+                niftycam.src="img/nifty5.png";
+                niftycam.style.top="49%";
+                niftycam.style.left="52%";
+                niftycam.style.width="43.5%";
+                break;
+            case 6:
+                niftycam.style.display="none";
+                niftyhall.style.display="block";
+                if (room==0 && cameraup==false) {
+                    playSound("niftyhall",false);
+                }
+                waitinnifty = setTimeout(() => {
+                    jumpscarenifty();
+                }, 20000);
+                break;
+        }
+    }
+}
+
+function clickingniftyhall(){
+    playSound('niftyhallclick',false);
+    niftyhall.removeAttribute("onclick");
+    clearTimeout(waitinnifty);
+    waitinnifty = setTimeout(() => {
+        jumpscarenifty();
+    }, 4500);
+}
+
+function jumpscarenifty(){
+    if (death==false) {
+        death=true;
+        stopSound();
+        clearTimeout(timerinterval);
+        playSound("niftyjumpscare",false);
+        deathoverlay.style.display="block";
+        setTimeout(() => {
+            angeljumpscare.src="img/niftyjumpscare.gif";
+            angeljumpscare.style.display="block";
+        }, 300);
+    }
+    
+}
+
+
+
 
 
 let audioContext;
@@ -450,6 +610,8 @@ let analyserNode;
 let playingSources = [];
 let globalVolume = 0.5;
 const MAX_AUDIO_ELEMENTS = 10;
+
+const SPECIFIED_SOUNDS = ["niftyhallclick", "angelsus", "clicknifty"];
 
 function initializeVisuals() {
   if (!audioContext) {
@@ -467,6 +629,15 @@ function playSound(soundUrl, loop) {
   if (playingSources.length >= MAX_AUDIO_ELEMENTS) {
     console.warn("Maximum number of audio elements reached");
     return;
+  }
+  console.log(soundUrl);
+
+  if (SPECIFIED_SOUNDS.includes(soundUrl)) {
+    const isAlreadyPlaying = playingSources.some(item => item.audioElement.src.endsWith(soundUrl + ".wav") && !item.audioElement.paused);
+    if (isAlreadyPlaying) {
+      console.log(`${soundUrl} is already playing.`);
+      return;
+    }
   }
 
   const audioElement = new Audio();
@@ -555,6 +726,7 @@ function startgame(){
     playSound("stayedgone",true);
     changeVolume("stayedgone", 0.0001);
     timerinterval = setInterval(upTimer, 100);
+    niftywalk();
 }
 
 console.log("kurwa");
